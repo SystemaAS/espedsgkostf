@@ -27,6 +27,12 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<mvc:resources mapping="/resources/**" location="WEB-INF/resources/" order="1"/> 
 	<mvc:annotation-driven />
 	
+    <!-- This class provides an application-wide access to the Spring ApplicationContext --> 
+    <bean id="contextApplicationContextProvider" class="no.systema.main.context.TdsApplicationContextProvider"></bean>  
+    <!-- This class provides an application-wide access to the ServletContext --> 
+    <bean id="contextServletContextProvider" class="no.systema.main.context.TdsServletContextProvider"></bean>  
+	
+	
  	<!-- view resolver Excel - PDF via XML Resolver -->
  	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
   		<property name="order"><value>1</value></property>
@@ -61,6 +67,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	  <property name="basenames">
 	  		<list>
 				<value>/WEB-INF/messages</value>
+				<value>/WEB-INF/messages_no</value>
 			</list>
 	  </property>
 	</bean>
