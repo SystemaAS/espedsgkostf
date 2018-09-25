@@ -5,31 +5,26 @@
 <jsp:include page="/WEB-INF/views/headerKostf.jsp" />
 <!-- =====================end header ==========================-->
 
+
+<style>
+.left-right-border {
+   border-style: solid; 
+   border-left-width: 1px; 
+   border-right-width: 1px; 
+   border-top-width: 0px;
+   border-bottom-width: 0px;
+   border-color: #D5E0CE; 
+ }
+</style>
+
 <script type="text/javascript">
 	"use strict";
 
-	var baseUrl = "/visma-net-proxy/viskunde?user=${user.user}";
+	var baseUrl = "/syjserviceskostf/kosta?user=${user.user}";
 	
 	function load_data() {
-
-		var runningUrl = baseUrl;
-
-		var selectedKundenr = jq('#selectKundenr').val();
-		var selectedFradato = jq('#selectFradato').val();
-
-		if (selectedKundenr != "") {
-			runningUrl = runningUrl + "&kundnr=" + selectedKundenr;
-		} else {
-			runningUrl = runningUrl + "&kundnr=ALL";
-		}
-		if (selectedFradato != null && selectedFradato != "") {
-			runningUrl = getRunningUrl(runningUrl, selectedFradato);
-			if (runningUrl == '-1') {
-				return "no data found";
-			}		
-		} else {
-			runningUrl = runningUrl + "&fraDato=ALL";
-		}
+		var runningUrl;
+		runningUrl= getRunningUrl(baseUrl);
 
 		console.log("runningUrl=" + runningUrl);
 
@@ -38,35 +33,25 @@
 		});
 
 
-	var kostfTable = jq('#kostfTable').DataTable({
-			"dom" : '<"top">t<"bottom"flip><"clear">',
-			responsive : true,
+	var kostaTable = jq('#kostaTable').DataTable({
+ 			"dom" : '<"top">t<"bottom"flip><"clear">',
+ 			responsive : true,
 			select : true,
 			destroy : true,
 			"sAjaxSource" : runningUrl,
 			"sAjaxDataProp" : "",
 			"order" : [ [ 2, "desc" ] ],
 			"aoColumns" : [ {
-				"mData" : "kundnr"
+				"mData" : "kabnr2"
 			}, {
-				"mData" : "knavn"
+				"mData" : "kabnr"
 			}, {
-				"mData" : "syncda"
-			}, {
-				"mData" : "syerro"
-			}, {
-				"mData" : "postnr"
-			}, {
-				"mData" : "syland"
-			}, {
-				"mData" : "valkod"
-			}, {
-				"mData" : "betbet"
-			}, {
-				"mData" : "spraak"
-			} ,{
-				"mData" : "aktkod"
-			} ],
+				"mData" : "kafnr"
+			},{
+				"mData" : "kalnr"
+			},{
+				"mData" : "kasg"
+			}],
 			"lengthMenu" : [ 25, 75, 100 ],
 			"language" : {
 				"url" : getLanguage('NO')
@@ -98,54 +83,55 @@
 	<nav>
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 	    <a class="nav-item nav-link active" onClick="setBlockUI(this);" href="customer.do"><strong>&nbsp;&nbsp;Arbete med bilag&nbsp;&nbsp;</strong>
-			<c:if test="${not empty customer_all_error}">
-			    <span class="badge badge-danger">${customer_all_error}</span>
-			</c:if>		    
 	    </a>
 		<a class="nav-item nav-link" onClick="setBlockUI(this);" href="supplier.do"><strong>&nbsp;&nbsp;Kostnadsføring&nbsp;&nbsp;</strong>
-			<c:if test="${not empty supplier_all_error}">
-			    <span class="badge badge-danger">${supplier_all_error}</span>
-			</c:if>			
 		</a>
 	  </div>
 	</nav>
 
-  	<div class="padded-row-small">&nbsp;</div>	
+	<div class="padded-row-small left-right-border"></div>	
+
  
-	<div class="row">
-		<div class="col-md-2">
-			<label for="selectKundenr">&nbsp;Bilagsnr:&nbsp;</label>
-			<input type="text" class="inputText" name="selectKundenr" id="selectKundenr" size="9" maxlength="8"/>&nbsp;
-			<a tabindex="-1"
-				id="kundenrLink"> <img style="cursor: pointer; vertical-align: middle;" src="resources/images/find.png" width="14px" height="14px" border="0" />
-			</a>
-		</div>
-		<div class="col-md-2">
-			<label for="selectFradato">Fakturanummer:&nbsp;</label>
-			<input type="text" class="inputText" name="selectFradato" id="selectFradato" size="11" maxlength="10">
+	<div class="row left-right-border no-gutters">
+		<div class="col-md-1">
+			<label for="selectBilagsnr">&nbsp;Bilagsnr&nbsp;</label>
+			<input type="text" class="inputText" name="selectBilagsnr" id="selectBilagsnr" size="9" maxlength="8"/>&nbsp;
 		</div>
 		<div class="col-md-1">
+			<label for="selectInnregnr">&nbsp;Innreg.nr&nbsp;</label>
+			<input type="text" class="inputText" name="selectInnregnr" id="selectInnregnr" size="9" maxlength="8"/>&nbsp;
+		</div>
+		<div class="col-md-1">
+			<label for="selectFaktnr">Fakturanr&nbsp;</label>
+			<input type="text" class="inputText" name="selectFaktnr" id="selectFaktnr" size="11" maxlength="10">
+		</div>
+		<div class="col-md-1">
+			<label for="selectSuppliernr">Leverandørnr&nbsp;</label>
+			<input type="text" class="inputText" name="selectSuppliernr" id="selectSuppliernr" size="11" maxlength="10">
+		</div>
+		<div class="col-md-1">
+			<label for="selectAttkode">Attenstasjonskode&nbsp;</label>
+			<input type="text" class="inputText" name="selectAttkode" id="selectAttkode" size="11" maxlength="10">
+		</div>
+
+
+		<div class="col-md-2">
 			<br>
 			<button class="btn inputFormSubmit" onclick="load_data()" autofocus>Søk</button>
 		</div>
 	</div>
 
-	<div class="padded-row-small">&nbsp;</div>
+	<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
 	
-	<div class="panel-body">
-		<table class="table table-striped table-bordered table-hover" id="kostfTable">
+	<div class="panel-body left-right-border no-gutters">
+		<table class="table table-striped table-bordered table-hover" id="kostaTable">
 			<thead class="tableHeaderField">
 				<tr>
-					<th>Kundnr</th>
-					<th>Navn</th>
-					<th>Feildato</th>
-					<th>Feil</th>
-					<th>Postnr</th>
-					<th>Land</th>
-					<th>Valuta</th>
-					<th>Bet.beting.</th>
-					<th>Språk</th>
-					<th>Type</th>
+					<th>Bilagsnr</th>
+					<th>Innreg.nr</th>
+					<th>Fakturanr</th>
+					<th>Leverandørnr</th>
+					<th>Attenstasjonskode</th>
 				</tr>
 			</thead>
 		</table>

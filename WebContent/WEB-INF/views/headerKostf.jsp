@@ -41,12 +41,8 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
  	<script type="text/javascript" src="resources/selectlist/js/jquery.selectlist.min.js"></script>
  	<script type="text/javascript" src="https://d3js.org/d3.v5.js"></script>
-	<script type="text/javascript" src="resources/js/headerReports.js?ver=${user.versionEspedsg}"></script>	
+	<script type="text/javascript" src="resources/js/kostf_mainorderlist.js?ver=${user.versionEspedsg}"></script>	
 
-	<script type="text/javascript">
-		var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
-	</script>	
-	
 	<style type="text/css">
 		.ui-datepicker {
 			font-size: 9pt;

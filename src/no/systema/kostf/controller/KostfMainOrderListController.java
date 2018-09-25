@@ -1,19 +1,21 @@
 package no.systema.kostf.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import no.systema.jservices.common.dao.ViskulogDao;
+import no.systema.jservices.common.dao.services.BridfDaoService;
 import no.systema.main.model.SystemaWebUser;
-import no.systema.main.util.AppConstants;
 import no.systema.main.validator.LoginValidator;
 
 /**
@@ -27,9 +29,12 @@ import no.systema.main.validator.LoginValidator;
 //@Scope("session")
 public class KostfMainOrderListController {
 	private static Logger logger = Logger.getLogger(KostfMainOrderListController.class.getName());
-	private ModelAndView loginView = new ModelAndView("login");
+//	private ModelAndView loginView = new ModelAndView("login");
+	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
+
 	private LoginValidator loginValidator = new LoginValidator();
 
+	
 	@RequestMapping(value="kostf_mainorderlist.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
 		logger.info("INSIDE: kostf_mainorderlist");
@@ -45,8 +50,6 @@ public class KostfMainOrderListController {
 		}		
 		
 	}
-	
-
 	
 
 }
