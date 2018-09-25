@@ -27,18 +27,18 @@ import no.systema.main.validator.LoginValidator;
  */
 @Controller
 //@Scope("session")
-public class KostfMainOrderListController {
-	private static Logger logger = Logger.getLogger(KostfMainOrderListController.class.getName());
+public class KostfBilagsListController {
+	private static Logger logger = Logger.getLogger(KostfBilagsListController.class.getName());
 //	private ModelAndView loginView = new ModelAndView("login");
 	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
 
 	private LoginValidator loginValidator = new LoginValidator();
 
 	
-	@RequestMapping(value="kostf_mainorderlist.do", method={RequestMethod.GET, RequestMethod.POST} )
+	@RequestMapping(value="kostf_bilagslist.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
 		logger.info("INSIDE: kostf_mainorderlist");
-		ModelAndView successView = new ModelAndView("kostf_mainorderlist"); 
+		ModelAndView successView = new ModelAndView("kostf_bilagslist"); 
 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		

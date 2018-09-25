@@ -8,6 +8,8 @@ function getRunningUrl(baseUrl) {
 		var selectedFaktnr = jq('#selectFaktnr').val();
 		var selectedSuppliernr = jq('#selectSuppliernr').val();
 		var selectedAttkode = jq('#selectAttkode').val();
+		var selectedKomment = jq('#selectKomment').val();
+		var selectedFradato = jq('#selectFradato').val();
 		
 		let runningUrl = baseUrl;
 		
@@ -26,9 +28,12 @@ function getRunningUrl(baseUrl) {
 		if (selectedAttkode != "") {
 			runningUrl = runningUrl + "&attkode=" + selectedAttkode;
 		} 
-		
-	
-			
+		if (selectedKomment != "") {
+			runningUrl = runningUrl + "&komment=" + selectedKomment;
+		} 
+		if (selectedFradato != "") {
+			runningUrl = runningUrl + "&fradato=" + selectedFradato;
+		} 
 		
 		return runningUrl;	
 		
@@ -36,10 +41,29 @@ function getRunningUrl(baseUrl) {
 
 jq(function() {
 	jq("#selectFradato").datepicker({
-		dateFormat : 'yy-mm-dd'
+		dateFormat: 'yymmdd'
 	});
 	jq("#selectTildato").datepicker({
-		dateFormat : 'yy-mm-dd'
+		dateFormat: 'yymmdd'
 	});
 });  
+
+
+jq(document).keypress(function(e) {
+    if(e.which == 13) {
+        jq("#submitBtn").click();
+    }
+});
+
+window.addEventListener('error', function(e) {
+	var error = e.error;
+	jq.unblockUI();
+	console.log("Event e", e);
+
+	alert('Uforutsett fel har intreffet.');
+
+});
+
+
+
   
