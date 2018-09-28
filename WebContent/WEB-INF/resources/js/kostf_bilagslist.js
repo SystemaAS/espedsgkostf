@@ -10,6 +10,12 @@ function getRunningUrl(baseUrl) {
 		var selectedAttkode = jq('#selectAttkode').val();
 		var selectedKomment = jq('#selectKomment').val();
 		var selectedFradato = jq('#selectFradato').val();
+		var selectedFrapermnd = jq('#selectFrapermnd').val();
+		var selectedFraperaar = jq('#selectFraperaar').val();
+		
+		var selectedReklamasjon = jq('#selectReklamasjon').val();	
+		
+		console.log("selectedReklamasjon",selectedReklamasjon);
 		
 		let runningUrl = baseUrl;
 		
@@ -34,6 +40,13 @@ function getRunningUrl(baseUrl) {
 		if (selectedFradato != "") {
 			runningUrl = runningUrl + "&fradato=" + selectedFradato;
 		} 
+		if (selectedFrapermnd != "") {
+			runningUrl = runningUrl + "&frapermnd=" + selectedFrapermnd;
+		} 
+		if (selectedFraperaar != "") {
+			runningUrl = runningUrl + "&fraperaar=" + selectedFraperaar;
+		} 
+
 		
 		return runningUrl;	
 		

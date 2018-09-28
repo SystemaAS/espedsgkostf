@@ -4,6 +4,10 @@
 <!-- ======================= header ===========================-->
 <jsp:include page="/WEB-INF/views/headerKostf.jsp" />
 <!-- =====================end header ==========================-->
+
+<!-- ======================= Bootstrap docs ===================-->
+<!-- https://getbootstrap.com/docs/4.0/layout/overview/   -->
+
 <style>
 
 .left-right-border {
@@ -24,6 +28,16 @@
    border-bottom-width: 1px;
    border-color: #D5E0CE; 
  }
+
+.form-control {
+   padding: 4px 7px; /*from inputText*/
+   width: max-content; /* enable witdh*/
+   display: inline-block; /* no wrap in div*/
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(1.8rem + 2px);  /*Align to inputText*/
+}
 
 </style>
 
@@ -50,7 +64,7 @@
 			destroy : true,
 			"sAjaxSource" : runningUrl,
 			"sAjaxDataProp" : "",
-			"order" : [ [ 0, "desc" ] ],
+			"order" : [ [ 3, "desc" ] ],
 			"aoColumns" : [ {
 				"mData" : "kabnr2"
 			}, {
@@ -58,13 +72,17 @@
 			}, {
 				"mData" : "kafnr"
 			},{
+				"mData" : "kabdt"
+			},{
+				"mData" : "kapmn"
+			},{
+				"mData" : "kapår"
+			},{
 				"mData" : "kalnr"
 			},{
 				"mData" : "kasg"
 			},{
 				"mData" : "katxt"
-			},{
-				"mData" : "kabdt"
 			}],
 			"lengthMenu" : [ 25, 75, 100 ],
 			"language" : {
@@ -79,8 +97,6 @@
 	}
 
 </script>
-
-<!-- https://getbootstrap.com/docs/4.0/components/navs/   -->
 
 <div class="container-fluid">
 
@@ -98,42 +114,86 @@
 
 	<div class="padded-row-small left-right-border"></div>	
 
- 
 	<div class="row left-right-border no-gutters">
-		<div class="col-md-1 p-1">
+		<div class="col-1 p-1">
 			<label for="selectBilagsnr">Bilagsnr</label>
-			<input type="text" class="inputText" name="selectBilagsnr" id="selectBilagsnr" size="9" maxlength="8"/>
-		</div>
-		<div class="col-md-1 p-1">
-			<label for="selectInnregnr">Innreg.nr</label>
-			<input type="text" class="inputText" name="selectInnregnr" id="selectInnregnr" size="9" maxlength="8"/>
-		</div>
-		<div class="col-md-1 p-1">
-			<label for="selectFaktnr">Fakturanr</label>
-			<input type="text" class="inputText" name="selectFaktnr" id="selectFaktnr" size="11" maxlength="10">
-		</div>
-		<div class="col-md-1 p-1">
-			<label for="selectSuppliernr">Leverandørnr</label>
-			<input type="text" class="inputText" name="selectSuppliernr" id="selectSuppliernr" size="11" maxlength="10">
-		</div>
-		<div class="col-md-1 p-1">
-			<label for="selectAttkode">Att.kode</label>
-			<input type="text" class="inputText" name="selectAttkode" id="selectAttkode" size="11" maxlength="10">
-		</div>
-		<div class="col-md-1 p-1">
-			<label for="selectKomment">Kommentar</label>
-			<input type="text" class="inputText" name="selectKomment" id="selectKomment" size="11" maxlength="10">
-		</div>
-		<div class="col-md-1 p-1">
-			<label for="selectFradato">Fra&nbsp;bilagsdato</label>
-			<input type="text" class="inputText" name="selectFradato" id="selectFradato" size="11" maxlength="10">
-		</div>
-
-
-		<div class="col-md-2 p-1">
 			<br>
-			<button class="btn inputFormSubmit" onclick="load_data()" id="submitBtn"  autofocus>Søk</button>
+			<input type="text" class="inputText" id="selectBilagsnr" size="8" maxlength="7">	
 		</div>
+		<div class="col-1 p-1">
+			<label for="selectInnregnr">Innreg.nr</label>
+			<br>
+			<input type="text" class="inputText" id="selectInnregnr" size="8" maxlength="6"/>
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectFaktnr">Fakturanr</label>
+			<br>
+			<input type="text" class="inputText" id="selectFaktnr" size="14" maxlength="13">
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectSuppliernr">Leverandørnr</label>
+			<br>
+			<input type="text" class="inputText" id="selectSuppliernr" size="9" maxlength="8">
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectAttkode">Att.kode</label>
+			<br>
+			<input type="text" class="inputText" id="selectAttkode" size="4" maxlength="3">
+		</div>
+		<div class="col-3 p-1">
+			<label for="selectKomment">Kommentar</label>
+			<br>
+			<input type="text" class="inputText" id="selectKomment" size="36" maxlength="35">
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectFradato">Fra&nbsp;bilagsdato</label>
+			<br>
+			<input type="text" class="inputText" id="selectFradato" size="9" maxlength="8">
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectFraperaar">Fra&nbsp;periode</label>
+			<br>
+			<input type="text" class="form-control" id="selectFrapermnd" placeholder="mm" size="3" maxlength="2">-
+			<input type="text" class="form-control" id="selectFraperaar" placeholder="yy" size="3" maxlength="2">
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectTilperaar">Til&nbsp;periode</label>
+			<br>
+			<input type="text" class="form-control" id="selectTilpermnd"  placeholder="mm" size="3" maxlength="2">-
+			<input type="text" class="form-control" id="selectTilperaar"  placeholder="yy" size="3" maxlength="2">
+		</div>
+
+	</div>
+	
+	<div class="row left-right-border no-gutters">
+		<div class="col-1 p-1">
+			<label for="selectReklamasjon">Reklamasjon</label>
+		    <select class="form-control" id="selectReklamasjon">
+		      <option value="">-velg-</option>
+		      <option value="S">Sendte</option>
+		      <option value="O">Ferdig oppgj.</option>
+		    </select>
+		</div>
+		<div class="col-2 p-1">
+			<label for="selectFrisokKode">Fri&nbsp;søkvei</label>
+			<br>
+			<input type="text" class="inputText" id="selectFrisokKode" size="11" maxlength="10">-
+			<input type="text" class="inputText" id="selectFrisokTxt" size="11" maxlength="10">
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectGangs">Gangs</label>
+			<input type="text" class="inputText" id="selectGangs" size="11" maxlength="10">
+		</div>
+		<div class="col-1 p-1">
+			<label for="selectStatus">Status</label>
+			<input type="text" class="inputText" id="selectStatus" size="9" maxlength="8"/>
+		</div>
+
+		<div class="col-6 align-self-end p-1">
+			<button class="btn inputFormSubmit" onclick="load_data()" id="submitBtn"  autofocus>Søk</button>
+		</div>	
+	
+	
 	</div>
 
 	<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
@@ -145,10 +205,12 @@
 					<th>Bilagsnr</th>
 					<th>Innreg.nr</th>
 					<th>Fakturanr</th>
+					<th>Bilagsdato</th>
+					<th>Periode(mån)</th>
+					<th>Periode(år)</th>
 					<th>Leverandørnr</th>
 					<th>Att.kode</th>
 					<th>Kommentar</th>
-					<th>Bilagsdato</th>
 				</tr>
 			</thead>
 		</table>
