@@ -30,7 +30,7 @@
  }
 
 .form-control {
-   padding: 4px 7px; /*from inputText*/
+   padding: 3px 7px; /*Align to inputText*/
    width: max-content; /* enable witdh*/
    display: inline-block; /* no wrap in div*/
 }
@@ -105,7 +105,7 @@ select.form-control:not([size]):not([multiple]) {
 	<nav>
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 	    <a class="nav-item nav-link active" onClick="setBlockUI(this);" href="kostf_bilagslist.do"><strong>&nbsp;&nbsp;Bilager&nbsp;&nbsp;</strong>
-		<img style="vertical-align: middle;" src="resources/images/list.gif" border="0" alt="general list">
+		<img style="vertical-align: middle;" src="resources/images/list.gif">
 	    </a>
 		<a class="nav-item nav-link disabled" onClick="setBlockUI(this);" href="#"><strong>&nbsp;&nbsp;Kostnadsføring&nbsp;&nbsp;</strong>
 		</a>
@@ -167,26 +167,52 @@ select.form-control:not([size]):not([multiple]) {
 	
 	<div class="row left-right-border no-gutters">
 		<div class="col-1 p-1">
-			<label for="selectReklamasjon">Reklamasjon</label>
+			<label for="selectReklamasjon">
+				<img onMouseOver="showPop('reklCode_info');" onMouseOut="hidePop('reklCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
+				Kun&nbsp;Rekl.
+			</label>
+			<div class="text11" style="position: relative;" align="left">
+				<span style="position:absolute; left:0px; top:0px; width:200px" id="reklCode_info" class="popupWithInputText"  >
+         			<b>Kun&nbsp;Reklamasjon</b><br>
+         			<label>S= Sendte</label>
+					<label>O= Ferdig oppgjort</label>
+				</span>
+			</div>			
 		    <select class="form-control" id="selectReklamasjon">
 		      <option value="">-velg-</option>
-		      <option value="S">Sendte</option>
-		      <option value="O">Ferdig oppgj.</option>
+		      <option value="S">S</option>
+		      <option value="O">O</option>
 		    </select>
 		</div>
 		<div class="col-2 p-1">
 			<label for="selectFrisokKode">Fri&nbsp;søkvei</label>
 			<br>
-			<input type="text" class="inputText" id="selectFrisokKode" size="11" maxlength="10">-
-			<input type="text" class="inputText" id="selectFrisokTxt" size="11" maxlength="10">
+			<input type="text" class="form-control" placeholder="kode" id="selectFrisokKode" size="4" maxlength="3">-
+			<input type="text" class="form-control" placeholder="tekst" id="selectFrisokTxt" size="16" maxlength="15">
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectGangs">Gangs</label>
-			<input type="text" class="inputText" id="selectGangs" size="11" maxlength="10">
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectStatus">Status</label>
-			<input type="text" class="inputText" id="selectStatus" size="9" maxlength="8"/>
+		<div class="col-2 p-1">
+			<label for="selectStatus">
+				<img onMouseOver="showPop('statusCode_info');" onMouseOut="hidePop('statusCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
+				Status
+			</label>
+			<div class="text11" style="position: relative;" align="left">
+				<span style="position:absolute; left:0px; top:0px; width:350px" id="statusCode_info" class="popupWithInputText"  >
+         			<b>Status</b><br>
+         			<label>A= arbeider med nyregistrert  bilag</label>
+					<label>B= arbeider med tildligere innregistr bilag</label>
+					<label>D= slettet bilag</label>
+					<label>G=ferdigmeldt bilag til økonomi</label>
+					<label>O=oppdatert bilag i økonomi</label>
+				</span>
+			</div>
+		    <select class="form-control" id="selectStatus">
+		      <option value="">-velg-</option>
+		      <option value="A">A</option>
+		      <option value="B">B</option>
+		      <option value="D">D</option>
+		      <option value="G">G</option>
+		      <option value="O">O</option>
+		    </select>
 		</div>
 
 		<div class="col-6 align-self-end p-1">
@@ -215,6 +241,8 @@ select.form-control:not([size]):not([multiple]) {
 			</thead>
 		</table>
 	</div>	
+ 
+
   
 </div>
 
