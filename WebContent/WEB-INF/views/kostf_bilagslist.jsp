@@ -140,7 +140,7 @@ select.form-control:not([size]):not([multiple]) {
 			<br>
 			<input type="text" class="inputText" id="selectAttkode" size="4" maxlength="3">
 		</div>
-		<div class="col-3 p-1">
+		<div class="col-2 p-1">
 			<label for="selectKomment">Kommentar</label>
 			<br>
 			<input type="text" class="inputText" id="selectKomment" size="36" maxlength="35">
@@ -201,8 +201,8 @@ select.form-control:not([size]):not([multiple]) {
          			<label>A= arbeider med nyregistrert  bilag</label>
 					<label>B= arbeider med tildligere innregistr bilag</label>
 					<label>D= slettet bilag</label>
-					<label>G=ferdigmeldt bilag til økonomi</label>
-					<label>O=oppdatert bilag i økonomi</label>
+					<label>G= ferdigmeldt bilag til økonomi</label>
+					<label>O= oppdatert bilag i økonomi</label>
 				</span>
 			</div>
 		    <select class="form-control" id="selectStatus">
