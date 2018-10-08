@@ -85,7 +85,7 @@ window.addEventListener('error', function(e) {
 	jq.unblockUI();
 	console.log("Event e", e);
 
-	alert('Uforutsett fel har intreffet.');
+	alert('Uforutsett fel har intreffet. \n Error: '+error);
 
 });
 

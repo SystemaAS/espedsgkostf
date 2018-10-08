@@ -50,68 +50,7 @@ select.form-control:not([size]):not([multiple]) {
 
 <script type="text/javascript">
 	"use strict";
-	var baseUrl = "/syjserviceskostf/kosta?user=${user.user}";
-	var bilagUrl = "kostf_bilag_edit.do?user=${user.user}";
-	
-	function load_data() {
-		var runningUrl;
-		runningUrl= getRunningUrl(baseUrl);
 
-		console.log("runningUrl=" + runningUrl);
-
-		jq.blockUI({
-			message : BLOCKUI_OVERLAY_MESSAGE_DEFAULT
-		});
-
-
-		var kostaTable = jq('#kostaTable').DataTable({
- 			"dom" : '<"top">t<"bottom"flip><"clear">',
- 			responsive : true,
-			select : true,
-			destroy : true,
-			"columnDefs" : [ 
-				{
-					"targets" : 0,
-				    "render": function ( data, type, row, meta ) {
-				    	var url= bilagUrl+'&kabnr2='+row.kabnr2+'&kasg=${user.signatur}'; 
-				    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
-				    	return href;
-				    }
-				}
-			],
-			"sAjaxSource" : runningUrl,
-			"sAjaxDataProp" : "",
-			"order" : [ [ 3, "desc" ] ],
-			"aoColumns" : [ {
-				"mData" : "kabnr2"
-			}, {
-				"mData" : "kabnr"
-			}, {
-				"mData" : "kafnr"
-			},{
-				"mData" : "kabdt"
-			},{
-				"mData" : "kapmn"
-			},{
-				"mData" : "kapår"
-			},{
-				"mData" : "kalnr"
-			},{
-				"mData" : "kasg"
-			},{
-				"mData" : "katxt"
-			}],
-			"lengthMenu" : [ 25, 75, 100 ],
-			"language" : {
-				"url" : getLanguage('NO')
-			}
-
-		});
-
-		jq.unblockUI();
-
-		
-	}  //load_data
 
 </script>
 
@@ -121,10 +60,10 @@ select.form-control:not([size]):not([multiple]) {
 
 	<nav>
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-	    <a class="nav-item nav-link active" onClick="setBlockUI(this);" href="kostf_bilagslist.do"><strong>&nbsp;&nbsp;Bilager&nbsp;&nbsp;</strong>
+	    <a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do"><strong>&nbsp;&nbsp;Bilager&nbsp;&nbsp;</strong>
 		<img style="vertical-align: middle;" src="resources/images/list.gif">
 	    </a>
-		<a class="nav-item nav-link nav-new" onClick="setBlockUI(this);" href="kostf_bilag_edit.do">&nbsp;&nbsp;Lage ny bilag&nbsp;&nbsp;
+		<a class="nav-item nav-link active" onClick="setBlockUI(this);" href="kostf_bilag_edit.do">&nbsp;&nbsp;Bilag&nbsp;&nbsp;
 		</a>
 	  </div>
 	</nav>
@@ -241,24 +180,6 @@ select.form-control:not([size]):not([multiple]) {
 
 	<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
 	
-	<div class="panel-body left-right-bottom-border no-gutters">
-		<table class="table table-striped table-bordered table-hover" id="kostaTable">
-			<thead class="tableHeaderField">
-				<tr>
-					<th>Bilagsnr</th>
-					<th>Innreg.nr</th>
-					<th>Fakturanr</th>
-					<th>Bilagsdato</th>
-					<th>Periode(mån)</th>
-					<th>Periode(år)</th>
-					<th>Leverandørnr</th>
-					<th>Att.kode</th>
-					<th>Kommentar</th>
-				</tr>
-			</thead>
-		</table>
-	</div>	
- 
 
   
 </div>

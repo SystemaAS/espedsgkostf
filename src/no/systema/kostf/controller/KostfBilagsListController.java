@@ -37,6 +37,20 @@ public class KostfBilagsListController {
 		}		
 		
 	}
+
+	@RequestMapping(value="kostf_bilag_edit.do", method={RequestMethod.GET, RequestMethod.POST} )
+	public ModelAndView doEdit(HttpSession session, HttpServletRequest request){
+		ModelAndView successView = new ModelAndView("kostf_bilag_edit"); 
+		SystemaWebUser appUser = loginValidator.getValidUser(session);		
+	
+		if (appUser == null) {
+			return loginView;
+		} else {
+			return successView;
+		}		
+		
+	}	
+	
 	
 
 }
