@@ -16,14 +16,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<!-- This will allow Wiring with annotations. [It is not the default]  -->
 	<context:annotation-config/>
 	
-	<!--//////////////////////////////////
-        MVC resolver for static resources
-      ///////////////////////////////////
-   	-->
- 	<!-- In order to reach all static resources like images, css, etc. you must use mvc:resources (which requires mvc:annotation-drive)
- 		 Both REQUIRE hibernate jar files despite the fact no use of Hibernate is done in you application. 
- 		 There are dependencies that demand this Validation Hibernate JAR is in you lib-path. Otherwise mvc:resources will cast an
- 		 Exception at bootstrap (WAR)-->
 	<mvc:resources mapping="/resources/**" location="WEB-INF/resources/" order="1"/> 
 	<mvc:annotation-driven />
 	
@@ -32,12 +24,12 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
     <!-- This class provides an application-wide access to the ServletContext --> 
     <bean id="contextServletContextProvider" class="no.systema.main.context.TdsServletContextProvider"></bean>  
 	
-	
  	<!-- view resolver Excel - PDF via XML Resolver -->
  	<bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
   		<property name="order"><value>1</value></property>
   		<property name="location" value="/WEB-INF/views.xml"/>
   	</bean>
+ 
   	<!-- JSP with JSTL -->
   	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
@@ -72,14 +64,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	  </property>
 	</bean>
 
-	
-	<!-- We must have this mvc:tag to make it work. 
-		 This inteceptors and i18n has been implemented in SporringOppdrag to implement a required multi-language support
-		 The only thing to do is just to add message files in the target languages.
-		 All funneling is already in place. Ref. to dashboard.jsp (<a class="text14" href="sporringoppdraggate.do?lang=${user.usrLang}" >) 
-		 whereby the implementation can be seen in action. Just put the lang= parameter from that point forward you want to make used of the interceptor below. 
-		 Spring takes care of the rest.
-	-->
 	<mvc:interceptors> 
 		<bean id="localeChangeInterceptor"
 			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
@@ -97,7 +81,6 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
  	
  	<bean id="localeResolver"
  		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
-		<!-- class="org.springframework.web.servlet.i18n.SessionLocaleResolver">  -->
 		<property name="defaultLocale" value="no" />
 	</bean>
 	

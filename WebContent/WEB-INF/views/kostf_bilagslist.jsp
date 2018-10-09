@@ -5,64 +5,21 @@
 <jsp:include page="/WEB-INF/views/headerKostf.jsp" />
 <!-- =====================end header ==========================-->
 
-<!-- ======================= Bootstrap docs ===================-->
-<!-- https://getbootstrap.com/docs/4.0/layout/overview/   -->
-
-<style>
-
-.left-right-border {
-   border-style: solid; 
-   border-left-width: 1px; 
-   border-right-width: 1px; 
-   border-top-width: 0px;
-   border-bottom-width: 0px;
-   border-color: #D5E0CE; 
-   margin-right: 10;
-   margin-left: 5;
-}
-.left-right-bottom-border {
-   border-style: solid; 
-   border-left-width: 1px; 
-   border-right-width: 1px; 
-   border-top-width: 0px;
-   border-bottom-width: 1px;
-   border-color: #D5E0CE; 
- }
-
-.form-control {
-   padding: 3px 7px; /*Align to inputText*/
-   width: max-content; /* enable witdh*/
-   display: inline-block; /* no wrap in div*/
-}
-
-select.form-control:not([size]):not([multiple]) {
-    height: calc(1.8rem + 2px);  /*Align to inputText*/
-}
-
-.nav-new {
-	color: black !important;  /*link is defined in espedsg.css, override*/
-	background: url('resources/images/add.png') no-repeat center right; 
-	background-size: 0.8rem 0.8rem;
-}
-
-
-</style>
+<link href="resources/espedsgkostf.css" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript">
 	"use strict";
 	var baseUrl = "/syjserviceskostf/kosta?user=${user.user}";
-	var bilagUrl = "kostf_bilag_edit.do?user=${user.user}";
+	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 	
 	function load_data() {
 		var runningUrl;
 		runningUrl= getRunningUrl(baseUrl);
-
 		console.log("runningUrl=" + runningUrl);
 
 		jq.blockUI({
 			message : BLOCKUI_OVERLAY_MESSAGE_DEFAULT
 		});
-
 
 		var kostaTable = jq('#kostaTable').DataTable({
  			"dom" : '<"top">t<"bottom"flip><"clear">',
@@ -73,7 +30,7 @@ select.form-control:not([size]):not([multiple]) {
 				{
 					"targets" : 0,
 				    "render": function ( data, type, row, meta ) {
-				    	var url= bilagUrl+'&kabnr2='+row.kabnr2+'&kasg=${user.signatur}'; 
+				    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
 				    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
 				    	return href;
 				    }
@@ -113,6 +70,14 @@ select.form-control:not([size]):not([multiple]) {
 		
 	}  //load_data
 
+	jq(document).ready(function() {
+		console.log("jq(document).ready....");
+		//init search, with signatur
+		jq("#selectAttkode").val('${user.signatur}');
+		jq("#submitBtn").click();
+	});
+	
+	
 </script>
 
 <div class="container-fluid">
@@ -121,11 +86,11 @@ select.form-control:not([size]):not([multiple]) {
 
 	<nav>
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-	    <a class="nav-item nav-link active" onClick="setBlockUI(this);" href="kostf_bilagslist.do"><strong>&nbsp;&nbsp;Bilager&nbsp;&nbsp;</strong>
+	    <a class="nav-item nav-link active disabled">Bilager
 		<img style="vertical-align: middle;" src="resources/images/list.gif">
 	    </a>
-		<a class="nav-item nav-link nav-new" onClick="setBlockUI(this);" href="kostf_bilag_edit.do">&nbsp;&nbsp;Lage ny bilag&nbsp;&nbsp;
-		</a>
+		<a class="nav-item nav-link nav-new" onClick="setBlockUI(this);" href="${bilagUrl_create}">Lage ny bilag</a>
+		
 	  </div>
 	</nav>
 
@@ -135,37 +100,37 @@ select.form-control:not([size]):not([multiple]) {
 		<div class="col-1 p-1">
 			<label for="selectBilagsnr">Bilagsnr</label>
 			<br>
-			<input type="text" class="inputText" id="selectBilagsnr" size="8" maxlength="7">	
+			<input type="text" class="form-control" id="selectBilagsnr" size="8" maxlength="7">	
 		</div>
 		<div class="col-1 p-1">
 			<label for="selectInnregnr">Innreg.nr</label>
 			<br>
-			<input type="text" class="inputText" id="selectInnregnr" size="8" maxlength="6"/>
+			<input type="text" class="form-control" id="selectInnregnr" size="8" maxlength="6"/>
 		</div>
 		<div class="col-1 p-1">
 			<label for="selectFaktnr">Fakturanr</label>
 			<br>
-			<input type="text" class="inputText" id="selectFaktnr" size="14" maxlength="13">
+			<input type="text" class="form-control" id="selectFaktnr" size="14" maxlength="13">
 		</div>
 		<div class="col-1 p-1">
 			<label for="selectSuppliernr">Leverandørnr</label>
 			<br>
-			<input type="text" class="inputText" id="selectSuppliernr" size="9" maxlength="8">
+			<input type="text" class="form-control" id="selectSuppliernr" size="9" maxlength="8">
 		</div>
 		<div class="col-1 p-1">
 			<label for="selectAttkode">Att.kode</label>
 			<br>
-			<input type="text" class="inputText" id="selectAttkode" size="4" maxlength="3">
+			<input type="text" class="form-control" id="selectAttkode" size="4" maxlength="3">
 		</div>
 		<div class="col-2 p-1">
 			<label for="selectKomment">Kommentar</label>
 			<br>
-			<input type="text" class="inputText" id="selectKomment" size="36" maxlength="35">
+			<input type="text" class="form-control" id="selectKomment" size="36" maxlength="35">
 		</div>
 		<div class="col-1 p-1">
 			<label for="selectFradato">Fra&nbsp;bilagsdato</label>
 			<br>
-			<input type="text" class="inputText" id="selectFradato" size="9" maxlength="8">
+			<input type="text" class="form-control" id="selectFradato" size="9" maxlength="8">
 		</div>
 		<div class="col-1 p-1">
 			<label for="selectFraperaar">Fra&nbsp;periode</label>

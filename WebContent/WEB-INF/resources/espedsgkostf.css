@@ -1,0 +1,54 @@
+/*
+ * The Boostrap 4 version
+ * Aligned to espedsg2.css
+ *
+ * https://getbootstrap.com/
+ */
+ .left-right-border {
+   border-style: solid; 
+   border-left-width: 1px; 
+   border-right-width: 1px; 
+   border-top-width: 0px;
+   border-bottom-width: 0px;
+   border-color: #D5E0CE; 
+   margin-right: 10;
+   margin-left: 5;
+}
+.left-right-bottom-border {
+   border-style: solid; 
+   border-left-width: 1px; 
+   border-right-width: 1px; 
+   border-top-width: 0px;
+   border-bottom-width: 1px;
+   border-color: #D5E0CE; 
+ }
+
+.form-control {
+   padding: 0.13rem; /*Align to inputText*/
+   width: max-content; /* enable witdh*/
+   display: inline-block; /* no wrap in div*/
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(1.8rem + 2px);  /*Align to inputText*/
+}
+
+.nav-new {
+	color: black !important;  /*link is defined in espedsg.css, override*/
+	background: url('images/add.png') no-repeat center right; 
+	background-size: 0.8rem 0.8rem;
+}
+
+.nav-link {
+    display: block;
+    padding: .1rem 1rem;
+	margin-right : 0.3rem;
+	background-color: lightgrey; /*not logically placed...*/
+	color: black !important;;
+
+}
+
+.nav-link.active {
+    color: black;
+    font-weight: bold;
+}
