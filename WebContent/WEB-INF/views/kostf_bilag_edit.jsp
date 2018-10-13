@@ -7,139 +7,164 @@
 
 <link href="resources/espedsgkostf.css" rel="stylesheet" type="text/css"/>
 
-
 <script type="text/javascript">
 	"use strict";
-
-
+	
+	jq(document).ready(function() {
+		//enable tooltip
+ 		jq('[data-toggle="tooltip"]').tooltip()
+	});	
+	
+	
+	
+	
 </script>
 
 <div class="container-fluid">
 
-	<div class="padded-row-small"></div>	
+	<div class="padded-row-small"></div>
 
 	<nav>
-	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-	    <a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager
-		<img style="vertical-align: middle;" src="resources/images/list.gif">
-	    </a>
-		<a class="nav-item nav-link active disabled">Bilag[${record.kabnr2}]</a>
-	  </div>
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif">
+			</a> <a class="nav-item nav-link active disabled">Bilag[${record.kabnr2}]</a>
+		</div>
 	</nav>
 
-	<div class="padded-row-small left-right-border"></div>	
+	<div class="padded-row-small left-right-border"></div>
 
-	<div class="row left-right-border no-gutters">
-		<div class="col-1 p-1">
-			<label for="selectBilagsnr">Bilagsnr</label>
-			<br>
-			<input type="text" class="form-control" id="selectBilagsnr" size="8" maxlength="7" value="${record.kabnr2}"/>	
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectInnregnr">Innreg.nr</label>
-			<br>
-			<input type="text" class="form-control" id="selectInnregnr" size="8" maxlength="6" value="${record.kabnr}"/>
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectFaktnr">Fakturanr</label>
-			<br>
-			<input type="text" class="form-control" id="selectFaktnr" size="14" maxlength="13" value="${record.kafnr}"/>
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectSuppliernr">Leverandørnr</label>
-			<br>
-			<input type="text" class="form-control" id="selectSuppliernr" size="9" maxlength="8" value="${record.kalnr}"/>
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectAttkode">Att.kode</label>
-			<br>
-			<input type="text" class="form-control" id="selectAttkode" size="4" maxlength="3" value="${record.kasg}"/>
-		</div>
-		<div class="col-2 p-1">
-			<label for="selectKomment">Kommentar</label>
-			<br>
-			<input type="text" class="form-control" id="selectKomment" size="36" maxlength="35" value="${record.katxt}"/>
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectFradato">Fra&nbsp;bilagsdato</label>
-			<br>
-			<input type="text" class="form-control" id="selectFradato" size="9" maxlength="8" value="${record.kabdt}"/>
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectFraperaar">Fra&nbsp;periode</label>
-			<br>
-			<input type="text" class="form-control" id="selectFrapermnd" placeholder="mm" size="3" maxlength="2">-
-			<input type="text" class="form-control" id="selectFraperaar" placeholder="yy" size="3" maxlength="2">
-		</div>
-		<div class="col-1 p-1">
-			<label for="selectTilperaar">Til&nbsp;periode</label>
-			<br>
-			<input type="text" class="form-control" id="selectTilpermnd"  placeholder="mm" size="3" maxlength="2">-
-			<input type="text" class="form-control" id="selectTilperaar"  placeholder="yy" size="3" maxlength="2">
-		</div>
+	<form action="kostf_bilag_edit.do">
 
-	</div>
-	
-	<div class="row left-right-border no-gutters">
-		<div class="col-1 p-1">
-			<label for="selectReklamasjon">
-				<img onMouseOver="showPop('reklCode_info');" onMouseOut="hidePop('reklCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
-				Kun&nbsp;Rekl.
-			</label>
-			<div class="text11" style="position: relative;" align="left">
-				<span style="position:absolute; left:0px; top:0px; width:200px" id="reklCode_info" class="popupWithInputText"  >
-         			<b>Kun&nbsp;Reklamasjon</b><br>
-         			<label>S= Sendte</label>
-					<label>O= Ferdig oppgjort</label>
-				</span>
-			</div>			
-		    <select class="form-control" id="selectReklamasjon">
-		      <option value="">-velg-</option>
-		      <option value="S">S</option>
-		      <option value="O">O</option>
-		    </select>
-		</div>
-		<div class="col-2 p-1">
-			<label for="selectFrisokKode">Fri&nbsp;søkvei</label>
-			<br>
-			<input type="text" class="form-control" placeholder="kode" id="selectFrisokKode" size="4" maxlength="3">-
-			<input type="text" class="form-control" placeholder="tekst" id="selectFrisokTxt" size="16" maxlength="15">
-		</div>
-		<div class="col-2 p-1">
-			<label for="selectStatus">
-				<img onMouseOver="showPop('statusCode_info');" onMouseOut="hidePop('statusCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
-				Status
-			</label>
-			<div class="text11" style="position: relative;" align="left">
-				<span style="position:absolute; left:0px; top:0px; width:350px" id="statusCode_info" class="popupWithInputText"  >
-         			<b>Status</b><br>
-         			<label>A= arbeider med nyregistrert  bilag</label>
-					<label>B= arbeider med tildligere innregistr bilag</label>
-					<label>D= slettet bilag</label>
-					<label>G= ferdigmeldt bilag til økonomi</label>
-					<label>O= oppdatert bilag i økonomi</label>
-				</span>
+		<div class="form-group row left-right-bottom-border no-gutters ">
+
+			<div class="col-sm-6 p-1">
+				<div class="form-group form-row">
+					<label for="bilagsserie" class="col-md-2 col-form-label col-form-label-sm">Bilagsserie:</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" id="bilagsserie" value="TODO" placeholder="bilagsserie">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="bilagsnr" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
+					<div class="col-md-10">
+						<input type="number" class="form-control" id="bilagsnr" value="${record.kabnr2}" placeholder="bilagsnr">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="bilagsnr" class="col-md-2 col-form-label col-form-label-sm">Bilagsdato:</label>
+					<div class="col-md-10">
+						<input type="number" class="form-control" id="bilagsnr" value="${record.kabdt}" placeholder="bilagsnr">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="mnd" class="col-md-2 col-form-label col-form-label-sm">Period.(mån/år):</label>
+					<div class="col-md-10">
+						<input type="number" class="form-control" id="mnd" value="${record.kapmn}" placeholder="mm">
+						<input type="number" class="form-control" id="aar" value="${record.KAPÅR}" placeholder="yy">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="kommentar" class="col-md-2 col-form-label col-form-label-sm">Bilagskomm.:</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control w-100" id="kommentar" value="${record.katxt}" placeholder="bilagskommentar">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="levnr" class="col-md-2 col-form-label col-form-label-sm">
+						<img src="resources/images/info3.png" width="12px" height="12px" data-toggle="tooltip" title="(0=direkte i hovedbok)">
+					Leverandörnr:
+					</label>
+					<div class="col-md-10">
+						<input type="number" class="form-control" id="levnr" value="${record.kalnr}" placeholder="levnr">
+						<input type="text" readonly class="form-control" id="levnr" value="TODO">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="gebyrkode" class="col-md-2 col-form-label col-form-label-sm">Gebyrkode.:</label>
+					<div class="col-md-1">
+						<input type="text" class="form-control w-100" id="gebyrkode" value="${record.kavk}" placeholder="gebyrkode">
+					</div>
+					<label for="belop" class="col-md-1 col-form-label col-form-label-sm">Belop.:</label>
+					<div class="col-md-7">
+						<input type="number" class="form-control" id="belop" value="${record.kabl}" placeholder="belop">
+					</div>
+				</div>
+
 			</div>
-		    <select class="form-control" id="selectStatus">
-		      <option value="">-velg-</option>
-		      <option value="A">A</option>
-		      <option value="B">B</option>
-		      <option value="D">D</option>
-		      <option value="G">G</option>
-		      <option value="O">O</option>
-		    </select>
+
+			<div class="col-sm-6">
+				<div class="form-group form-row">
+					<label for="fakturanr" class="col-md-2 col-form-label col-form-label-sm">Fakturanr:</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control" id="fakturanr" value="${record.kafnr}" placeholder="fakturanummer">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="kid" class="col-md-2 col-form-label col-form-label-sm">KID:</label>
+					<div class="col-md-10">
+						<input type="number" class="form-control" id="kid" value="${record.kalkid}" placeholder="kid leverandorsfaktura">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="attkode" class="col-md-2 col-form-label col-form-label-sm">Att.kode(signatur):</label>
+					<div class="col-md-10">
+						<input type="text" class="form-control w-25" id="attkode" value="${record.kasg}" placeholder="attenstasjonkode">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+						<label for="betbet" class="col-md-2 col-form-label col-form-label-sm">Betal.betingelse:</label>
+						<div class="col-md-10">
+							<input type="number" class="form-control w-25" id="betbet" value="${record.kabb}" placeholder="betalingsbetingelse">
+						</div>
+				</div>
+
+				<div class="form-group form-row">
+						<label for="ffdato" class="col-md-2 col-form-label col-form-label-sm">Forfallsdato:</label>
+						<div class="col-md-10">
+							<input type="number" class="form-control" id="ffdato" value="${record.kaffdt}" placeholder="forfallsdato">
+						</div>
+				</div>
+	
+				<div class="form-group form-row">
+					<label for="oppdatert_bruker" class="col-md-2 col-form-label col-form-label-sm">Sist&nbsp;oppdaterat:</label>
+					<div class="col-md-10">
+						<input type="text" readonly class="form-control" id="oppdatert_bruker" value="${record.kauser}">
+						<input type="number" readonly class="form-control" id="oppdatert_dato" value="${record.kadte}">
+						<input type="number" readonly class="form-control" id="oppdatert_tid" value="${record.katme}">
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="regdato" class="col-md-2 col-form-label col-form-label-sm">Reg.dato:</label>
+					<div class="col-md-10">
+						<input type="number" readonly class="form-control" id="regdato" value="${record.kadtr}">
+						<input type="number" readonly class="form-control" id="regtid" value="${record.katdr}">
+					</div>
+				</div>
+	
+	
+	
+	
+	
+			</div>
+
 		</div>
 
-		<div class="col-6 align-self-end p-1">
-			<button class="btn inputFormSubmit" onclick="alert('ej impl.');" id="submitBtn"  autofocus>Lagre</button>
-		</div>	
-	
-	</div>
+		<!--  div class="padded-row-small left-right-bottom-border no-gutters">&nbsp;</div-->
 
-	<div class="padded-row-small left-right-bottom-border no-gutters">&nbsp;</div>
-	
+		
 
-  
+	</form>
+
 </div>
 
 <!-- ======================= footer ===========================-->

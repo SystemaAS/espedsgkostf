@@ -71,7 +71,6 @@
 	}  //load_data
 
 	jq(document).ready(function() {
-		console.log("jq(document).ready....");
 		//init search, with signatur
 		jq("#selectAttkode").val('${user.signatur}');
 		jq("#submitBtn").click();

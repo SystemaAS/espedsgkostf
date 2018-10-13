@@ -23,20 +23,27 @@
    border-color: #D5E0CE; 
  }
 
-.form-control {
-   padding: 0.13rem; /*Align to inputText*/
-   width: max-content; /* enable witdh*/
-   display: inline-block; /* no wrap in div*/
-}
-
-select.form-control:not([size]):not([multiple]) {
-    height: calc(1.8rem + 2px);  /*Align to inputText*/
-}
-
 .nav-new {
 	color: black !important;  /*link is defined in espedsg.css, override*/
 	background: url('images/add.png') no-repeat center right; 
 	background-size: 0.8rem 0.8rem;
+}
+
+
+/** Some overrides to align til espedsg.css */
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+/*    padding: 0.13rem; Align to inputText */
+   height: calc(1.8rem + 2px);
+   width: max-content; /*enable witdh*/
+   display: inline-block; /*no wrap in div*/
+}
+
+select.form-control:not([size]):not([multiple]) {
+    height: calc(1.8rem + 2px);  /*Align to inputText*/
 }
 
 .nav-link {
