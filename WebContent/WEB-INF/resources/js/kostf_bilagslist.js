@@ -71,7 +71,47 @@ jq(function() {
 	jq("#selectTildato").datepicker({
 		dateFormat: 'yymmdd'
 	});
+
+	jq('a#kommentar_Link').click(function() {
+		jq('#kommentar_Link').attr('target','_blank');
+		console.log("komm link");
+		alert('TODO komm link');
+//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 
+
+	jq('a#levnr_Link').click(function() {
+		jq('#levnr_Link').attr('target','_blank');
+		console.log("levnr link");
+		alert('TODO, levnr link');
+//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 	
+	
+	jq('a#gebyrkode_Link').click(function() {
+		jq('#gebyrkode_Link').attr('target','_blank');
+		console.log("gebyrkode link");
+		alert('TODO, gebyrkode link');
+//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 	
+	
+	jq('a#attkode_Link').click(function() {
+		jq('#attkode_Link').attr('target','_blank');
+		console.log("attkode link");
+		alert('TODO, attkode link');
+//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 		
+
+	jq('a#bilagsserie_Link').click(function() {
+		jq('#bilagsserie_Link').attr('target','_blank');
+		console.log("bilagsserie link");
+		alert('TODO, bilagsserie link');
+//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 		
+	
+	
+	
 });  
+
+
 
 
 jq(document).keypress(function(e) {

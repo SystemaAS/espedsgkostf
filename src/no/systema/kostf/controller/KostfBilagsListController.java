@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import no.systema.jservices.common.dao.KostaDao;
 import no.systema.jservices.common.dao.services.KostaDaoService;
+import no.systema.jservices.common.dto.KostaDto;
+import no.systema.jservices.common.util.DateTimeManager;
 import no.systema.jservices.common.values.CRUDEnum;
 import no.systema.main.model.SystemaWebUser;
 import no.systema.main.validator.LoginValidator;
@@ -45,7 +47,7 @@ public class KostfBilagsListController {
 			return loginView;
 		} else {
 			
-			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue()); //href in nav-new
+			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
 			successView.addObject("bilagUrl_create", bilagUrl.toString());
 			
 			return successView;
@@ -60,7 +62,7 @@ public class KostfBilagsListController {
 	 * @param kabnr
 	 * @param session
 	 * @param request
-	 * @return {@linkplain KostaDao}
+	 * @return {@linkplain KostaDto}
 	 */
 	@RequestMapping(value="kostf_bilag_edit.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doEdit( @RequestParam(value = "action", 	required = true) Integer action, 	
@@ -69,35 +71,66 @@ public class KostfBilagsListController {
 		ModelAndView successView = new ModelAndView("kostf_bilag_edit"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 	
-		KostaDao returnDao;
+		KostaDto returnDto;
 		
 		if (appUser == null) {
 			return loginView;
 		} else {
 			if (action.equals(CRUDEnum.CREATE.getValue())) {
 				logger.info("Create...");
-				returnDao = new KostaDao();
+				returnDto = new KostaDto();
 			} else if (action.equals(CRUDEnum.READ.getValue())) {
 				logger.info("Read...");
-				returnDao = get(kabnr);
+				returnDto = getDto(kabnr);
 			} else {
 				throw new RuntimeException("action not valid!, value="+action);
 			}
 			
-			logger.info("returnDao="+ReflectionToStringBuilder.toString(returnDao));
+			logger.info("returnDto="+ReflectionToStringBuilder.toString(returnDto));
 			
-			successView.addObject("record", returnDao);
+			successView.addObject("record", returnDto);
 			
 			return successView;
 		}		
 		
 	}	
 	
-	private KostaDao get(Integer kabnr) {
+	private KostaDto getDto(Integer kabnr) {
 		KostaDao qDao = new KostaDao();
+		KostaDto dto = new KostaDto();
 		qDao.setKabnr(kabnr);
-		return kostaDaoService.find(qDao);
+		KostaDao resultDao = kostaDaoService.find(qDao);
+
+		setDtoValues(dto, resultDao);
 		
+		return dto;
+		
+	}
+
+	private void setDtoValues(KostaDto dto, KostaDao dao) {
+		dto.setKabb(dao.getKabb());
+		dto.setKabdt(dao.getKabdt());
+		dto.setKabl(dao.getKabl());
+		dto.setKabnr(dao.getKabnr());
+		dto.setKabnr2(dao.getKabnr2());
+		dto.setKadte(dao.getKadte());
+		dto.setKadtr(dao.getKadtr());
+		dto.setKafdt(dao.getKafdt());
+		dto.setKaffdt(dao.getKaffdt());
+		dto.setKafnr(dao.getKafnr());
+		dto.setKalkid(dao.getKalkid());
+		dto.setKalnr(dao.getKalnr());
+		dto.setKapmn(dao.getKapmn());
+		dto.setKAPÅR(dao.getKAPÅR());
+		dto.setKasg(dao.getKasg());
+		dto.setKast(dao.getKast());
+		dto.setKatdr(dao.getKatdr());
+		dto.setKatme(dao.getKatme());
+		dto.setKatxt(dao.getKatxt());
+		dto.setKauser(dao.getKauser());
+		
+		dto.setOpp_dato(DateTimeManager.getDateTime(dao.getKadte(),dao.getKatme()));
+		dto.setReg_dato(DateTimeManager.getDateTime(dao.getKadtr(),dao.getKatdr()));
 	}
 
 }
