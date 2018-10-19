@@ -40,6 +40,9 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 		<property name="timeout" value="30" />
 	</bean>		
 	
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate"></bean>	
+	
+	
 	<import resource="classpath:syjservicescommon-data-service.xml" />
 
 <!-- 	

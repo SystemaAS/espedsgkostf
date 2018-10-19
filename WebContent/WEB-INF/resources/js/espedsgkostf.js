@@ -107,6 +107,55 @@ jq(function() {
 //		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 		
 	
+
+	jq('#kostbTable').DataTable({
+		"dom" : '<"top">t<"bottom"flip><"clear">',
+		responsive : true,
+		select : true,
+		destroy : true,
+		"columnDefs" : [ 
+			{
+				"targets" : 0,
+			    "render": function ( data, type, row, meta ) {
+			    	var url= 'TODO';
+			    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
+			    	return href;
+			    }
+			}
+		],
+		"sAjaxSource" : "/syjserviceskostf/kosta?user=FREDRIK",
+		"sAjaxDataProp" : "",
+		"order" : [ [ 3, "desc" ] ],
+		"aoColumns" : [ {
+			"mData" : "kabnr2"
+		}, {
+			"mData" : "kabnr"
+		}, {
+			"mData" : "kafnr"
+		},{
+			"mData" : "kabdt"
+		},{
+			"mData" : "kapmn"
+		},{
+			"mData" : "kapår"
+		},{
+			"mData" : "kalnr"
+		},{
+			"mData" : "kasg"
+		},{
+			"mData" : "katxt"
+		}],
+		"lengthMenu" : [ 25, 75, 100 ],
+		"language" : {
+			"url" : getLanguage('NO')
+		}
+
+	});
+	
+	
+	
+	
+	
 	
 	
 });  

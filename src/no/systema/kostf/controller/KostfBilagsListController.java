@@ -1,23 +1,39 @@
 package no.systema.kostf.controller;
 
+import java.net.URI;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import no.systema.jservices.common.dao.KostaDao;
-import no.systema.jservices.common.dao.services.KostaDaoService;
 import no.systema.jservices.common.dto.KostaDto;
 import no.systema.jservices.common.util.DateTimeManager;
 import no.systema.jservices.common.values.CRUDEnum;
+import no.systema.kostf.url.store.KostfUrlDataStore;
+import no.systema.main.mapper.url.request.UrlRequestParameterMapper;
 import no.systema.main.model.SystemaWebUser;
+import no.systema.main.service.UrlCgiProxyService;
 import no.systema.main.validator.LoginValidator;
 
 /**
@@ -33,8 +49,16 @@ public class KostfBilagsListController {
 	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
 	private LoginValidator loginValidator = new LoginValidator();
 	
+	@Qualifier ("urlCgiProxyService")
+	private UrlCgiProxyService urlCgiProxyService;
 	@Autowired
-	private KostaDaoService kostaDaoService;
+	@Required
+	public void setUrlCgiProxyService (UrlCgiProxyService value){ this.urlCgiProxyService = value; }
+	public UrlCgiProxyService getUrlCgiProxyService(){ return this.urlCgiProxyService; }
+	
+	
+	@Autowired
+	RestTemplate restTemplate;
 	
 	@RequestMapping(value="kostf_bilagslist.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
@@ -56,7 +80,7 @@ public class KostfBilagsListController {
 	}
 
 	/**
-	 * This method supports CRU on {@linkplain KostaDao} and {@linkplain KostabDao}
+	 * This method supports CRU on {@linkplain KostaDao}.
 	 * 
 	 * @param action
 	 * @param kabnr
@@ -65,47 +89,147 @@ public class KostfBilagsListController {
 	 * @return {@linkplain KostaDto}
 	 */
 	@RequestMapping(value="kostf_bilag_edit.do", method={RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView doEdit( @RequestParam(value = "action", 	required = true) Integer action, 	
-								@RequestParam(value = "kabnr", 	required = false) Integer kabnr, 
-								HttpSession session, HttpServletRequest request){
+	public ModelAndView doEdit( @ModelAttribute ("record") KostaDao record, 
+								@RequestParam(value = "action", required = true) Integer action,
+								BindingResult bindingResult, HttpSession session, HttpServletRequest request){
+
+		logger.info("record="+record);
+		
+		logger.info("bilagsnr="+record.getKabnr());
+		logger.info("action="+action);
+		
 		ModelAndView successView = new ModelAndView("kostf_bilag_edit"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 	
-		KostaDto returnDto;
+		KostaDto returnDto = null;  //holding values for UI
 		
 		if (appUser == null) {
 			return loginView;
 		} else {
 			if (action.equals(CRUDEnum.CREATE.getValue())) {
 				logger.info("Create...");
-				returnDto = new KostaDto();
+//				returnDto = getDtoCreated();
+//				returnDto = new KostaDto();
+			}  else if (action.equals(CRUDEnum.UPDATE.getValue())) {
+				logger.info("Update...");
+				returnDto = updateRecord(appUser, record, CRUDEnum.UPDATE);
+//				returnDto = getDtoUpdated(dto);
 			} else if (action.equals(CRUDEnum.READ.getValue())) {
 				logger.info("Read...");
-				returnDto = getDto(kabnr);
-			} else {
-				throw new RuntimeException("action not valid!, value="+action);
+				returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
 			}
+			
+//			else {
+//				throw new RuntimeException("action not valid in this context!, value="+action);
+//			}
 			
 			logger.info("returnDto="+ReflectionToStringBuilder.toString(returnDto));
 			
 			successView.addObject("record", returnDto);
+			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			
 			return successView;
 		}		
 		
 	}	
-	
-	private KostaDto getDto(Integer kabnr) {
-		KostaDao qDao = new KostaDao();
-		KostaDto dto = new KostaDto();
-		qDao.setKabnr(kabnr);
-		KostaDao resultDao = kostaDaoService.find(qDao);
 
-		setDtoValues(dto, resultDao);
+	private KostaDto updateRecord(SystemaWebUser appUser, KostaDao record, CRUDEnum update) {
+		logger.info("updateRecord::record::"+ReflectionToStringBuilder.toString(record));
+		MultiValueMap<String, String> recordParams = UrlRequestParameterMapper.getUriParameter(record);
+
+	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(KostfUrlDataStore.KOSTA_BASE_DML_UPDATE_URL)
+		        .queryParam("user", appUser.getUser())
+		        .queryParam("mode", "U")
+		        .queryParam("lang", appUser.getUsrLang())
+		        .queryParams(recordParams);
+
+		URI uri = builder.buildAndExpand().toUri();
+
+		logger.info("uri="+uri);
 		
-		return dto;
+		ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, null, String.class);
+		String body = response.getBody();		
+		logger.info("body="+body);
 		
+		return null;
 	}
+	private KostaDto fetchRecord(SystemaWebUser appUser, Integer kabnr, CRUDEnum action) {
+		String BASE_URL = KostfUrlDataStore.KOSTA_BASE_MAIN_URL;
+		StringBuilder urlRequestParams = new StringBuilder();
+		urlRequestParams.append("?user=" + appUser.getUser());
+		urlRequestParams.append("&bilagsnr=" + kabnr);
+		urlRequestParams.append("&action=" + action.getValue());
+		logger.info("Full url: " + BASE_URL +urlRequestParams.toString());
+
+		ResponseEntity<List<KostaDao>> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(),
+				HttpMethod.GET, null, new ParameterizedTypeReference<List<KostaDao>>() {});
+		List<KostaDao> kostaList = response.getBody();		
+		logger.info("kostaList size="+kostaList.size());	
+
+		//Sanity check
+		if (kostaList.size() > 1) {  //implicit: kostaList cannot be null
+			throw new RuntimeException("fetchRecord for bilagsnr :"+kabnr+ " gives more than one row!");
+		}
+
+		if (kostaList.get(0) != null) {
+			KostaDto dto = new KostaDto();
+			setDtoValues(dto, kostaList.get(0));
+			return dto;
+		} else {
+			return null;
+		}
+
+	}
+	
+
+//	public void xyz() {
+//		HttpEntity<ApiKey> entityHeadersOnly = authorization.getHttpEntity(firmaltDao);
+//		ResponseEntity<String> responseEntity = null;
+//		
+//		try {
+//
+//			responseEntity = restTemplate().exchange(uri, HttpMethod.GET, entityHeadersOnly, String.class); 
+//
+//			if (responseEntity.getStatusCode() != HttpStatus.OK) {
+//				logger.error("Error in getMessage for " + uri);
+//				throw new RuntimeException(responseEntity.getStatusCode().toString());
+//			}
+//			logger.debug("getMessage:responseEntity.getBody"+responseEntity.getBody());
+//	
+//	        return HalHelper.getMessage(responseEntity.getBody());
+//	        
+//		} catch (Exception e) {
+//			String errMessage = String.format(" request failed: %s", e.getLocalizedMessage());
+//			logger.warn(errMessage, e);
+//			throw new RuntimeException(errMessage);
+//		}
+//	}
+	
+	
+	
+	
+//	private KostaDto getDtoUpdated(KostaDto dto) {
+//		KostaDao qDao = new KostaDao();
+//		qDao.setKabnr(dto.getKabnr());
+//		KostaDao dao = kostaDaoService.find(qDao);
+//
+//		setDaoValues(dao, dto);
+//		
+//		return kostaDaoService.update(dao);
+//	}
+//
+//
+//	private KostaDto getDto(Integer kabnr) {
+//		KostaDao qDao = new KostaDao();
+//		KostaDto dto = new KostaDto();
+//		qDao.setKabnr(kabnr);
+//		KostaDao resultDao = kostaDaoService.find(qDao);
+//
+//		setDtoValues(dto, resultDao);
+//		
+//		return dto;
+//		
+//	}
 
 	private void setDtoValues(KostaDto dto, KostaDao dao) {
 		dto.setKabb(dao.getKabb());
@@ -133,5 +257,12 @@ public class KostfBilagsListController {
 		dto.setReg_dato(DateTimeManager.getDateTime(dao.getKadtr(),dao.getKatdr()));
 	}
 
+	private void setDaoValues(KostaDao dao, KostaDto dto) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	
 }
 

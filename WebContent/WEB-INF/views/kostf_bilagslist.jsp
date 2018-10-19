@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
 	"use strict";
-	var baseUrl = "/syjserviceskostf/kosta?user=${user.user}";
+	var baseUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 	
 	function load_data() {
@@ -86,7 +86,7 @@
 	<nav>
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 	    <a class="nav-item nav-link active disabled">Bilager
-		<img style="vertical-align: middle;" src="resources/images/list.gif">
+			<img style="vertical-align: middle;" src="resources/images/list.gif">
 	    </a>
 		<a class="nav-item nav-link nav-new" onClick="setBlockUI(this);" href="${bilagUrl_create}">Lage ny bilag</a>
 		

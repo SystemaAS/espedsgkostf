@@ -114,9 +114,8 @@ public class UrlCgiProxyServiceImpl implements UrlCgiProxyService{
 			//logger.info(utfPayload);
 			
 		}catch(Exception e){
-    		e.printStackTrace();
-    		logger.info("Error:", e);
-    		
+    		logger.error("Error:", e);
+    		throw new RuntimeException("Error calling urlStr="+urlStr+" with params="+urlParameters);
     	}
 		return utfPayload;
 	}

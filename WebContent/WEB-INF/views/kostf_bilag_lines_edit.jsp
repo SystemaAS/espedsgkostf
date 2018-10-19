@@ -16,6 +16,8 @@
 	});	
 	
 	
+	
+	
 </script>
 
 <div class="container-fluid">
@@ -24,21 +26,18 @@
 
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link active disabled">Bilag[${record.kabnr2}]</a>
-			<c:if test="${action == 2}"> <!-- READ -->
-				<a class="nav-item nav-link">Fordel kostnader[${record.kabnr2}]</a>
-			</c:if>	
+			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif">
+			</a> <a class="nav-item nav-link active disabled">Bilag[${record.kabnr2}]</a>
 		</div>
 	</nav>
 
 	<div class="padded-row-small left-right-border"></div>
 
-	<form action="kostf_bilag_edit.do" method="POST">
-		<input type="hidden" name="action" id="action" value='${action}'>
+	<form action="kostf_bilag_edit.do">
 
-		<div class="row left-right-border no-gutters">
-			<div class="col-sm-6">
+		<div class="form-group row left-right-bottom-border no-gutters">
+
+			<div class="col-sm-6 formFrame">
 				<div class="form-group form-row formFrameHeader">
 					<div class="col-sm-12">
 						<span class="rounded-top">&nbsp;</span>
@@ -56,32 +55,32 @@
 						</a>&nbsp;
 					</div>
 
-					<label for="kabnr" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
+					<label for="bilagsnr" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
 					<div class="col-md-6">
-						<input type="number" class="form-control" name="kabnr" id="kabnr" value="${record.kabnr}" placeholder="bilagsnr">
+						<input type="number" class="form-control" id="bilagsnr" value="${record.kabnr2}" placeholder="bilagsnr">
 					</div>
 
 				</div>
 
 				<div class="form-group form-row">
-					<label for="kabdt" class="col-md-2 col-form-label col-form-label-sm">Bilagsdato:</label>
+					<label for="bilagsnr" class="col-md-2 col-form-label col-form-label-sm">Bilagsdato:</label>
 					<div class="col-md-10">
-						<input type="number" class="form-control" name="bilagsnr" id="bilagsnr" value="${record.kabdt}" placeholder="bilagsdato">
+						<input type="number" class="form-control" id="bilagsnr" value="${record.kabdt}" placeholder="bilagsnr">
 					</div>
 				</div>
 
 				<div class="form-group form-row">
 					<label for="mnd" class="col-md-2 col-form-label col-form-label-sm">Period.(mån/år):</label>
 					<div class="col-md-5">
-						<input type="number" class="form-control w-25" name="kapmn" id="kapmn" value="${record.kapmn}" placeholder="mm">
-						<input type="number" class="form-control w-25" name="KAPÅR" id="KAPÅR" value="${record.KAPÅR}" placeholder="yy">
+						<input type="number" class="form-control w-25" id="mnd" value="${record.kapmn}" placeholder="mm">
+						<input type="number" class="form-control w-25" id="aar" value="${record.KAPÅR}" placeholder="yy">
 					</div>
 				</div>
 
 				<div class="form-group form-row">
-					<label for="katxt" class="col-md-2 col-form-label col-form-label-sm">Bilagskomm.:</label>
+					<label for="kommentar" class="col-md-2 col-form-label col-form-label-sm">Bilagskomm.:</label>
 					<div class="col-md-9">
-						<input type="text" class="form-control w-100" name="katxt" id="katxt" value="${record.katxt}" placeholder="bilagskommentar">
+						<input type="text" class="form-control w-100" id="kommentar" value="${record.katxt}" placeholder="bilagskommentar">
 					</div>
 					<div class="col-md-1">
 						<a tabindex="-1" id="kommentar_Link">
@@ -91,12 +90,12 @@
 				</div>
 
 				<div class="form-group form-row">
-					<label for="kalnr" class="col-md-2 col-form-label col-form-label-sm">
+					<label for="levnr" class="col-md-2 col-form-label col-form-label-sm">
 						<img src="resources/images/info3.png" width="12px" height="12px" data-toggle="tooltip" title="(0=direkte i hovedbok)">
 					Leverandörnr:
 					</label>
 					<div class="col-md-2">
-						<input type="number" class="form-control w-100" name="kalnr" id="kalnr" value="${record.kalnr}" placeholder="levnr">
+						<input type="number" class="form-control w-100" id="levnr" value="${record.kalnr}" placeholder="levnr">
 					</div>
 					<div class="col-md-1">
 						<a tabindex="-1" id="levnr_Link">
@@ -105,15 +104,15 @@
 					</div>
 
 					<div class="col-md-7">
-						<input type="text" readonly class="form-control w-100" id="levname" value="levname TODO">
+						<input type="text" readonly class="form-control w-100" id="levnr" value="levname TODO">
 					</div>
 
 				</div>
 
 				<div class="form-group form-row">
-					<label for="kavk" class="col-md-2 col-form-label col-form-label-sm">Gebyrkode.:</label>
+					<label for="gebyrkode" class="col-md-2 col-form-label col-form-label-sm">Gebyrkode.:</label>
 					<div class="col-md-2">
-						<input type="text" class="form-control w-100" name="kavk" id="kavk" value="${record.kavk}" placeholder="kode">
+						<input type="text" class="form-control w-100" id="gebyrkode" value="${record.kavk}" placeholder="kode">
 					</div>
 					<div class="col-md-1">
 						<a tabindex="-1" id="gebyrkode_Link">
@@ -121,15 +120,15 @@
 						</a>&nbsp;
 					</div>					
 					
-					<label for="kabl" class="col-md-1 col-form-label col-form-label-sm">Belop.:</label>
+					<label for="belop" class="col-md-1 col-form-label col-form-label-sm">Belop.:</label>
 					<div class="col-md-6">
-						<input type="number" class="form-control" name="kabl" id="kabl" value="${record.kabl}" placeholder="belop">
+						<input type="number" class="form-control" id="belop" value="${record.kabl}" placeholder="belop">
 					</div>
 				</div>
 
 			</div>
 
-			<div class="col-sm-6">
+			<div class="col-sm-6 formFrame">
 				<div class="form-group form-row formFrameHeader">
 					<div class="col-sm-12">
 						<span class="rounded-top">&nbsp;</span>
@@ -137,23 +136,23 @@
 				</div>			
 			
 				<div class="form-group form-row">
-					<label for="kafnr" class="col-md-2 col-form-label col-form-label-sm">Fakturanr:</label>
+					<label for="fakturanr" class="col-md-2 col-form-label col-form-label-sm">Fakturanr:</label>
 					<div class="col-md-10">
-						<input type="text" class="form-control" name="kafnr" id="kafnr" value="${record.kafnr}" placeholder="fakturanummer">
+						<input type="text" class="form-control" id="fakturanr" value="${record.kafnr}" placeholder="fakturanummer">
 					</div>
 				</div>
 
 				<div class="form-group form-row">
-					<label for="kalkid" class="col-md-2 col-form-label col-form-label-sm">KID:</label>
+					<label for="kid" class="col-md-2 col-form-label col-form-label-sm">KID:</label>
 					<div class="col-md-10">
-						<input type="number" class="form-control" name="kalkid" id="kalkid" value="${record.kalkid}" placeholder="kid leverandorsfaktura">
+						<input type="number" class="form-control" id="kid" value="${record.kalkid}" placeholder="kid leverandorsfaktura">
 					</div>
 				</div>
 
 				<div class="form-group form-row">
-					<label for="kasg" class="col-md-2 col-form-label col-form-label-sm">Att.kode(signatur):</label>
+					<label for="attkode" class="col-md-2 col-form-label col-form-label-sm">Att.kode(signatur):</label>
 					<div class="col-md-2">
-						<input type="text" class="form-control w-50" name="kasg" id="kasg" value="${record.kasg}" placeholder="attenstasjonkode">
+						<input type="text" class="form-control w-50" id="attkode" value="${record.kasg}" placeholder="attenstasjonkode">
 					</div>
 					<div class="col-md-8">
 						<a tabindex="-1" id="attkode_Link">
@@ -164,16 +163,16 @@
 				</div>
 
 				<div class="form-group form-row">
-						<label for="kabb" class="col-md-2 col-form-label col-form-label-sm">Betal.betingelse:</label>
+						<label for="betbet" class="col-md-2 col-form-label col-form-label-sm">Betal.betingelse:</label>
 						<div class="col-md-10">
-							<input type="number" class="form-control w-25" name="kabb" id="kabb" value="${record.kabb}" placeholder="betalingsbetingelse">
+							<input type="number" class="form-control w-25" id="betbet" value="${record.kabb}" placeholder="betalingsbetingelse">
 						</div>
 				</div>
 
 				<div class="form-group form-row">
-						<label for="kaffdt" class="col-md-2 col-form-label col-form-label-sm">Forfallsdato:</label>
+						<label for="ffdato" class="col-md-2 col-form-label col-form-label-sm">Forfallsdato:</label>
 						<div class="col-md-10">
-							<input type="number" class="form-control" name="kaffdt" id="kaffdt" value="${record.kaffdt}" placeholder="forfallsdato">
+							<input type="number" class="form-control" id="ffdato" value="${record.kaffdt}" placeholder="forfallsdato">
 						</div>
 				</div>
 	
@@ -186,28 +185,52 @@
 				</div>
 
 				<div class="form-group form-row">
-					<label for="reg_dato" class="col-md-2 col-form-label col-form-label-sm">Reg.dato:</label>
+					<label for="regdato" class="col-md-2 col-form-label col-form-label-sm">Reg.dato:</label>
 					<div class="col-md-10">
-					<input type="text" readonly class="form-control" id="reg_dato" value="${record.reg_dato}">
+					<input type="text" readonly class="form-control" id="regdato" value="${record.reg_dato}">
 					</div>
 				</div>
 	
 			</div>
 
+
 		</div>
-
-		<div class="padded-row-small left-right-border"></div>	
-
 		
-		<div class="form-group form-row left-right-border">
-			<div class="col-md-11">&nbsp;</div>
-			<div class="col-md-1">
-				<button class="btn inputFormSubmit" id="submitBtnLagre">Lagre</button>
-			</div>	
-		</div>
-
-		<div class="padded-row-small left-right-bottom-border"></div>	
+		<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
 		
+		<div class="panel-body left-right-bottom-border no-gutters">
+			<table class="table table-striped table-bordered table-hover dt-responsive nowrap" id="kostbTable">
+				<thead class="tableHeaderField">
+					<tr>
+						<th>Op</th>
+						<th>Avd.</th>
+						<th>Opdnr</th>
+						<th>Ot</th>
+						<th>Fra</th>
+						<th>Nø</th>
+						<th>SK</th>
+						<th>Kundenr</th>
+						<th>Geb</th>
+						<th>Val</th>
+						<th>Beløp</th>
+						<th>Mko</th>
+						<th>Bel.til</th>
+						<th>innt.MVA</th>
+						<th>Vkt1</th>
+						<th>Vkt2</th>
+						<th>Ant</th>
+						<th>Budsjett</th>
+						<th>Diff%</th>
+						<th>Gren</th>
+						<th>Re</th>
+						<th>At</th>
+					</tr>
+				</thead>
+			</table>
+		</div>	
+
+
+
 
 	</form>
 
