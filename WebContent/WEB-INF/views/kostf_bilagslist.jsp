@@ -40,9 +40,9 @@
 			"sAjaxDataProp" : "",
 			"order" : [ [ 3, "desc" ] ],
 			"aoColumns" : [ {
-				"mData" : "kabnr2"
-			}, {
 				"mData" : "kabnr"
+			}, {
+				"mData" : "kabnr2"
 			}, {
 				"mData" : "kafnr"
 			},{
@@ -209,8 +209,8 @@
 		<table class="table table-striped table-bordered table-hover" id="kostaTable">
 			<thead class="tableHeaderField">
 				<tr>
-					<th>Bilagsnr</th>
 					<th>Innreg.nr</th>
+					<th>Bilagsnr</th>
 					<th>Fakturanr</th>
 					<th>Bilagsdato</th>
 					<th>Periode(mån)</th>

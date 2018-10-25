@@ -123,27 +123,15 @@ jq(function() {
 			    }
 			}
 		],
-		"sAjaxSource" : "/syjserviceskostf/kosta?user=FREDRIK",
+		"sAjaxSource" : "/syjserviceskostf/syjsKOSTB?user=FREDRIK",
 		"sAjaxDataProp" : "",
-		"order" : [ [ 3, "desc" ] ],
+		"order" : [ [ 1, "desc" ] ],
 		"aoColumns" : [ {
-			"mData" : "kabnr2"
+			"mData" : "kbbnr"
 		}, {
-			"mData" : "kabnr"
-		}, {
-			"mData" : "kafnr"
+			"mData" : "kbavd"
 		},{
-			"mData" : "kabdt"
-		},{
-			"mData" : "kapmn"
-		},{
-			"mData" : "kapår"
-		},{
-			"mData" : "kalnr"
-		},{
-			"mData" : "kasg"
-		},{
-			"mData" : "katxt"
+			"mData" : "kbopd"
 		}],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
@@ -151,12 +139,6 @@ jq(function() {
 		}
 
 	});
-	
-	
-	
-	
-	
-	
 	
 });  
 

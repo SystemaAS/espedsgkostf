@@ -1,9 +1,4 @@
 	var jq = jQuery.noConflict();
-  	var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Please wait...";
-  	
-	function setBlockUI(){
-    	  jq.blockUI({ css: { fontSize: '22px' }, message: BLOCKUI_OVERLAY_MESSAGE_DEFAULT});
-     }	
 
 	/*tooltip for jquery in order to fix all "title" in dropdowns ...
 	jq( function() {
@@ -17,7 +12,7 @@
 	var langMap = {
 			   'EN' : 'English',
 			   'DK' : 'Danish',
-			   'SE' : 'Swedish',
+			   'SV' : 'Swedish',
 			   'NO' : 'Norwegian-Bokmal'
 	}
 	//for setting user lang to datatables

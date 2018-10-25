@@ -25,9 +25,9 @@
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
 			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link active disabled">Bilag[${record.kabnr2}]</a>
-			<c:if test="${action == 2}"> <!-- READ -->
-				<a class="nav-item nav-link">Fordel kostnader[${record.kabnr2}]</a>
+			<a class="nav-item nav-link active disabled">Bilag[${record.kabnr}]</a>
+			<c:if test="${action == 3}"> <!-- UPDATE -->
+				<a class="nav-item nav-link" href="kostf_bilag_lines_list.do">Fordel kostnader[${record.kabnr}]</a>
 			</c:if>	
 		</div>
 	</nav>
@@ -36,6 +36,7 @@
 
 	<form action="kostf_bilag_edit.do" method="POST">
 		<input type="hidden" name="action" id="action" value='${action}'>
+	    <input type="hidden" name="kabnr" id="kabnr" value='${record.kabnr}'>
 
 		<div class="row left-right-border no-gutters">
 			<div class="col-sm-6">
@@ -56,9 +57,9 @@
 						</a>&nbsp;
 					</div>
 
-					<label for="kabnr" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
+					<label for="kabnr2" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
 					<div class="col-md-6">
-						<input type="number" class="form-control" name="kabnr" id="kabnr" value="${record.kabnr}" placeholder="bilagsnr">
+						<input type="number" class="form-control" name="kabnr2" id="kabnr2" value="${record.kabnr2}" placeholder="bilagsnr">
 					</div>
 
 				</div>
@@ -71,7 +72,7 @@
 				</div>
 
 				<div class="form-group form-row">
-					<label for="mnd" class="col-md-2 col-form-label col-form-label-sm">Period.(mån/år):</label>
+					<label for="kapmn" class="col-md-2 col-form-label col-form-label-sm">Period.(mån/år):</label>
 					<div class="col-md-5">
 						<input type="number" class="form-control w-25" name="kapmn" id="kapmn" value="${record.kapmn}" placeholder="mm">
 						<input type="number" class="form-control w-25" name="KAPÅR" id="KAPÅR" value="${record.KAPÅR}" placeholder="yy">
@@ -178,9 +179,9 @@
 				</div>
 	
 				<div class="form-group form-row">
-					<label for="oppdatert_bruker" class="col-md-2 col-form-label col-form-label-sm">Sist&nbsp;oppdaterat:</label>
+					<label for="kauser" class="col-md-2 col-form-label col-form-label-sm">Sist&nbsp;oppdaterat:</label>
 					<div class="col-md-10">
-						<input type="text" readonly class="form-control" id="oppdatert_bruker" value="${record.kauser}">
+						<input type="text" readonly class="form-control" id="kauser" value="${record.kauser}">
 						<input type="text" readonly class="form-control" id="oppdatert_dato" value="${record.opp_dato}">
 					</div>
 				</div>
