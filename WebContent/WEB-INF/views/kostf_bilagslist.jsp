@@ -9,66 +9,8 @@
 
 <script type="text/javascript">
 	"use strict";
-	var baseUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
+	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
-	
-	function load_data() {
-		var runningUrl;
-		runningUrl= getRunningUrl(baseUrl);
-		console.log("runningUrl=" + runningUrl);
-
-		jq.blockUI({
-			message : BLOCKUI_OVERLAY_MESSAGE_DEFAULT
-		});
-
-		var kostaTable = jq('#kostaTable').DataTable({
- 			"dom" : '<"top">t<"bottom"flip><"clear">',
- 			responsive : true,
-			select : true,
-			destroy : true,
-			"columnDefs" : [ 
-				{
-					"targets" : 0,
-				    "render": function ( data, type, row, meta ) {
-				    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
-				    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
-				    	return href;
-				    }
-				}
-			],
-			"sAjaxSource" : runningUrl,
-			"sAjaxDataProp" : "",
-			"order" : [ [ 3, "desc" ] ],
-			"aoColumns" : [ {
-				"mData" : "kabnr"
-			}, {
-				"mData" : "kabnr2"
-			}, {
-				"mData" : "kafnr"
-			},{
-				"mData" : "kabdt"
-			},{
-				"mData" : "kapmn"
-			},{
-				"mData" : "kapår"
-			},{
-				"mData" : "kalnr"
-			},{
-				"mData" : "kasg"
-			},{
-				"mData" : "katxt"
-			}],
-			"lengthMenu" : [ 25, 75, 100 ],
-			"language" : {
-				"url" : getLanguage('NO')
-			}
-
-		});
-
-		jq.unblockUI();
-
-		
-	}  //load_data
 
 	jq(document).ready(function() {
 		//init search, with signatur
@@ -88,7 +30,7 @@
 	    <a class="nav-item nav-link active disabled">Bilager
 			<img style="vertical-align: middle;" src="resources/images/list.gif">
 	    </a>
-		<a class="nav-item nav-link nav-new" onClick="setBlockUI(this);" href="${bilagUrl_create}">Lage ny bilag</a>
+		<a class="nav-item nav-link nav-new" onClick="setBlockUI();" href="${bilagUrl_create}">Lage ny bilag</a>
 		
 	  </div>
 	</nav>
@@ -197,7 +139,7 @@
 		</div>
 
 		<div class="col-6 align-self-end p-1">
-			<button class="btn inputFormSubmit" onclick="load_data()" id="submitBtn"  autofocus>Søk</button>
+			<button class="btn inputFormSubmit" onclick="loadKosta()" id="submitBtn"  autofocus>Søk</button>
 		</div>	
 	
 	

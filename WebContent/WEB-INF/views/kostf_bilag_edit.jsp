@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
 	"use strict";
-	
+
 	jq(document).ready(function() {
 		//enable tooltip
  		jq('[data-toggle="tooltip"]').tooltip();
@@ -25,9 +25,9 @@
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
 			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link active disabled">Bilag[${record.kabnr}]</a>
+			<a class="nav-item nav-link active disabled">Bilag[${sessionParams.kabnr}]</a>
 			<c:if test="${action == 3}"> <!-- UPDATE -->
-				<a class="nav-item nav-link" href="kostf_bilag_lines_list.do">Fordel kostnader[${record.kabnr}]</a>
+				<a class="nav-item nav-link" href="${bilagLinesUrl_read}">Fordel kostnader[${sessionParams.kabnr}]</a>
 			</c:if>	
 		</div>
 	</nav>
@@ -36,7 +36,7 @@
 
 	<form action="kostf_bilag_edit.do" method="POST">
 		<input type="hidden" name="action" id="action" value='${action}'>
-	    <input type="hidden" name="kabnr" id="kabnr" value='${record.kabnr}'>
+	    <input type="hidden" name="kabnr" id="kabnr" value='${sessionParams.kabnr}'>
 
 		<div class="row left-right-border no-gutters">
 			<div class="col-sm-6">

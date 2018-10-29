@@ -1,7 +1,100 @@
 var jq = jQuery.noConflict();
 var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 
-function getRunningUrl(baseUrl) {
+function loadKosta() {
+	let runningUrl;
+	runningUrl= getRunningKostaUrl(kostaUrl);
+	console.log("runningUrl=" + runningUrl);
+
+	let kostaTable = jq('#kostaTable').DataTable({
+			"dom" : '<"top">t<"bottom"flip><"clear">',
+			responsive : true,
+		select : true,
+		destroy : true,
+		"columnDefs" : [ 
+			{
+				"targets" : 0,
+			    "render": function ( data, type, row, meta ) {
+			    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
+			    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
+			    	return href;
+			    }
+			}
+		],
+		"sAjaxSource" : runningUrl,
+		"sAjaxDataProp" : "",
+		"order" : [ [ 3, "desc" ] ],
+		"aoColumns" : [ {
+			"mData" : "kabnr"
+		}, {
+			"mData" : "kabnr2"
+		}, {
+			"mData" : "kafnr"
+		},{
+			"mData" : "kabdt"
+		},{
+			"mData" : "kapmn"
+		},{
+			"mData" : "kapår"
+		},{
+			"mData" : "kalnr"
+		},{
+			"mData" : "kasg"
+		},{
+			"mData" : "katxt"
+		}],
+		"lengthMenu" : [ 25, 75, 100 ],
+		"language" : {
+			"url" : getLanguage('NO')
+		}
+
+	});
+
+	
+}  //loadKosta
+
+
+function loadKostb() {
+	let runningUrl;
+	console.log('kabnr',kabnr);
+	runningUrl= getRunningKostbUrl();
+	console.log("runningUrl=" + runningUrl);
+	
+	let kostbTable = jq('#kostbTable').DataTable({
+		"dom" : '<"top">t<"bottom"flip><"clear">',
+		responsive : true,
+		select : true,
+		destroy : true,
+		"columnDefs" : [ 
+			{
+				"targets" : 0,
+			    "render": function ( data, type, row, meta ) {
+			    	var url= 'TODO';
+			    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
+			    	return href;
+			    }
+			}
+		],
+		"sAjaxSource" : runningUrl,
+		"sAjaxDataProp" : "",
+		"order" : [ [ 1, "desc" ] ],
+		"aoColumns" : [ {
+			"mData" : "kbbnr"
+		}, {
+			"mData" : "kbavd"
+		},{
+			"mData" : "kbopd"
+		}],
+		"lengthMenu" : [ 25, 75, 100 ],
+		"language" : {
+			"url" : getLanguage('NO')
+		}
+
+	});
+	
+} //loadKostb
+
+function getRunningKostaUrl(kostaUrl) {
 		
 		var selectedBilagsnr = jq('#selectBilagsnr').val();
 		var selectedInnregnr = jq('#selectInnregnr').val();
@@ -18,7 +111,7 @@ function getRunningUrl(baseUrl) {
 		var selectedFrisokTxt = jq('#selectFrisokTxt').val();			
 		
 		
-		let runningUrl = baseUrl;
+		let runningUrl = kostaUrl;
 		
 		if (selectedBilagsnr != "") {
 			runningUrl = runningUrl + "&bilagsnr=" + selectedBilagsnr;
@@ -64,6 +157,20 @@ function getRunningUrl(baseUrl) {
 		
 }
 
+function getRunningKostbUrl() {
+	console.log("kostbUrl",kostbUrl);
+	
+	let runningUrl = kostbUrl;
+
+	runningUrl = runningUrl + "&innregnr=" + kabnr;
+	
+	console.log("runningUrl", runningUrl);
+	
+	return runningUrl;
+}
+
+
+
 jq(function() {
 	jq("#selectFradato").datepicker({
 		dateFormat: 'yymmdd'
@@ -108,37 +215,6 @@ jq(function() {
 	}); 		
 	
 
-	jq('#kostbTable').DataTable({
-		"dom" : '<"top">t<"bottom"flip><"clear">',
-		responsive : true,
-		select : true,
-		destroy : true,
-		"columnDefs" : [ 
-			{
-				"targets" : 0,
-			    "render": function ( data, type, row, meta ) {
-			    	var url= 'TODO';
-			    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
-			    	return href;
-			    }
-			}
-		],
-		"sAjaxSource" : "/syjserviceskostf/syjsKOSTB?user=FREDRIK",
-		"sAjaxDataProp" : "",
-		"order" : [ [ 1, "desc" ] ],
-		"aoColumns" : [ {
-			"mData" : "kbbnr"
-		}, {
-			"mData" : "kbavd"
-		},{
-			"mData" : "kbopd"
-		}],
-		"lengthMenu" : [ 25, 75, 100 ],
-		"language" : {
-			"url" : getLanguage('NO')
-		}
-
-	});
 	
 });  
 

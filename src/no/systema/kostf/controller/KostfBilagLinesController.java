@@ -84,19 +84,21 @@ public class KostfBilagLinesController {
 	@RequestMapping(value="kostf_bilag_lines_edit.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doEditLines( @ModelAttribute ("record") KostbDao record, 
 								@RequestParam(value = "action", required = true) Integer action,
-								@RequestParam(value = "kabnr", required = true) Integer kabnr,
 								BindingResult bindingResult, HttpSession session, HttpServletRequest request){
 		
-		ModelAndView successView = new ModelAndView("kostf_bilag_edit"); 
+		ModelAndView successView = new ModelAndView("kostf_bilag_lines_edit"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
-	
-		logger.info("kabnr="+kabnr);
+
+		StringBuilder bilagUrl_read = new StringBuilder("kostf_bilag_edit.do");
+		
 		
 		KostbDao returnDao = null;  //holding values for UI
 		
 		if (appUser == null) {
 			return loginView;
 		} else {
+			BilagSessionParams sessionParams = (BilagSessionParams) session.getAttribute("sessionParams");
+
 			if (action.equals(CRUDEnum.CREATE.getValue())) {
 				logger.info("Create...");
 //				returnDto = getDtoCreated();
@@ -106,10 +108,18 @@ public class KostfBilagLinesController {
 				updateRecord(appUser, record);
 			} 
 			
-			returnDao = fetchRecord(appUser, kabnr, CRUDEnum.READ);
+//			returnDao = fetchRecord(appUser, sessionParams.getKabnr(), CRUDEnum.READ);
+			logger.info("sessionParams.getKabnr()="+sessionParams.getKabnr());
+//			logger.info("returnDao.getKbbnr()"+returnDao.getKbbnr());
+
+//			successView.addObject("record", returnDao);
 			
-			successView.addObject("record", returnDao);
+			bilagUrl_read.append("?kabnr=").append(sessionParams.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
+			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
+
+			
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
+			
 			
 			return successView;
 		}		
@@ -138,32 +148,33 @@ public class KostfBilagLinesController {
 		//TODO check response for error.
 		
 	}
-	private KostbDao fetchRecord(SystemaWebUser appUser, Integer kabnr, CRUDEnum action) {
-		String BASE_URL = KostfUrlDataStore.KOSTB_BASE_MAIN_URL;
-		StringBuilder urlRequestParams = new StringBuilder();
-		urlRequestParams.append("?user=" + appUser.getUser());
-		urlRequestParams.append("&innregnr=" + kabnr);
-		urlRequestParams.append("&action=" + action.getValue());
-		logger.info("Full url: " + BASE_URL +urlRequestParams.toString());
 
-		ResponseEntity<List<KostbDao>> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(),
-				HttpMethod.GET, null, new ParameterizedTypeReference<List<KostbDao>>() {});
-		List<KostbDao> kostbList = response.getBody();		
-		logger.info("kostaList size="+kostbList.size());	
-
-		//Sanity check
-		if (kostbList.size() > 1) {  //implicit: kostaList cannot be null
-			throw new RuntimeException("fetchRecord for innregnr :"+kabnr+ " gives more than one row!");
-		}
-
-		if (kostbList.get(0) != null) {
-			KostaDto dto = new KostaDto();
-			return kostbList.get(0);
-		} else {
-			return null;
-		}
-
-	}
+//	private KostbDao fetchRecord(SystemaWebUser appUser, Integer kabnr, CRUDEnum action) {
+//		String BASE_URL = KostfUrlDataStore.KOSTB_BASE_MAIN_URL;
+//		StringBuilder urlRequestParams = new StringBuilder();
+//		urlRequestParams.append("?user=" + appUser.getUser());
+//		urlRequestParams.append("&innregnr=" + kabnr);
+//		urlRequestParams.append("&action=" + action.getValue());
+//		logger.info("Full url: " + BASE_URL +urlRequestParams.toString());
+//
+//		ResponseEntity<List<KostbDao>> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(),
+//				HttpMethod.GET, null, new ParameterizedTypeReference<List<KostbDao>>() {});
+//		List<KostbDao> kostbList = response.getBody();		
+//		logger.info("kostbList size="+kostbList.size());	
+//
+//		//Sanity check
+//		if (kostbList.size() > 1) {  //implicit: kostaList cannot be null
+//			throw new RuntimeException("fetchRecord for innregnr :"+kabnr+ " gives more than one row!");
+//		}
+//
+//		if (kostbList.get(0) != null) {
+//			KostaDto dto = new KostaDto();
+//			return kostbList.get(0);
+//		} else {
+//			return null;
+//		}
+//
+//	}
 	
 
 //	public void xyz() {

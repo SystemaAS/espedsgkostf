@@ -10,9 +10,12 @@
 <script type="text/javascript">
 	"use strict";
 
-	var baseUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
-	var bilagLinesUrl_read = "kostf_bilag_lines_edit.do?user=${user.user}&action=2";	
+	var kostbUrl = "/syjserviceskostf/syjsKOSTB?user=${user.user}";
+	var kabnr = "${sessionParams.kabnr}";
 	
+	jq(document).ready(function() {
+		loadKostb();
+	});	
 	
 </script>
 
@@ -22,9 +25,9 @@
 
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link" href="kostf_bilag_lines_list.do">Bilag linjer[${record.kabnr}]</a>
-			<a class="nav-item nav-link active disabled" href="kostf_bilag_lines_list.do">Fordel kostnader[${record.kabnr}]</a>
+			<a class="nav-item nav-link" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
+			<a class="nav-item nav-link" href="${bilagUrl_read}">Bilag[${sessionParams.kabnr}]</a>
+			<a class="nav-item nav-link active disabled">Fordel kostnader[${sessionParams.kabnr}]</a>
 			
 		</div>
 	</nav>
@@ -39,9 +42,9 @@
 			<table class="table table-striped table-bordered table-hover dt-responsive nowrap" id="kostbTable">
 				<thead class="tableHeaderField">
 					<tr>
-						<th>1</th>
-						<th>2</th>
-						<th>3</th>
+						<th>kbbnr</th>
+						<th>kbavd</th>
+						<th>kbopd</th>
 					</tr>
 				</thead>
 			</table>

@@ -46,14 +46,6 @@ public class KostfBilagsListController {
 	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
 	private LoginValidator loginValidator = new LoginValidator();
 	
-//	@Qualifier ("urlCgiProxyService")
-//	private UrlCgiProxyService urlCgiProxyService;
-//	@Autowired
-//	@Required
-//	public void setUrlCgiProxyService (UrlCgiProxyService value){ this.urlCgiProxyService = value; }
-//	public UrlCgiProxyService getUrlCgiProxyService(){ return this.urlCgiProxyService; }
-	
-	
 	@Autowired
 	RestTemplate restTemplate;
 	
@@ -62,14 +54,14 @@ public class KostfBilagsListController {
 		ModelAndView successView = new ModelAndView("kostf_bilagslist"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
-		StringBuilder bilagUrl = new StringBuilder("kostf_bilag_edit.do");
+		StringBuilder bilagUrl_create = new StringBuilder("kostf_bilag_edit.do");
 	
 		if (appUser == null) {
 			return loginView;
 		} else {
 			
-			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
-			successView.addObject("bilagUrl_create", bilagUrl.toString());
+			bilagUrl_create.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
+			successView.addObject("bilagUrl_create", bilagUrl_create.toString());
 			
 			return successView;
 		}		
@@ -82,7 +74,6 @@ public class KostfBilagsListController {
 	 * Note: Outbound is KostaDto used, since concat of values is needed. Inbound is KostaDao used.
 	 * 
 	 * @param action
-	 * @param kabnr
 	 * @param session
 	 * @param request
 	 * @return {@linkplain KostaDto}
@@ -94,7 +85,10 @@ public class KostfBilagsListController {
 		
 		ModelAndView successView = new ModelAndView("kostf_bilag_edit"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
-	
+
+		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_edit.do");		
+		
+		BilagSessionParams sessionParams = new BilagSessionParams();
 		KostaDto returnDto = null;  //holding values for UI
 		
 		if (appUser == null) {
@@ -109,12 +103,21 @@ public class KostfBilagsListController {
 				updateRecord(appUser, record);
 			} 
 			
+			sessionParams.setKabnr(record.getKabnr());
+			session.setAttribute("sessionParams", sessionParams);
+
 			returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
-			
 			successView.addObject("record", returnDto);
+
+			bilagLinesUrl_read.append("?innregnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 		
+			successView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
+
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			
+			
+			
 			return successView;
+			
 		}		
 		
 	}	
@@ -156,7 +159,7 @@ public class KostfBilagsListController {
 
 		//Sanity check
 		if (kostaList.size() > 1) {  //implicit: kostaList cannot be null
-			throw new RuntimeException("fetchRecord for innregnr :"+kabnr+ " gives more than one row!");
+			throw new RuntimeException("fetchRecord for kabnr :"+kabnr+ " gives more than one row!");
 		}
 
 		if (kostaList.get(0) != null) {
