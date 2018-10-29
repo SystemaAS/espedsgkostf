@@ -117,11 +117,10 @@ public class KostfBilagLinesController {
 			bilagUrl_read.append("?kabnr=").append(sessionParams.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
 			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
 
-			
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			
-			
 			return successView;
+
 		}		
 		
 	}	

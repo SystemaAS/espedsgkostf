@@ -16,7 +16,7 @@ public final class KostfUrlDataStore {
 	//----------------------
 	//[1] FETCH MAIN LIST
 	//----------------------
-	/**http://localhost:8080/syjserviceskostf/syjsKOSTA.do?user=OSCAR&kabnr=10&kabnr=2*/
+	/**http://localhost:8080/syjserviceskostf/syjsKOSTA?user=SYSTEMA&bilagsnr=10218&innregnr=2001057*/
 	static public String KOSTA_BASE_MAIN_URL = AppConstants.HTTP_ROOT_SERVLET_JSERVICES + "/syjserviceskostf/syjsKOSTA.do";
 
 	/**http://localhost:8080/syjserviceskostf/syjsKOSTB.do?user=OSCAR&kabnr=10 */

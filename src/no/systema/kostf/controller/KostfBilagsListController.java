@@ -94,6 +94,9 @@ public class KostfBilagsListController {
 		if (appUser == null) {
 			return loginView;
 		} else {
+			sessionParams.setKabnr(record.getKabnr());
+			session.setAttribute("sessionParams", sessionParams);
+
 			if (action.equals(CRUDEnum.CREATE.getValue())) {
 				logger.info("Create...");
 //				returnDto = getDtoCreated();
@@ -101,17 +104,21 @@ public class KostfBilagsListController {
 			}  else if (action.equals(CRUDEnum.UPDATE.getValue())) {
 				logger.info("Update...");
 				updateRecord(appUser, record);
+				returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
+				successView.addObject("record", returnDto);
+				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 		
+				successView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
+
+				
+			} else if (action.equals(CRUDEnum.READ.getValue())) {
+				logger.info("Read...");
+				returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
+				successView.addObject("record", returnDto);
+				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 		
+				successView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
+
 			} 
 			
-			sessionParams.setKabnr(record.getKabnr());
-			session.setAttribute("sessionParams", sessionParams);
-
-			returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
-			successView.addObject("record", returnDto);
-
-			bilagLinesUrl_read.append("?innregnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 		
-			successView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
-
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			
 			return successView;

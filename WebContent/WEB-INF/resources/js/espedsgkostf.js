@@ -159,7 +159,7 @@ function getRunningKostaUrl(kostaUrl) {
 
 function getRunningKostbUrl() {
 	let runningUrl = kostbUrl;
-	runningUrl = runningUrl + "&innregnr=" + kabnr;
+	runningUrl = runningUrl + "&kbbnr=" + kabnr;
 	console.log("runningUrl", runningUrl);
 	
 	return runningUrl;
