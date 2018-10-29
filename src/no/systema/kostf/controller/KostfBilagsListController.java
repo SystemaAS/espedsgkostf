@@ -114,8 +114,6 @@ public class KostfBilagsListController {
 
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			
-			
-			
 			return successView;
 			
 		}		
@@ -172,56 +170,6 @@ public class KostfBilagsListController {
 
 	}
 	
-
-//	public void xyz() {
-//		HttpEntity<ApiKey> entityHeadersOnly = authorization.getHttpEntity(firmaltDao);
-//		ResponseEntity<String> responseEntity = null;
-//		
-//		try {
-//
-//			responseEntity = restTemplate().exchange(uri, HttpMethod.GET, entityHeadersOnly, String.class); 
-//
-//			if (responseEntity.getStatusCode() != HttpStatus.OK) {
-//				logger.error("Error in getMessage for " + uri);
-//				throw new RuntimeException(responseEntity.getStatusCode().toString());
-//			}
-//			logger.debug("getMessage:responseEntity.getBody"+responseEntity.getBody());
-//	
-//	        return HalHelper.getMessage(responseEntity.getBody());
-//	        
-//		} catch (Exception e) {
-//			String errMessage = String.format(" request failed: %s", e.getLocalizedMessage());
-//			logger.warn(errMessage, e);
-//			throw new RuntimeException(errMessage);
-//		}
-//	}
-	
-	
-	
-	
-//	private KostaDto getDtoUpdated(KostaDto dto) {
-//		KostaDao qDao = new KostaDao();
-//		qDao.setKabnr(dto.getKabnr());
-//		KostaDao dao = kostaDaoService.find(qDao);
-//
-//		setDaoValues(dao, dto);
-//		
-//		return kostaDaoService.update(dao);
-//	}
-//
-//
-//	private KostaDto getDto(Integer kabnr) {
-//		KostaDao qDao = new KostaDao();
-//		KostaDto dto = new KostaDto();
-//		qDao.setKabnr(kabnr);
-//		KostaDao resultDao = kostaDaoService.find(qDao);
-//
-//		setDtoValues(dto, resultDao);
-//		
-//		return dto;
-//		
-//	}
-
 	private void setDtoValues(KostaDto dto, KostaDao dao) {
 		dto.setKabb(dao.getKabb());
 		dto.setKabdt(dao.getKabdt());
@@ -248,12 +196,6 @@ public class KostfBilagsListController {
 		dto.setReg_dato(DateTimeManager.getDateTime(dao.getKadtr(),dao.getKatdr()));
 	}
 
-	private void setDaoValues(KostaDao dao, KostaDto dto) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 	
 }
 
