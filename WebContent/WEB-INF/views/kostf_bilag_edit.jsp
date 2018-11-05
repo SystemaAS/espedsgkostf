@@ -7,15 +7,82 @@
 
 <link href="resources/espedsgkostf.css" rel="stylesheet" type="text/css"/>
 
+
+<style>
+
+
+</style>
+
+
+
 <script type="text/javascript">
 	"use strict";
 
+	var kosttUrl = "/syjserviceskostf/syjsKOSTT";
+	
 	jq(document).ready(function() {
 		//enable tooltip
  		jq('[data-toggle="tooltip"]').tooltip();
-	});	
-	
-	
+
+ 		jq.ajax({
+ 			  type: 'GET',
+ 			  url: kosttUrl,
+ 			  data: { user : '${user.user}'},
+ 			  dataType: 'json',
+ 			  cache: false,
+ 			  contentType: 'application/json',
+ 			  success: function(data) {
+ 			  	var len = data.length;
+ 			  	var i = 0;
+ 				var select_data = [];
+ 			  	_.each(data, function( d) {
+ 			  		select_data.push({
+//  			  	        id: i++,
+//  			  	        text: d.kttyp
+ 			  	        id: d.kttyp,
+ 			  	        text: d.kttyp
+ 			  		});
+ 			  	 });
+
+//  			  	console.log('select_data, i ajax-call.',select_data);
+ 			  	
+ 			  	//Inject dropdown
+ 				jq('.bilagsserie-data-ajax').select2({
+ 					 data: select_data,
+ 					 language: "no"
+ 				})	
+// 	 			// Bind an event
+//  				jq('.bilagsserie-data-ajax').on('select2:select', function (e) { 
+//  				    console.log('select event');
+ 				    
+//  				   var x = jq('.bilagsserie-data-ajax').find(':selected');
+//  				    console.log('x',x);
+ 				 
+//  				}); 			  	
+
+ 			  	
+ 			  }, 
+ 			  error: function (jqXHR, exception) {
+ 				    alert('Error loading ...look in console log.');
+ 				    console.log(jqXHR);
+ 			  }	
+ 		});		
+ 		
+ 
+
+		jq('.bilagsserie-data-ajax').change(function() {
+			//  		    var id = jq('.bilagsserie-data-ajax').val(); // works
+			// 		    console.log('Selected ID: ' + id);
+
+			var selected = jq('.bilagsserie-data-ajax').select2('data');
+			console.log('selected', selected[0].text);
+			console.log("jq('#kttyp').val 1", jq('#kttyp').val());
+			jq('#kttyp').val(selected[0].text);
+			console.log("jq('#kttyp').val 2", jq('#kttyp').val());
+
+		});
+
+	});
 </script>
 
 <div class="container-fluid">
@@ -37,6 +104,7 @@
 	<form action="kostf_bilag_edit.do" method="POST">
 		<input type="hidden" name="action" id="action" value='${action}'>
 	    <input type="hidden" name="kabnr" id="kabnr" value='${sessionParams.kabnr}'>
+	    <input type="hidden" name="kttyp" id="kttyp" value='${record.kttyp}'>
 
 		<div class="row left-right-border no-gutters">
 			<div class="col-sm-6">
@@ -46,23 +114,29 @@
 					</div>
 				</div>
 
+		<c:if test="${action == 1}"> <!-- CREATE -->
 				<div class="form-group form-row">
-					<label for="bilagsserie" class="col-md-2 col-form-label col-form-label-sm">Bilagsserie:</label>
-					<div class="col-md-1">
-						<input type="text" class="form-control w-100" id="bilagsserie" value="TODO" placeholder="bilagsserie">
-					</div>
-					<div class="col-md-1">
-						<a tabindex="-1" id="bilagsserie_Link">
-							<img style="cursor:pointer;vertical-align: middle;" src="resources/images/find.png" width="14px" height="14px">
-						</a>&nbsp;
+					<label for="kttyp" class="col-md-2 col-form-label col-form-label-sm">Bilagsserie:</label>
+					<div class="col-md-2">
+						<select class="bilagsserie-data-ajax" style="width:100%"></select>
+						<!--  input type="text" class="form-control w-100" id="bilagsserie" value="TODO" placeholder="bilagsserie"-->
 					</div>
 
 					<label for="kabnr2" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
 					<div class="col-md-6">
 						<input type="number" class="form-control" name="kabnr2" id="kabnr2" value="${record.kabnr2}" placeholder="bilagsnr">
 					</div>
-
 				</div>
+		</c:if>
+
+		<c:if test="${action == 3}"> <!-- UPDATE -->
+				<div class="form-group form-row">
+					<label for="kabnr2" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
+					<div class="col-md-8">
+						<input type="number" class="form-control" name="kabnr2" id="kabnr2" value="${record.kabnr2}" placeholder="bilagsnr">
+					</div>
+				</div>
+		</c:if>
 
 				<div class="form-group form-row">
 					<label for="kabdt" class="col-md-2 col-form-label col-form-label-sm">Bilagsdato:</label>
@@ -78,7 +152,7 @@
 						<input type="number" class="form-control w-25" name="KAPÅR" id="KAPÅR" value="${record.KAPÅR}" placeholder="yy">
 					</div>
 				</div>
-
+	
 				<div class="form-group form-row">
 					<label for="katxt" class="col-md-2 col-form-label col-form-label-sm">Bilagskomm.:</label>
 					<div class="col-md-9">

@@ -24,7 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import no.systema.jservices.common.dao.KostaDao;
-import no.systema.jservices.common.dao.KostbDao;
 import no.systema.jservices.common.dto.KostaDto;
 import no.systema.jservices.common.util.DateTimeManager;
 import no.systema.jservices.common.values.CRUDEnum;
@@ -46,20 +45,24 @@ public class KostfBilagsListController {
 	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
 	private LoginValidator loginValidator = new LoginValidator();
 	
+	private static String SESSION_PARAMS = "sessionParams";
+	
 	@Autowired
 	RestTemplate restTemplate;
 	
 	@RequestMapping(value="kostf_bilagslist.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
 		ModelAndView successView = new ModelAndView("kostf_bilagslist"); 
+//		ModelAndView successView = new ModelAndView("NewFile"); 
+
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
-		StringBuilder bilagUrl_create = new StringBuilder("kostf_bilag_edit.do");
 	
 		if (appUser == null) {
 			return loginView;
 		} else {
-			
+
+			StringBuilder bilagUrl_create = new StringBuilder("kostf_bilag_edit.do");
 			bilagUrl_create.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
 			successView.addObject("bilagUrl_create", bilagUrl_create.toString());
 			
@@ -71,7 +74,7 @@ public class KostfBilagsListController {
 	/**
 	 * This method supports CRU on {@linkplain KostaDao}.
 	 * 
-	 * Note: Outbound is KostaDto used, since concat of values is needed. Inbound is KostaDao used.
+	 * Note: Outbound is KostaDto used, since concat of values is needed. Inbound is KostaDao used.  TODO overhaul....
 	 * 
 	 * @param action
 	 * @param session
@@ -79,7 +82,7 @@ public class KostfBilagsListController {
 	 * @return {@linkplain KostaDto}
 	 */
 	@RequestMapping(value="kostf_bilag_edit.do", method={RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView doEdit( @ModelAttribute ("record") KostaDao record, 
+	public ModelAndView doEdit( @ModelAttribute ("record") KostaDto record, 
 								@RequestParam(value = "action", required = true) Integer action,
 								BindingResult bindingResult, HttpSession session, HttpServletRequest request){
 		
@@ -88,24 +91,38 @@ public class KostfBilagsListController {
 
 		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_edit.do");		
 		
-		BilagSessionParams sessionParams = new BilagSessionParams();
+		BilagSessionParams sessionParams =  (BilagSessionParams) session.getAttribute(SESSION_PARAMS);
 		KostaDto returnDto = null;  //holding values for UI
+		
+		logger.info("sessionParams="+sessionParams);
+		logger.info("doEdit, record="+ReflectionToStringBuilder.reflectionToString(record));
 		
 		if (appUser == null) {
 			return loginView;
 		} else {
-			sessionParams.setKabnr(record.getKabnr());
-			session.setAttribute("sessionParams", sessionParams);
 
 			if (action.equals(CRUDEnum.CREATE.getValue())) {
-				logger.info("Create...");
-//				returnDto = getDtoCreated();
-//				returnDto = new KostaDto();
+				if (sessionParams == null) {
+					logger.info("Create init...");
+					sessionParams = new BilagSessionParams();
+					session.setAttribute(SESSION_PARAMS, sessionParams);
+					returnDto = new KostaDto();
+				} else {
+					logger.info("Create save...");
+					KostaDao resultDao = saveRecord(appUser, record, "A");
+					returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ); //TODO get kabnr
+					
+					sessionParams.setKabnr(record.getKabnr());
+					session.setAttribute(SESSION_PARAMS, sessionParams);
+				
+				}
+				//Set callback state
+				successView.addObject("action", CRUDEnum.CREATE.getValue());
+
 			}  else if (action.equals(CRUDEnum.UPDATE.getValue())) {
 				logger.info("Update...");
-				updateRecord(appUser, record);
+				saveRecord(appUser, record, "U");
 				returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
-				successView.addObject("record", returnDto);
 				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 		
 				successView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 
@@ -113,13 +130,12 @@ public class KostfBilagsListController {
 			} else if (action.equals(CRUDEnum.READ.getValue())) {
 				logger.info("Read...");
 				returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
-				successView.addObject("record", returnDto);
 				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 		
 				successView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 
 			} 
-			
-			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
+
+			successView.addObject("record", returnDto);
 			
 			return successView;
 			
@@ -128,13 +144,16 @@ public class KostfBilagsListController {
 	}	
 
 	
-	private void updateRecord(SystemaWebUser appUser, KostaDao record) {
-		logger.info("updateRecord::record::"+ReflectionToStringBuilder.toString(record));
+	private KostaDao saveRecord(SystemaWebUser appUser, KostaDto record, String mode) {
+		logger.info("saveRecord::record::"+ReflectionToStringBuilder.toString(record));
 		MultiValueMap<String, String> recordParams = UrlRequestParameterMapper.getUriParameter(record);
-
+//		if ("A".equals(mode)) {
+//			recordParams.add("kttyp", "A");
+//		}
+		
 	    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(KostfUrlDataStore.KOSTA_BASE_DML_UPDATE_URL)
 		        .queryParam("user", appUser.getUser())
-		        .queryParam("mode", "U")
+		        .queryParam("mode", mode)
 		        .queryParam("lang", appUser.getUsrLang())
 		        .queryParams(recordParams);
 
@@ -148,8 +167,13 @@ public class KostfBilagsListController {
 		
 		//TODO check response for error.
 		
+		//TODO retur dao
+		return null;
+		
+		
 	}
 	private KostaDto fetchRecord(SystemaWebUser appUser, Integer kabnr, CRUDEnum action) {
+		logger.info("fetchRecord::kabnr::"+kabnr);
 		String BASE_URL = KostfUrlDataStore.KOSTA_BASE_MAIN_URL;
 		StringBuilder urlRequestParams = new StringBuilder();
 		urlRequestParams.append("?user=" + appUser.getUser());
