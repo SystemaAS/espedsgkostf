@@ -11,13 +11,14 @@
 	"use strict";
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
+	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
 	jq(document).ready(function() {
 		//init search, with signatur
 		jq("#selectAttkode").val('${user.signatur}');
 		jq("#submitBtn").click();
 	});
-	
+
 	
 </script>
 
@@ -160,13 +161,12 @@
 					<th>Leverandørnr</th>
 					<th>Att.kode</th>
 					<th>Kommentar</th>
+					<th class="delete">Slett</th>					
 				</tr>
 			</thead>
 		</table>
 	</div>	
  
-
-  
 </div>
 
 <!-- ======================= footer ===========================-->

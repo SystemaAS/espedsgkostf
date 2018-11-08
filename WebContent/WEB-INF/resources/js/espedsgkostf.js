@@ -1,16 +1,31 @@
 var jq = jQuery.noConflict();
 var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 
+var table;
+
+
 function loadKosta() {
 	let runningUrl;
 	runningUrl= getRunningKostaUrl(kostaUrl);
 	console.log("runningUrl=" + runningUrl);
 
-	let kostaTable = jq('#kostaTable').DataTable({
-			"dom" : '<"top">t<"bottom"flip><"clear">',
-			responsive : true,
-		select : true,
+	console.log('table',table);
+	
+	if (table != null) {
+//		table.ajax.reload();
+		
+		table.ajax.url( runningUrl ).load();
+		return;
+	}
+	
+	table = jq('#kostaTable').DataTable({
+		"dom" : '<"top">t<"bottom"flip><"clear">',
+        "ajax": {
+            "url": runningUrl,
+            "dataSrc": ""
+        },		
 		destroy : true,
+		select : true,
 		"columnDefs" : [ 
 			{
 				"targets" : 0,
@@ -18,38 +33,71 @@ function loadKosta() {
 			    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
 			    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
 			    	return href;
+			    }		
+			},
+			{
+				"targets" : -1,
+			    "render": function ( data, type, row, meta ) {
+               		return '<a>' +
+           			'<img title="Slett post" src="resources/images/delete.gif">' +
+           			'</a>'    	
 			    }
 			}
-		],
-		"sAjaxSource" : runningUrl,
-		"sAjaxDataProp" : "",
-		"order" : [ [ 3, "desc" ] ],
-		"aoColumns" : [ {
-			"mData" : "kabnr"
-		}, {
-			"mData" : "kabnr2"
-		}, {
-			"mData" : "kafnr"
-		},{
-			"mData" : "kabdt"
-		},{
-			"mData" : "kapmn"
-		},{
-			"mData" : "kapår"
-		},{
-			"mData" : "kalnr"
-		},{
-			"mData" : "kasg"
-		},{
-			"mData" : "katxt"
-		}],
+			
+		],		
+        "columns": [
+            { "data": "kabnr" },
+            { "data": "kabnr2" },
+            { "data": "kafnr" },
+            { "data": "kabdt" },
+            { "data": "kapmn" },
+            { "data": "kapår" },
+            { "data": "kalnr" },
+            { "data": "kasg" },
+            { "data": "katxt" },
+            { "data": null }
+        ],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
 			"url" : getLanguage('NO')
-		}
+		}        
 
 	});
 
+	table.on( 'click', 'img', function () {
+        let data = table.row( jq(this).parents('tr') ).data();
+        alert("kabnr="+ data['kabnr']);
+        
+        bilagUrl_delete = bilagUrl_delete + "&kabnr="+data['kabnr'];
+        
+        jq('<div></div>').dialog({
+        	title: "Slett innregnr. " + data['kabnr'] + " - bilagsnr. " + data['kabnr2'],
+        	resizable: false,
+            height: "auto",
+            width: 500,
+            modal: true,
+            buttons: {
+            	Fortsett: function() {
+                jq( this ).dialog( "close" );
+        		setBlockUI();
+        		
+        		console.log('bilagUrl_delete',bilagUrl_delete);
+        		
+	            window.location = bilagUrl_delete;
+              },
+              	Avbryt: function() {
+                jq( this ).dialog( "close" );
+              }
+            },
+	        open: function() {
+		  		  var markup = "Er du sikker på at du vil slette denne?";
+		          jq(this).html(markup);
+		          jq(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
+		     }            
+          });        
+    
+    } );	
+	
 	
 }  //loadKosta
 

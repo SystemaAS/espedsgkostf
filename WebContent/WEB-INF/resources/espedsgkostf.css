@@ -64,3 +64,9 @@ select.form-control:not([size]):not([multiple]) {
     color: black;
     font-weight: bold;
 }
+
+.ui-dialog-titlebar-close {
+    visibility: hidden;
+}
+
+

@@ -21,8 +21,7 @@
 	var kosttUrl = "/syjserviceskostf/syjsKOSTT";
 	
 	jq(document).ready(function() {
-		//enable tooltip
- 		jq('[data-toggle="tooltip"]').tooltip();
+ 		jq('[data-toggle="tooltip"]').tooltip(); //TODO
 
  		jq.ajax({
  			  type: 'GET',
@@ -35,32 +34,19 @@
  			  	var len = data.length;
  			  	var i = 0;
  				var select_data = [];
- 			  	_.each(data, function( d) {
+ 				_.each(data, function( d) {
  			  		select_data.push({
-//  			  	        id: i++,
-//  			  	        text: d.kttyp
  			  	        id: d.kttyp,
  			  	        text: d.kttyp
  			  		});
  			  	 });
-
-//  			  	console.log('select_data, i ajax-call.',select_data);
- 			  	
+			  	
  			  	//Inject dropdown
  				jq('.bilagsserie-data-ajax').select2({
  					 data: select_data,
- 					 language: "no"
+ 					 language: "no",
  				})	
-// 	 			// Bind an event
-//  				jq('.bilagsserie-data-ajax').on('select2:select', function (e) { 
-//  				    console.log('select event');
- 				    
-//  				   var x = jq('.bilagsserie-data-ajax').find(':selected');
-//  				    console.log('x',x);
- 				 
-//  				}); 			  	
-
- 			  	
+ 				
  			  }, 
  			  error: function (jqXHR, exception) {
  				    alert('Error loading ...look in console log.');
@@ -71,16 +57,11 @@
  
 
 		jq('.bilagsserie-data-ajax').change(function() {
-			//  		    var id = jq('.bilagsserie-data-ajax').val(); // works
-			// 		    console.log('Selected ID: ' + id);
-
 			var selected = jq('.bilagsserie-data-ajax').select2('data');
-			console.log('selected', selected[0].text);
-			console.log("jq('#kttyp').val 1", jq('#kttyp').val());
 			jq('#kttyp').val(selected[0].text);
-			console.log("jq('#kttyp').val 2", jq('#kttyp').val());
-
 		});
+	
+		
 
 	});
 </script>
@@ -118,7 +99,9 @@
 				<div class="form-group form-row">
 					<label for="kttyp" class="col-md-2 col-form-label col-form-label-sm">Bilagsserie:</label>
 					<div class="col-md-2">
-						<select class="bilagsserie-data-ajax" style="width:100%"></select>
+						<select class="bilagsserie-data-ajax" style="width:100%">
+							<option value="">-velg-</option>
+						</select>
 						<!--  input type="text" class="form-control w-100" id="bilagsserie" value="TODO" placeholder="bilagsserie"-->
 					</div>
 
