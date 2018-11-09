@@ -1,31 +1,22 @@
 var jq = jQuery.noConflict();
 var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 
-var table;
+var kostaTable;
 
-
-function loadKosta() {
-	let runningUrl;
-	runningUrl= getRunningKostaUrl(kostaUrl);
-	console.log("runningUrl=" + runningUrl);
-
-	console.log('table',table);
-	
-	if (table != null) {
-//		table.ajax.reload();
-		
-		table.ajax.url( runningUrl ).load();
+function initKosta() {
+	console.log('kostaTable', kostaTable);
+	if (kostaTable != undefined) {
+		console.log('initKosta already set.');
 		return;
 	}
-	
-	table = jq('#kostaTable').DataTable({
+	console.log('initKosta');
+
+	kostaTable = jq('#kostaTable').DataTable({
 		"dom" : '<"top">t<"bottom"flip><"clear">',
-        "ajax": {
-            "url": runningUrl,
-            "dataSrc": ""
-        },		
-		destroy : true,
-		select : true,
+	    "ajax": {
+	        "url": kostaUrl+"&innregnr=0", //short-circuit //TODO 2018-11-08 ingen annan lösning, ex: http://live.datatables.net/jacivile/1/edit
+	        "dataSrc": ""
+	    },	
 		"columnDefs" : [ 
 			{
 				"targets" : 0,
@@ -38,68 +29,75 @@ function loadKosta() {
 			{
 				"targets" : -1,
 			    "render": function ( data, type, row, meta ) {
-               		return '<a>' +
-           			'<img title="Slett post" src="resources/images/delete.gif">' +
-           			'</a>'    	
+	           		return '<a>' +
+	       			'<img title="Slett post" src="resources/images/delete.gif">' +
+	       			'</a>'    	
 			    }
 			}
 			
 		],		
-        "columns": [
-            { "data": "kabnr" },
-            { "data": "kabnr2" },
-            { "data": "kafnr" },
-            { "data": "kabdt" },
-            { "data": "kapmn" },
-            { "data": "kapår" },
-            { "data": "kalnr" },
-            { "data": "kasg" },
-            { "data": "katxt" },
-            { "data": null }
-        ],
+	    "columns": [
+	        { "data": "kabnr" },
+	        { "data": "kabnr2" },
+	        { "data": "kafnr" },
+	        { "data": "kabdt" },
+	        { "data": "kapmn" },
+	        { "data": "kapår" },
+	        { "data": "kalnr" },
+	        { "data": "kasg" },
+	        { "data": "katxt" },
+	        { "data": null }
+	    ],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
 			"url" : getLanguage('NO')
 		}        
-
+	
 	});
 
-	table.on( 'click', 'img', function () {
-        let data = table.row( jq(this).parents('tr') ).data();
-        alert("kabnr="+ data['kabnr']);
-        
-        bilagUrl_delete = bilagUrl_delete + "&kabnr="+data['kabnr'];
-        
-        jq('<div></div>').dialog({
-        	title: "Slett innregnr. " + data['kabnr'] + " - bilagsnr. " + data['kabnr2'],
-        	resizable: false,
-            height: "auto",
-            width: 500,
-            modal: true,
-            buttons: {
-            	Fortsett: function() {
-                jq( this ).dialog( "close" );
-        		setBlockUI();
-        		
-        		console.log('bilagUrl_delete',bilagUrl_delete);
-        		
+	kostaTable.on( 'click', 'img', function () {
+	    let data = kostaTable.row( jq(this).parents('tr') ).data();
+	    alert("kabnr="+ data['kabnr']);
+	    bilagUrl_delete = bilagUrl_delete + "&kabnr="+data['kabnr'];
+	    
+	    jq('<div></div>').dialog({
+	    	title: "Slett innregnr. " + data['kabnr'] + " - bilagsnr. " + data['kabnr2'],
+	    	resizable: false,
+	        height: "auto",
+	        width: 500,
+	        modal: true,
+	        buttons: {
+	        	Fortsett: function() {
+	            jq( this ).dialog( "close" );
+	    		setBlockUI();
+	    		console.log('bilagUrl_delete',bilagUrl_delete);
 	            window.location = bilagUrl_delete;
-              },
-              	Avbryt: function() {
-                jq( this ).dialog( "close" );
-              }
-            },
+	          },
+	          	Avbryt: function() {
+	            jq( this ).dialog( "close" );
+	          }
+	        },
 	        open: function() {
 		  		  var markup = "Er du sikker på at du vil slette denne?";
 		          jq(this).html(markup);
 		          jq(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
 		     }            
-          });        
-    
-    } );	
+	      });        
 	
-	
-}  //loadKosta
+	} );	
+
+
+}
+
+function loadKosta() {
+	let runningUrl;
+	runningUrl = getRunningKostaUrl(kostaUrl);
+	console.log("runningUrl=" + runningUrl);
+
+	kostaTable.ajax.url(runningUrl);
+	kostaTable.ajax.reload();
+
+}
 
 
 function loadKostb() {

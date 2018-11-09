@@ -16,7 +16,8 @@
 	jq(document).ready(function() {
 		//init search, with signatur
 		jq("#selectAttkode").val('${user.signatur}');
-		jq("#submitBtn").click();
+		initKosta();
+//    		jq("#submitBtn").click();  //TODO
 	});
 
 	
@@ -38,59 +39,56 @@
 
 	<div class="padded-row-small left-right-border"></div>	
 
-	<div class="row left-right-border no-gutters">
-		<div class="col-1 p-1">
-			<label for="selectBilagsnr">Bilagsnr</label>
-			<br>
-			<input type="text" class="form-control" id="selectBilagsnr" size="8" maxlength="7">	
+	<div class="form-row left-right-border">
+		<div class="form-group pr-2 pl-1">
+			<label for="selectBilagsnr" class="mb-0">Bilagsnr</label>
+			<input type="text" class="form-control form-control-sm" id="selectBilagsnr" size="8" maxlength="7">	
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectInnregnr">Innreg.nr</label>
-			<br>
-			<input type="text" class="form-control" id="selectInnregnr" size="8" maxlength="6"/>
+		<div class="form-group pr-2">
+			<label for="selectInnregnr" class="mb-0">Innreg.nr</label>
+			<input type="text" class="form-control form-control-sm" id="selectInnregnr" size="8" maxlength="7"/>
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectFaktnr">Fakturanr</label>
-			<br>
-			<input type="text" class="form-control" id="selectFaktnr" size="14" maxlength="13">
+		<div class="form-group pr-2">
+			<label for="selectFaktnr" class="mb-0">Fakturanr</label>
+			<input type="text" class="form-control form-control-sm" id="selectFaktnr"  size="13"  maxlength="13">
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectSuppliernr">Leverandørnr</label>
-			<br>
-			<input type="text" class="form-control" id="selectSuppliernr" size="9" maxlength="8">
+		<div class="form-group pr-2">
+			<label for="selectSuppliernr" class="mb-0">Leverandørnr</label>
+			<input type="text" class="form-control form-control-sm" id="selectSuppliernr" size="8" maxlength="8">
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectAttkode">Att.kode</label>
-			<br>
-			<input type="text" class="form-control" id="selectAttkode" size="4" maxlength="3">
+		<div class="form-group pr-2">
+			<label for="selectAttkode" class="mb-0">Att.kode</label>
+			<input type="text" class="form-control form-control-sm" id="selectAttkode" size="3" maxlength="3">
 		</div>
-		<div class="col-2 p-1">
-			<label for="selectKomment">Kommentar</label>
-			<br>
-			<input type="text" class="form-control" id="selectKomment" size="36" maxlength="35">
+		<div class="form-group pr-2">
+			<label for="selectKomment" class="mb-0">Kommentar</label>
+			<input type="text" class="form-control form-control-sm" id="selectKomment" size="35" maxlength="35">
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectFradato">Fra&nbsp;bilagsdato</label>
-			<br>
-			<input type="text" class="form-control" id="selectFradato" size="9" maxlength="8">
+		<div class="form-group pr-2">
+			<label for="selectFradato" class="mb-0">Fra&nbsp;bilagsdato</label>
+			<input type="text" class="form-control form-control-sm" id="selectFradato" size="8" maxlength="8">
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectFraperaar">Fra&nbsp;periode</label>
-			<br>
-			<input type="text" class="form-control" id="selectFrapermnd" placeholder="mm" size="3" maxlength="2">-
-			<input type="text" class="form-control" id="selectFraperaar" placeholder="yy" size="3" maxlength="2">
+		<div class="form-group pr-2">
+			<label for="selectFrapermnd" class="mb-0">Fra&nbsp;periode</label>
+			<input type="text" class="form-control form-control-sm" id="selectFrapermnd" placeholder="mm" size="2" maxlength="2">
 		</div>
-		<div class="col-1 p-1">
-			<label for="selectTilperaar">Til&nbsp;periode</label>
-			<br>
-			<input type="text" class="form-control" id="selectTilpermnd"  placeholder="mm" size="3" maxlength="2">-
-			<input type="text" class="form-control" id="selectTilperaar"  placeholder="yy" size="3" maxlength="2">
+		<div class="form-group pr-2">
+			<label for="selectFraperaar" class="mb-0">&nbsp;</label>
+			<input type="text" class="form-control form-control-sm" id="selectFraperaar" placeholder="yy" size="2" maxlength="2">
+		</div>
+		<div class="form-group pr-2">
+			<label for="selectTilpermnd" class="mb-0">Til&nbsp;periode</label>
+			<input type="text" class="form-control form-control-sm" id="selectTilpermnd"  placeholder="mm" size="2" maxlength="2">
+		</div>
+		<div class="form-group pr-2">
+			<label for="selectTilperaar" class="mb-0">&nbsp;</label>
+			<input type="text" class="form-control form-control-sm" id="selectTilperaar"  placeholder="yy" size="2" maxlength="2">
 		</div>
 
 	</div>
-	
-	<div class="row left-right-border no-gutters">
-		<div class="col-1 p-1">
+
+	<div class="form-row left-right-border">
+		<div class="form-group pr-2 pl-1">
 			<label for="selectReklamasjon">
 				<img onMouseOver="showPop('reklCode_info');" onMouseOut="hidePop('reklCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
 				Kun&nbsp;Rekl.
@@ -108,13 +106,16 @@
 		      <option value="O">O</option>
 		    </select>
 		</div>
-		<div class="col-2 p-1">
+		<div class="form-group pr-2 pl-1">
 			<label for="selectFrisokKode">Fri&nbsp;søkvei</label>
-			<br>
-			<input type="text" class="form-control" placeholder="kode" id="selectFrisokKode" size="4" maxlength="3">-
-			<input type="text" class="form-control" placeholder="tekst" id="selectFrisokTxt" size="16" maxlength="15">
+			<input type="text" class="form-control form-control-sm" placeholder="kode" id="selectFrisokKode" size="3" maxlength="3">
 		</div>
-		<div class="col-2 p-1">
+		<div class="form-group pr-2 pl-1">
+			<label for="selectFrisokTxt">&nbsp;</label>
+			<input type="text" class="form-control form-control-sm" placeholder="tekst" id="selectFrisokTxt" size="15" maxlength="15">
+		</div>
+
+		<div class="form-group pr-2 pl-1">
 			<label for="selectStatus">
 				<img onMouseOver="showPop('statusCode_info');" onMouseOut="hidePop('statusCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
 				Status
@@ -130,7 +131,8 @@
 				</span>
 			</div>
 		    <select class="form-control" id="selectStatus">
-		      <option value="">-velg-</option>
+		      <option value="" selected>-blank-</option>
+		      <option value="*">Alle</option>
 		      <option value="A">A</option>
 		      <option value="B">B</option>
 		      <option value="D">D</option>
@@ -139,8 +141,10 @@
 		    </select>
 		</div>
 
-		<div class="col-6 align-self-end p-1">
-			<button class="btn inputFormSubmit" onclick="loadKosta()" id="submitBtn"  autofocus>Søk</button>
+		<div class="form-group col-2 align-self-end">
+			<div class="float-md-right">
+				<button class="btn inputFormSubmit" onclick="loadKosta()" id="submitBtn"  autofocus>Søk</button>
+			</div>
 		</div>	
 	
 	

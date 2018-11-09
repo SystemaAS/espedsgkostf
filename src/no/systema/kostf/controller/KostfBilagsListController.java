@@ -64,6 +64,7 @@ public class KostfBilagsListController {
 	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
 		ModelAndView successView = new ModelAndView("kostf_bilagslist"); 
 //		ModelAndView successView = new ModelAndView("NewFile"); 
+//		ModelAndView successView = new ModelAndView("NewFile2"); 
 
 		//Cleanup, if exist
 		session.removeAttribute(SESSION_PARAMS);

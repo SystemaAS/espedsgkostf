@@ -31,24 +31,25 @@
 
 
 /** Some overrides to align til espedsg.css */
+/*
 .form-group {
     margin-bottom: 0.5rem;
 }
 
 .form-control {
-/*    padding: 0.13rem; Align to inputText */
-   height: calc(1.8rem + 2px);
-   width: max-content; /*enable witdh*/
-   display: inline-block; /*no wrap in div*/
-}
 
+   height: calc(1.8rem + 2px);
+   width: max-content; 
+   display: inline-block;
+}
+*/
 .form-row  {
    margin-right: 0px !important;
    margin-left: 0px !important;
 }
 
 select.form-control:not([size]):not([multiple]) {
-    height: calc(1.8rem + 2px);  /*Align to inputText*/
+    height: calc(1.8rem + 2px);  
 }
 
 .nav-link {
@@ -67,6 +68,10 @@ select.form-control:not([size]):not([multiple]) {
 
 .ui-dialog-titlebar-close {
     visibility: hidden;
+}
+
+.label {
+	margin-bottom: .1rem !important;
 }
 
 
