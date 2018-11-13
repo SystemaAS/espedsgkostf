@@ -17,6 +17,7 @@ function initKosta() {
 	        "url": kostaUrl+"&innregnr=0", //short-circuit //TODO 2018-11-08 ingen annan lösning, ex: http://live.datatables.net/jacivile/1/edit
 	        "dataSrc": ""
 	    },	
+	    responsive: true,
 		"columnDefs" : [ 
 			{
 				"targets" : 0,
@@ -100,6 +101,7 @@ function loadKosta() {
 }
 
 
+/* TODO: refactor, see loadKosta*/
 function loadKostb() {
 	let runningUrl;
 	console.log('kabnr',kabnr);
@@ -141,7 +143,7 @@ function loadKostb() {
 } //loadKostb
 
 function getRunningKostaUrl(kostaUrl) {
-		
+	
 		var selectedBilagsnr = jq('#selectBilagsnr').val();
 		var selectedInnregnr = jq('#selectInnregnr').val();
 		var selectedFaktnr = jq('#selectFaktnr').val();

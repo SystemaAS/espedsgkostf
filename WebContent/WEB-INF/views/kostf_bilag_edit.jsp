@@ -7,17 +7,8 @@
 
 <link href="resources/espedsgkostf.css" rel="stylesheet" type="text/css"/>
 
-
-<style>
-
-
-</style>
-
-
-
 <script type="text/javascript">
 	"use strict";
-
 	var kosttUrl = "/syjserviceskostf/syjsKOSTT";
 	
 	jq(document).ready(function() {
@@ -54,8 +45,6 @@
  			  }	
  		});		
  		
- 
-
 		jq('.bilagsserie-data-ajax').change(function() {
 			var selected = jq('.bilagsserie-data-ajax').select2('data');
 			jq('#kttyp').val(selected[0].text);

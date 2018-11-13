@@ -10,14 +10,73 @@
 <script type="text/javascript">
 	"use strict";
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
+	var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
+
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
 	jq(document).ready(function() {
-		//init search, with signatur
-		jq("#selectAttkode").val('${user.signatur}');
+		
 		initKosta();
-//    		jq("#submitBtn").click();  //TODO
+
+ 		jq.ajax({
+			  type: 'GET',
+			  url: kodtsfUrl,
+			  dataType: 'json',
+			  cache: false,
+			  contentType: 'application/json',
+			  success: function(data) {
+			  	var len = data.length;
+			  	var i = 0;
+				let select_data = [];
+				_.each(data, function( d) {
+			  		select_data.push({
+			  	        id: d.kosfsi,
+			  	        text: d.kosfnv
+			  		});
+			  	 });
+			  	
+			  	//Inject dropdown
+				jq('.selectAttkode-data-ajax').select2({
+					 data: select_data,
+					 language: "no",
+					 escapeMarkup: function (markup) { return markup; }, // let our custom formatter work;formatData
+					 templateResult: formatData,
+					 templateSelection: formatDataSelection
+				})	
+				
+			  }, 
+
+			  error: function (jqXHR, exception) {
+				    alert('Error loading ...look in console log.');
+				    console.log(jqXHR);
+			  }	
+		});		
+
+ 		function formatData (data) {
+			if (data.loading) {
+				return data.text;
+			}
+ 			console.log("data",data);
+ 			var markup = "<div>" + data.id ; 
+ 		 	markup += '<p class="text-md-left" style="font-size:75%;">' + data.text +'</p></div>';
+ 			  
+ 			return markup;
+ 		}
+
+ 		function formatDataSelection (data) {
+ 			  return data.id || data.text;
+ 		}
+ 		
+ 		
+		jq('.selectAttkode-data-ajax').change(function() {
+			var selected = jq('.selectAttkode-data-ajax').select2('data');
+			jq('#selectAttkode').val(selected[0].id);
+		});
+
+ 		jq('#submitBtn').click();
+		
+	
 	});
 
 	
@@ -56,9 +115,12 @@
 			<label for="selectSuppliernr" class="mb-0">Leverandørnr</label>
 			<input type="text" class="form-control form-control-sm" id="selectSuppliernr" size="8" maxlength="8">
 		</div>
-		<div class="form-group pr-2">
-			<label for="selectAttkode" class="mb-0">Att.kode</label>
-			<input type="text" class="form-control form-control-sm" id="selectAttkode" size="3" maxlength="3">
+		<div class="form-group pr-2 col-1">
+			<label for="selectAttkode" class="mb-0">Att.kode
+				<select class="selectAttkode-data-ajax form-control form-control-sm" id="selectAttkode">
+					<option value='${user.signatur}'>${user.signatur}</option>
+				</select>
+			</label>
 		</div>
 		<div class="form-group pr-2">
 			<label for="selectKomment" class="mb-0">Kommentar</label>
