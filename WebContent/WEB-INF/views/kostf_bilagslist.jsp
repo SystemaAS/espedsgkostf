@@ -11,72 +11,63 @@
 	"use strict";
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 	var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
+	
+	var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
 
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
 	jq(document).ready(function() {
 		
-		initKosta();
+		initKostaSearch();
 
- 		jq.ajax({
-			  type: 'GET',
-			  url: kodtsfUrl,
-			  dataType: 'json',
-			  cache: false,
-			  contentType: 'application/json',
-			  success: function(data) {
-			  	var len = data.length;
-			  	var i = 0;
-				let select_data = [];
-				_.each(data, function( d) {
-			  		select_data.push({
-			  	        id: d.kosfsi,
-			  	        text: d.kosfnv
-			  		});
-			  	 });
-			  	
-			  	//Inject dropdown
-				jq('.selectAttkode-data-ajax').select2({
-					 data: select_data,
-					 language: "no",
-					 escapeMarkup: function (markup) { return markup; }, // let our custom formatter work;formatData
-					 templateResult: formatData,
-					 templateSelection: formatDataSelection
-				})	
-				
-			  }, 
-
-			  error: function (jqXHR, exception) {
-				    alert('Error loading ...look in console log.');
-				    console.log(jqXHR);
-			  }	
-		});		
-
- 		function formatData (data) {
-			if (data.loading) {
-				return data.text;
-			}
- 			console.log("data",data);
- 			var markup = "<div>" + data.id ; 
- 		 	markup += '<p class="text-md-left" style="font-size:75%;">' + data.text +'</p></div>';
- 			  
- 			return markup;
- 		}
-
- 		function formatDataSelection (data) {
- 			  return data.id || data.text;
- 		}
- 		
- 		
-		jq('.selectAttkode-data-ajax').change(function() {
-			var selected = jq('.selectAttkode-data-ajax').select2('data');
-			jq('#selectAttkode').val(selected[0].id);
-		});
-
- 		jq('#submitBtn').click();
 		
-	
+		 jq(".selectSuppliernr-data-ajax").select2({
+				ajax: {
+			    url: levefUrl,
+			    language: "nb",
+			    dataType: 'json',
+			    delay: 250,
+			    data: function (params) {
+			      return {
+			        lnavn: params.term, // search term
+			        page: params.page
+			      };
+			    },
+			    processResults: function (data, params) {
+			      params.page = params.page || 1;
+			      return {
+			        results: data.items,
+			        pagination: {
+			          more: (params.page * 30) < data.countFiltered
+			        }
+			      };
+			    },
+			    cache: true
+			  },
+			  placeholder: '',
+			  allowClear: true,
+		  	  escapeMarkup: function (markup) { return markup; },
+			  minimumInputLength: 1,
+		 	  templateResult: formatData,
+		  	  templateSelection: formatDataSelection
+			});		
+		
+// 		function formatLev (lev) {
+// 			  if (lev.loading) {
+// 			    return lev.text;
+// 			  }
+
+// 			  let markup2 = "<div>" + lev.text + "</div>";
+			  
+// 			  return markup2;
+// 		} 		
+		
+// 		function formatLevSelection (lev) {
+// 			  return lev.id;
+// 		}  
+		 
+		
 	});
 
 	
@@ -111,14 +102,20 @@
 			<label for="selectFaktnr" class="mb-0">Fakturanr</label>
 			<input type="text" class="form-control form-control-sm" id="selectFaktnr"  size="13"  maxlength="13">
 		</div>
-		<div class="form-group pr-2">
+
+		<div class="form-group pr-2 col-1">
 			<label for="selectSuppliernr" class="mb-0">Leverandørnr</label>
-			<input type="text" class="form-control form-control-sm" id="selectSuppliernr" size="8" maxlength="8">
+				<!--  input type="text" class="form-control form-control-sm" id="selectSuppliernr" size="8" maxlength="8"-->
+				<select class="selectSuppliernr-data-ajax form-control form-control-sm" id="selectSuppliernr">
+					<option value="">-velg-</option>
+				</select>
 		</div>
+
 		<div class="form-group pr-2 col-1">
 			<label for="selectAttkode" class="mb-0">Att.kode
 				<select class="selectAttkode-data-ajax form-control form-control-sm" id="selectAttkode">
-					<option value='${user.signatur}'>${user.signatur}</option>
+					<option value="">-velg-</option>
+					<option value="${user.signatur}" selected>${user.signatur}</option>
 				</select>
 			</label>
 		</div>

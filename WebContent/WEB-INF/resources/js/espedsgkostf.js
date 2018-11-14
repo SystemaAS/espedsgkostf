@@ -3,7 +3,7 @@ var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 
 var kostaTable;
 
-function initKosta() {
+function initKostaSearch() {
 	console.log('kostaTable', kostaTable);
 	if (kostaTable != undefined) {
 		console.log('initKosta already set.');
@@ -11,6 +11,7 @@ function initKosta() {
 	}
 	console.log('initKosta');
 
+	//Init datatables
 	kostaTable = jq('#kostaTable').DataTable({
 		"dom" : '<"top">t<"bottom"flip><"clear">',
 	    "ajax": {
@@ -88,7 +89,89 @@ function initKosta() {
 	} );	
 
 
+	//init selectAttkode-data-ajax
+	jq.ajax({
+			  type: 'GET',
+			  url: kodtsfUrl,
+			  dataType: 'json',
+			  cache: false,
+			  contentType: 'application/json',
+			  success: function(data) {
+			  	var len = data.length;
+			  	var i = 0;
+				let select_data = [];
+				_.each(data, function( d) {
+			  		select_data.push({
+			  	        id: d.kosfsi,
+			  	        text: d.kosfnv
+			  		});
+			  	 });
+			  	
+			  	//Inject dropdown
+				jq('.selectAttkode-data-ajax').select2({
+					 data: select_data,
+					 language: "nb",
+					 escapeMarkup: function (markup) { return markup; }, // let our custom formatter work;formatData
+					 templateResult: formatData,
+					 templateSelection: formatDataSelection
+				})	
+				
+			  }, 
+
+			  error: function (jqXHR, exception) {
+				    alert('Error loading ...look in console log.');
+				    console.log(jqXHR);
+			  }	
+	});		
+
+//	function formatData (data) {
+//		if (data.loading) {
+//			return data.text;
+//		}
+//		console.log("data",data);
+//		var markup = "<div>" + data.id ; 
+//	 	markup += '<p class="text-md-left" style="font-size:75%;">' + data.text +'</p></div>';
+//		  
+//		return markup;
+//	}
+//
+//	function formatDataSelection (data) {
+//		  return data.id || data.text;
+//	}
+		
+		
+	jq('.selectAttkode-data-ajax').change(function() {
+		var selected = jq('.selectAttkode-data-ajax').select2('data');
+		jq('#selectAttkode').val(selected[0].id);
+	});
+	//end init selectAttkode-data-ajax
+	
+	
+	//do search
+	jq('#submitBtn').click();
+		
+	
 }
+
+
+function formatData (data) {
+	if (data.loading) {
+		return data.text;
+	}
+	console.log("data",data);
+	var markup = "<div>" + data.id ; 
+ 	markup += '<p class="text-md-left" style="font-size:75%;">' + data.text +'</p></div>';
+	  
+	return markup;
+}
+
+function formatDataSelection (data) {
+	  return data.id || data.text;
+}
+
+
+
+
 
 function loadKosta() {
 	let runningUrl;
