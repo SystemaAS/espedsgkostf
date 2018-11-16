@@ -91,7 +91,6 @@
 						<select class="bilagsserie-data-ajax" style="width:100%">
 							<option value="">-velg-</option>
 						</select>
-						<!--  input type="text" class="form-control w-100" id="bilagsserie" value="TODO" placeholder="bilagsserie"-->
 					</div>
 
 					<label for="kabnr2" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>

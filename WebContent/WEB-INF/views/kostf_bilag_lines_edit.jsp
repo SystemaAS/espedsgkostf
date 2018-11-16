@@ -39,7 +39,7 @@
 		<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
 		
 		<div class="panel-body left-right-bottom-border no-gutters">
-			<table class="table table-striped table-bordered table-hover dt-responsive nowrap" id="kostbTable">
+			<table class="table table-striped table-bordered table-hover responsive nowrap" id="kostbTable">
 				<thead class="tableHeaderField">
 					<tr>
 						<th>kbbnr</th>

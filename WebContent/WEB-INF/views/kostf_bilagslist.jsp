@@ -25,7 +25,7 @@
 		 jq(".selectSuppliernr-data-ajax").select2({
 				ajax: {
 			    url: levefUrl,
-			    language: "nb",
+// 			    language: "nb",
 			    dataType: 'json',
 			    delay: 250,
 			    data: function (params) {
@@ -43,7 +43,7 @@
 			        }
 			      };
 			    },
-			    cache: true
+			    cache: true	
 			  },
 			  placeholder: '',
 			  allowClear: true,
@@ -53,19 +53,6 @@
 		  	  templateSelection: formatDataSelection
 			});		
 		
-// 		function formatLev (lev) {
-// 			  if (lev.loading) {
-// 			    return lev.text;
-// 			  }
-
-// 			  let markup2 = "<div>" + lev.text + "</div>";
-			  
-// 			  return markup2;
-// 		} 		
-		
-// 		function formatLevSelection (lev) {
-// 			  return lev.id;
-// 		}  
 		 
 		
 	});
@@ -104,8 +91,7 @@
 		</div>
 
 		<div class="form-group pr-2 col-1">
-			<label for="selectSuppliernr" class="mb-0">Leverandørnr</label>
-				<!--  input type="text" class="form-control form-control-sm" id="selectSuppliernr" size="8" maxlength="8"-->
+			<label for="selectSuppliernr" class="mb-0">Leverandør</label>
 				<select class="selectSuppliernr-data-ajax form-control form-control-sm" id="selectSuppliernr">
 					<option value="">-velg-</option>
 				</select>
@@ -212,17 +198,25 @@
 	<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
 	
 	<div class="panel-body left-right-bottom-border no-gutters">
-		<table class="table table-striped table-bordered table-hover" id="kostaTable">
+		<!--  table class="table table-striped table-bordered table-hover" id="kostaTable"-->
+		<table class="display responsive" id="kostaTable">
 			<thead class="tableHeaderField">
 				<tr>
 					<th>Innreg.nr</th>
 					<th>Bilagsnr</th>
-					<th>Fakturanr</th>
-					<th>Bilagsdato</th>
+					<th>Status</th>
 					<th>Periode(mån)</th>
 					<th>Periode(år)</th>
+					<th>Fakturanr</th>
+					<th>Gebyrkode</th>
 					<th>Leverandørnr</th>
 					<th>Att.kode</th>
+					<th>Bilagsdato</th>
+					<th>Valuta</th>
+					<th>Beløp</th>
+					<th>Moms</th>
+					<th>Bet.betingelse</th>
+					<th>Forfallsdato</th>
 					<th>Kommentar</th>
 					<th class="delete">Slett</th>					
 				</tr>

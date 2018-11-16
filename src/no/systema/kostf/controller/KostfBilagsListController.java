@@ -65,7 +65,9 @@ public class KostfBilagsListController {
 		ModelAndView successView = new ModelAndView("kostf_bilagslist"); 
 //		ModelAndView successView = new ModelAndView("NewFile"); 
 //		ModelAndView successView = new ModelAndView("NewFile2"); 
-
+//		ModelAndView successView = new ModelAndView("NewFile3"); 
+		
+		
 		//Cleanup, if exist
 		session.removeAttribute(SESSION_PARAMS);
 		
@@ -156,6 +158,10 @@ public class KostfBilagsListController {
 
 			editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 			editView.addObject("record", returnDto);
+			
+			// Set callback state
+			editView.addObject("action", CRUDEnum.UPDATE.getValue());
+
 
 			kabnr = record.getKabnr();
 
