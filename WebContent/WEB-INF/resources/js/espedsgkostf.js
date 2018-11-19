@@ -30,9 +30,10 @@ function initKostaSearch() {
 			},
 			{
 				"targets" : -1,
+				className: 'dt-body-center',
 			    "render": function ( data, type, row, meta ) {
 	           		return '<a>' +
-	       			'<img title="Slett post" src="resources/images/delete.gif">' +
+	       			'<img class= "img-fluid float-center" title="Slett post" src="resources/images/delete.gif">' +
 	       			'</a>'    	
 			    }
 			}
@@ -66,7 +67,6 @@ function initKostaSearch() {
 
 	kostaTable.on( 'click', 'img', function () {
 	    let data = kostaTable.row( jq(this).parents('tr') ).data();
-	    alert("kabnr="+ data['kabnr']);
 	    bilagUrl_delete = bilagUrl_delete + "&kabnr="+data['kabnr'];
 	    
 	    jq('<div></div>').dialog({
@@ -131,34 +131,55 @@ function initKostaSearch() {
 			  }	
 	});		
 
-//	function formatData (data) {
-//		if (data.loading) {
-//			return data.text;
-//		}
-//		console.log("data",data);
-//		var markup = "<div>" + data.id ; 
-//	 	markup += '<p class="text-md-left" style="font-size:75%;">' + data.text +'</p></div>';
-//		  
-//		return markup;
-//	}
-//
-//	function formatDataSelection (data) {
-//		  return data.id || data.text;
-//	}
-		
-		
 	jq('.selectAttkode-data-ajax').change(function() {
 		var selected = jq('.selectAttkode-data-ajax').select2('data');
 		jq('#selectAttkode').val(selected[0].id);
 	});
 	//end init selectAttkode-data-ajax
+
 	
+	//init selectSuppliernr-data-ajax
+	jq(".selectSuppliernr-data-ajax").select2({
+			ajax: {
+		    url: levefUrl,
+		    dataType: 'json',
+		    delay: 250,
+		    data: function (params) {
+		      return {
+		        lnavn: params.term, // search term
+		        page: params.page
+		      };
+		    },
+		    processResults: function (data, params) {
+		      params.page = params.page || 1;
+		      return {
+		        results: data.items,
+		        pagination: {
+		          more: (params.page * 30) < data.countFiltered
+		        }
+		      };
+		    },
+		    cache: true	
+		  },
+		  placeholder: '',
+		  allowClear: true,
+	  	  escapeMarkup: function (markup) { return markup; },
+		  minimumInputLength: 1,
+	 	  templateResult: formatData,
+	  	  templateSelection: formatDataSelection
+	});	
+	//end selectSuppliernr-data-ajax
 	
-	//do search
-	jq('#submitBtn').click();
+
+	//jq('#submitBtn').click();
 		
 	
 }
+
+
+
+
+
 
 
 function formatData (data) {
@@ -177,9 +198,6 @@ function formatDataSelection (data) {
 }
 
 
-
-
-
 function loadKosta() {
 	let runningUrl;
 	runningUrl = getRunningKostaUrl(kostaUrl);
@@ -191,7 +209,6 @@ function loadKosta() {
 }
 
 
-/* TODO: refactor, see loadKosta*/
 function loadKostb() {
 	let runningUrl;
 	console.log('kabnr',kabnr);
@@ -200,29 +217,17 @@ function loadKostb() {
 	
 	let kostbTable = jq('#kostbTable').DataTable({
 		"dom" : '<"top">t<"bottom"flip><"clear">',
+	    "ajax": {
+	        "url": runningUrl,
+	        "dataSrc": ""
+	    },	
 		responsive : true,
-		select : true,
-		destroy : true,
-		"columnDefs" : [ 
-			{
-				"targets" : 0,
-			    "render": function ( data, type, row, meta ) {
-			    	var url= 'TODO';
-			    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
-			    	return href;
-			    }
-			}
-		],
-		"sAjaxSource" : runningUrl,
-		"sAjaxDataProp" : "",
 		"order" : [ [ 1, "desc" ] ],
-		"aoColumns" : [ {
-			"mData" : "kbbnr"
-		}, {
-			"mData" : "kbavd"
-		},{
-			"mData" : "kbopd"
-		}],
+		"columns" : [ 
+			{"data" : "kbbnr"}, 
+			{"data" : "kbavd"},
+			{"data" : "kbopd"}
+		],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
 			"url" : getLanguage('NO')

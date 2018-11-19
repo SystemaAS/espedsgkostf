@@ -11,53 +11,16 @@
 	"use strict";
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 	var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
-	
 	var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
-
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
 	jq(document).ready(function() {
-		
-		initKostaSearch();
 
-		
-		 jq(".selectSuppliernr-data-ajax").select2({
-				ajax: {
-			    url: levefUrl,
-// 			    language: "nb",
-			    dataType: 'json',
-			    delay: 250,
-			    data: function (params) {
-			      return {
-			        lnavn: params.term, // search term
-			        page: params.page
-			      };
-			    },
-			    processResults: function (data, params) {
-			      params.page = params.page || 1;
-			      return {
-			        results: data.items,
-			        pagination: {
-			          more: (params.page * 30) < data.countFiltered
-			        }
-			      };
-			    },
-			    cache: true	
-			  },
-			  placeholder: '',
-			  allowClear: true,
-		  	  escapeMarkup: function (markup) { return markup; },
-			  minimumInputLength: 1,
-		 	  templateResult: formatData,
-		  	  templateSelection: formatDataSelection
-			});		
-		
-		 
+		initKostaSearch();
 		
 	});
 
-	
 </script>
 
 <div class="container-fluid">
@@ -67,7 +30,7 @@
 	<nav>
 	  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 	    <a class="nav-item nav-link active disabled">Bilager
-			<img style="vertical-align: middle;" src="resources/images/list.gif">
+			<img class="img-fluid float-center" src="resources/images/list.gif">
 	    </a>
 		<a class="nav-item nav-link nav-new" onClick="setBlockUI();" href="${bilagUrl_create}">Lage ny bilag</a>
 		
@@ -196,10 +159,10 @@
 	</div>
 
 	<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
-	
-	<div class="panel-body left-right-bottom-border no-gutters">
-		<!--  table class="table table-striped table-bordered table-hover" id="kostaTable"-->
-		<table class="display responsive" id="kostaTable">
+
+ 	
+	<div class="left-right-bottom-border no-gutters">
+		<table class="display compact cell-border responsive" id="kostaTable">
 			<thead class="tableHeaderField">
 				<tr>
 					<th>Innreg.nr</th>
@@ -218,15 +181,11 @@
 					<th>Bet.betingelse</th>
 					<th>Forfallsdato</th>
 					<th>Kommentar</th>
-					<th class="delete">Slett</th>					
+					<th class="all">Slett</th>					
 				</tr>
 			</thead>
 		</table>
 	</div>	
- 
-</div>
 
-<!-- ======================= footer ===========================-->
-<jsp:include page="/WEB-INF/views/footer.jsp" />
-<!-- =====================end footer ==========================-->
+</div>
 

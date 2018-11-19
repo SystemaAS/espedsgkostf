@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
-<%@ include file="/WEB-INF/views/include.jsp" %> <!-- generally you will include this in a header.jsp -->
+<%@ include file="/WEB-INF/views/include.jsp" %>
 
 <html>
 	<head>
@@ -16,175 +16,84 @@
 		<link type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/overcast/jquery-ui.css" rel="stylesheet"/>
  		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">		
 		<link rel="SHORTCUT ICON" type="image/png" href="resources/images/systema_logo.png"></link>
-
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap4.css"/>
+		
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/js/select2.min.js"></script>
+		<script type="text/javascript" src="resources/js/jquery.blockUI.js"></script>
+		<script type="text/javascript" src="/espedsg2/resources/js/systemaWebGlobal.js?ver=${user.versionEspedsg}"></script>
+		<script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" src="resources/js/espedsgkostf.js?ver=${user.versionEspedsg}"></script>	
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+		<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>	
+		<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.js"></script>
 
 	</head>
-
-	<body>
-	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/js/select2.min.js"></script>
-	<script type="text/javascript" src="resources/js/jquery.blockUI.js"></script>
-	<script type="text/javascript" src="/espedsg2/resources/js/systemaWebGlobal.js?ver=${user.versionEspedsg}"></script>
-	<script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="resources/js/espedsgkostf.js?ver=${user.versionEspedsg}"></script>	
-	<!--  script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script-->
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>	
-
-
-	<style type="text/css">
-		.ui-datepicker {
-			font-size: 9pt;
-		}
-	</style>	
 	
 	
-    <table class="noBg" width="100%" border="0" cellspacing="0" cellpadding="0">
-		<%--Banner --%>
-	 	<tr class="clazzTdsBanner" id="tdsBanner" style="visibility:visible">
-	 	 	<%-- class="grayTitanBg" --%>
-		 	<td height="60" class="headerTdsBannerAreaBg" width="100%" align="left" colspan="3"> 
-	    			 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-	    			 	<tr>
-				        	<td>&nbsp;</td>
-				        	<td>&nbsp;</td>
-					 		<td>&nbsp;</td>
-				        </tr>
-					 	<tr>
-					 		<c:choose>
-						 		<c:when test="${not empty user.logo}">
-					 				<c:choose>
-						 				<c:when test="${fn:contains(user.logo, '/')}">
-						 					<td class="text12" width="10%" align="center" valign="middle" >
-												<img src="${user.logo}" border="0" width="30px" height="20px">
-											</td>
-										</c:when>
-										<c:otherwise>
-											<c:choose>
-												<c:when test="${fn:contains(user.logo, 'systema')}">
-												<td class="text12white" width="10%" align=left valign="bottom" >&nbsp;
-													<img src="resources/images/${user.logo}" border="0" width=80px height=50px>
-												</td>
-												</c:when>
-												<c:otherwise>
-													<c:if test="${fn:contains(user.logo, 'logo')}">
-														<td class="text12white" width="10%" align=left valign="bottom" >&nbsp;
-															<img src="resources/images/${user.logo}" border="0" >
-														</td>
-													</c:if>
-												</c:otherwise>
-											</c:choose>	
-										</c:otherwise>
-									</c:choose>
-	   			 				</c:when> 
-	   			 				<c:otherwise>
-							 		<td class="text12white" width="10%" align=left valign="bottom" >&nbsp;</td>
-							 		<%-- <td class="text12white" width="10%" align=right valign="bottom" >&nbsp;</td>--%>
-						 		</c:otherwise>
-					 		</c:choose>
-					 		<td class="text32Bold" width="100%" align="middle" valign="middle" style="color:#778899;" >
-					 			eSped<font style="color:#003300;">sg</font> - <spring:message code="systema.kostf.title"/>
-					 			
-					 		</td>
-					 		 
-				    		<td class="text12" width="10%" align="center" valign="middle" ><img src="resources/images/systema_logo.png" border="0" width=80px height=50px ></td>
-				      		<%-- <td class="text12white" width="10%" align=right valign="bottom" >&nbsp;</td>--%>
-				        </tr>
-				        <tr>
-				        	<td>&nbsp;</td>
-				        	<td>&nbsp;</td>
-					 		<td class="text14" width="10%" align=right valign="bottom" >&nbsp;</td>
-				        </tr>
-				        <tr class="text" height="1"><td></td></tr>
-				     </table> 
-			</td>
-		</tr>
-		
-		<tr >
-			<td height="23" class="tabThinBorderLightGreenLogoutE2" width="100%" align="left" colspan="3"> 
-    			 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-				 	<tr >
-	      				<td class="text14" width="50%" align="right" valign="middle">
-	      					<c:if test="${ empty user.usrLang || user.usrLang == 'NO'}">
-			               		<img src="resources/images/countryFlags/Flag_NO.gif" height="12" border="0" alt="country">
-			               	</c:if>
-			               	<c:if test="${ user.usrLang == 'DA'}">
-			               		<img src="resources/images/countryFlags/Flag_DK.gif" height="12" border="0" alt="country">
-			               	</c:if>
-			               	<c:if test="${ user.usrLang == 'SV'}">
-			               		<img src="resources/images/countryFlags/Flag_SE.gif" height="12" border="0" alt="country">
-			               	</c:if>
-			               	<c:if test="${ user.usrLang == 'EN'}">
-			               		<img src="resources/images/countryFlags/Flag_UK.gif" height="12" border="0" alt="country">
-			               	</c:if>
-			               	&nbsp;
-			               	
-		      				<font class="headerMenuGreen">
-			    				<img src="resources/images/appUser.gif" border="0" onClick="showPop('specialInformationAdmin');" > 
-						        <span style="position:absolute; left:100px; top:150px; width:1000px; height:400px;" id="specialInformationAdmin" class="popupWithInputText"  >
-						           		<div class="text11" align="left">
-						           			${activeUrlRPG_TODO}
-						           			<br/><br/>
-						           			<button name="specialInformationButtonClose" class="buttonGrayInsideDivPopup" type="button" onClick="hidePop('specialInformationAdmin');">Close</button> 
-						           		</div>
-						        </span>   		
-			    				<font class="text14User"  >${user.user}&nbsp;</font>${user.usrLang}</font>
-			    				<font color="#FFFFFF"; style="font-weight: bold;">&nbsp;|&nbsp;&nbsp;</font>
-				    			<a tabindex=-1 href="logout.do">
-				    				<font class="headerMenuGreen"><img src="resources/images/home.gif" border="0">&nbsp;
-				    					<font class="text14User"  ><spring:message code="dashboard.menu.button"/>&nbsp;</font>
-				    				</font>
-				    			</a>
-				    			<font color="#FFFFFF"; style="font-weight: bold;">&nbsp;&nbsp;|&nbsp;</font>
-				    			<font class="text12LightGreen" style="cursor:pointer;" onClick="showPop('versionInfo');">${user.versionSpring}&nbsp;</font>
-		    				    <div class="text11" style="position: relative; display:inline;" align="left">
-									<span style="position:absolute; left:5px; top:30px; width:250px" id="versionInfo" class="popupWithInputText"  >	
-				           	
-					           			&nbsp;<b>${user.versionEspedsg}</b>
-					           			<br/><br/>
-					           			&nbsp;<a href="renderLocalLog4j.do" target="_blank">log4j</a>
-					           			<br/><br/><br/>
-					           			<button name="versionInformationButtonClose" class="buttonGrayInsideDivPopup" type="button" onClick="hidePop('versionInfo');">Close</button> 
-					           		</span>
-								</div>  
+<div id="headerWrapper"> 
+   <header> 
+	   <div class="container-fluid"> 
+			<div class="row headerTdsBannerAreaBg p-2">
+			 	<div class="col-8">
+					 <label class="text32Bold float-right" style="color:#778899;">eSpedsg-<spring:message code="systema.kostf.title"/></label>
+				 </div>
+				 <div class="col-4">
+					<img class="img-fluid float-right" src="resources/images/systema_logo.png" width=80px height=50px>
+				 </div>
+			</div>
 
-						        
-				    		</td>
-	      				
-			        </tr>
-			     </table> 
-			</td>
-	    </tr>
-	    	<tr class="text" height="8"><td></td></tr>
-		    
-	    <%-- Validation Error section --%>
-	    <c:if test="${errorMessage!=null}">
-		<tr>
-			<td colspan=3>
-			<table>
-					<tr>
-					<td class="textError">					
-			            <ul>
-			                <li >
-			                	${errorMessage}
-			                </li>
-			            
-			            </ul>
-					</td>
-					</tr>
-			</table>
-			</td>
-		</tr>
-		</c:if>
+			<div class="row tabThinBorderLightGreenLogoutE2">
+				<div class="col-8"></div>
+ 				<div class="col-4">
+    				<c:if test="${ empty user.usrLang || user.usrLang == 'NO'}">
+	               		<img src="resources/images/countryFlags/Flag_NO.gif" height="12" border="0" alt="country">
+	               	</c:if>
+	               	<c:if test="${ user.usrLang == 'DA'}">
+	               		<img src="resources/images/countryFlags/Flag_DK.gif" height="12" border="0" alt="country">
+	               	</c:if>
+	               	<c:if test="${ user.usrLang == 'SV'}">
+	               		<img src="resources/images/countryFlags/Flag_SE.gif" height="12" border="0" alt="country">
+	               	</c:if>
+	               	<c:if test="${ user.usrLang == 'EN'}">
+	               		<img src="resources/images/countryFlags/Flag_UK.gif" height="12" border="0" alt="country">
+	               	</c:if>
+      				&nbsp;
+      				<font class="headerMenuGreenNoPointer">
+	    				<img src="resources/images/appUser.gif" border="0" onClick="showPop('specialInformationAdmin');" > 
+				        <span style="position:absolute; left:100px; top:150px; width:1000px; height:400px;" id="specialInformationAdmin" class="popupWithInputText"  >
+				           		<div class="text11" align="left">
+				           			${activeUrlRPG_TODO}
+				           			<br/><br/>
+				           			<button name="specialInformationButtonClose" class="buttonGrayInsideDivPopup" type="button" onClick="hidePop('specialInformationAdmin');">Close</button> 
+				           		</div>
+				        </span>   		
+	    				<font class="text14User" >${user.user}&nbsp;</font>${user.usrLang}</font>
+	    				<font color="#FFFFFF"; style="font-weight: bold;">&nbsp;|&nbsp;&nbsp;</font>
+		    			<a tabindex=-1 href="logout.do">
+		    				<font class="headerMenuGreen"><img src="resources/images/home.gif" border="0">&nbsp;
+		    					<font class="text14User" ><spring:message code="dashboard.menu.button"/>&nbsp;</font>
+		    				</font>
+		    			</a>
+		    			<font color="#FFFFFF"; style="font-weight: bold;">&nbsp;&nbsp;|&nbsp;</font>
+		    			<font class="text12LightGreen" style="cursor:pointer;" onClick="showPop('versionInfo');">${user.versionSpring}&nbsp;</font>
+		    			<div class="text14" style="position: relative;" align="left">
+							<span style="position:absolute; left:50px; top:10px; width:250px" id="versionInfo" class="popupWithInputText"  >	
+			           			<b>${user.versionEspedsg}</b>
+			           			<br/>
+			           			&nbsp;<a href="renderLocalLog4j.do" target="_blank">log4j</a>
+			           			<br/><br/>
+			           			<button name="versionInformationButtonClose" class="buttonGrayInsideDivPopup" type="button" onClick="hidePop('versionInfo');">Close</button> 
+				           	</span>
+						</div> 
+ 				</div>			
+			</div>
 
-	    <tr class="text" height="2"><td></td></tr>
-		
-		<%-- ------------------------------------
-		Content after banner och header menu
-		------------------------------------- --%>
-		<tr>
-    		<td width="100%" align="left" colspan="3"> 
-    		     
-     
+	   </div> 
+   </header>
+   
+</div>
+</html>
+	

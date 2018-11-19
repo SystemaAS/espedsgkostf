@@ -9,12 +9,13 @@
 
 <script type="text/javascript">
 	"use strict";
-
 	var kostbUrl = "/syjserviceskostf/syjsKOSTB?user=${user.user}";
 	var kabnr = "${sessionParams.kabnr}";
 	
 	jq(document).ready(function() {
+
 		loadKostb();
+		
 	});	
 	
 </script>
@@ -39,7 +40,7 @@
 		<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
 		
 		<div class="panel-body left-right-bottom-border no-gutters">
-			<table class="table table-striped table-bordered table-hover responsive nowrap" id="kostbTable">
+			<table class="display responsive" id="kostbTable">
 				<thead class="tableHeaderField">
 					<tr>
 						<th>kbbnr</th>
@@ -53,8 +54,3 @@
 	</form>
 
 </div>
-
-<!-- ======================= footer ===========================-->
-<jsp:include page="/WEB-INF/views/footer.jsp" />
-<!-- =====================end footer ==========================-->
-
