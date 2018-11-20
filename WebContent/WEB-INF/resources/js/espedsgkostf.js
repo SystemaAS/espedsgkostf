@@ -48,6 +48,7 @@ function initKostaSearch() {
 	        { "data": "kafnr" },
 	        { "data": "kavk" },
 	        { "data": "kalnr" },
+	        { "data":  null }, 
 	        { "data": "kasg" },
 	        { "data": "kabdt" },
 	        { "data": "kaval" },

@@ -72,11 +72,13 @@
 	<div class="padded-row-small left-right-border"></div>
 
 	<form action="kostf_bilag_edit.do" method="POST">
+
 		<input type="hidden" name="action" id="action" value='${action}'>
 	    <input type="hidden" name="kabnr" id="kabnr" value='${sessionParams.kabnr}'>
 	    <input type="hidden" name="kttyp" id="kttyp" value='${record.kttyp}'>
 
 		<div class="row left-right-border no-gutters">
+
 			<div class="col-sm-6">
 				<div class="form-group form-row formFrameHeader">
 					<div class="col-sm-12">
@@ -85,7 +87,7 @@
 				</div>
 
 		<c:if test="${action == 1}"> <!-- CREATE -->
-				<div class="form-group form-row">
+				<div class="form-group">
 					<label for="kttyp" class="col-md-2 col-form-label col-form-label-sm">Bilagsserie:</label>
 					<div class="col-md-2">
 						<select class="bilagsserie-data-ajax" style="width:100%">
@@ -101,7 +103,7 @@
 		</c:if>
 
 		<c:if test="${action == 3}"> <!-- UPDATE -->
-				<div class="form-group form-row">
+				<div class="form-group">
 					<label for="kabnr2" class="col-md-2 col-form-label col-form-label-sm">Bilagsnr:</label>
 					<div class="col-md-8">
 						<input type="number" class="form-control" name="kabnr2" id="kabnr2" value="${record.kabnr2}" placeholder="bilagsnr">
@@ -109,14 +111,14 @@
 				</div>
 		</c:if>
 
-				<div class="form-group form-row">
+				<div class="form-group">
 					<label for="kabdt" class="col-md-2 col-form-label col-form-label-sm">Bilagsdato:</label>
 					<div class="col-md-10">
 						<input type="number" class="form-control" name="bilagsnr" id="bilagsnr" value="${record.kabdt}" placeholder="bilagsdato">
 					</div>
 				</div>
 
-				<div class="form-group form-row">
+				<div class="form-group">
 					<label for="kapmn" class="col-md-2 col-form-label col-form-label-sm">Period.(mån/år):</label>
 					<div class="col-md-5">
 						<input type="number" class="form-control w-25" name="kapmn" id="kapmn" value="${record.kapmn}" placeholder="mm">
@@ -124,7 +126,7 @@
 					</div>
 				</div>
 	
-				<div class="form-group form-row">
+				<div class="form-group">
 					<label for="katxt" class="col-md-2 col-form-label col-form-label-sm">Bilagskomm.:</label>
 					<div class="col-md-9">
 						<input type="text" class="form-control w-100" name="katxt" id="katxt" value="${record.katxt}" placeholder="bilagskommentar">
@@ -136,7 +138,7 @@
 					</div>
 				</div>
 
-				<div class="form-group form-row">
+				<div class="form-group">
 					<label for="kalnr" class="col-md-2 col-form-label col-form-label-sm">
 						<img src="resources/images/info3.png" width="12px" height="12px" data-toggle="tooltip" title="(0=direkte i hovedbok)">
 					Leverandörnr:
@@ -156,7 +158,7 @@
 
 				</div>
 
-				<div class="form-group form-row">
+				<div class="form-group">
 					<label for="kavk" class="col-md-2 col-form-label col-form-label-sm">Gebyrkode.:</label>
 					<div class="col-md-2">
 						<input type="text" class="form-control w-100" name="kavk" id="kavk" value="${record.kavk}" placeholder="kode">

@@ -41,55 +41,55 @@
 
 	<div class="form-row left-right-border">
 		<div class="form-group pr-2 pl-1">
-			<label for="selectBilagsnr" class="mb-0">Bilagsnr</label>
+			<label for="selectBilagsnr" class="col-form-label-sm mb-0">Bilagsnr</label>
 			<input type="text" class="form-control form-control-sm" id="selectBilagsnr" size="8" maxlength="7">	
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectInnregnr" class="mb-0">Innreg.nr</label>
+			<label for="selectInnregnr" class="col-form-label-sm mb-0">Innreg.nr</label>
 			<input type="text" class="form-control form-control-sm" id="selectInnregnr" size="8" maxlength="7"/>
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectFaktnr" class="mb-0">Fakturanr</label>
+			<label for="selectFaktnr" class="col-form-label-sm mb-0">Fakturanr</label>
 			<input type="text" class="form-control form-control-sm" id="selectFaktnr"  size="13"  maxlength="13">
 		</div>
 
 		<div class="form-group pr-2 col-1">
-			<label for="selectSuppliernr" class="mb-0">Leverandør</label>
+			<label for="selectSuppliernr" class="col-form-label-sm mb-0">Leverandør</label>
 				<select class="selectSuppliernr-data-ajax form-control form-control-sm" id="selectSuppliernr">
 					<option value="">-velg-</option>
 				</select>
 		</div>
 
 		<div class="form-group pr-2 col-1">
-			<label for="selectAttkode" class="mb-0">Att.kode
+			<label for="selectAttkode" class="col-form-label-sm mb-0">Att.kode</label>
 				<select class="selectAttkode-data-ajax form-control form-control-sm" id="selectAttkode">
 					<option value="">-velg-</option>
 					<option value="${user.signatur}" selected>${user.signatur}</option>
 				</select>
-			</label>
+			
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectKomment" class="mb-0">Kommentar</label>
+			<label for="selectKomment" class="col-form-label-sm mb-0">Kommentar</label>
 			<input type="text" class="form-control form-control-sm" id="selectKomment" size="35" maxlength="35">
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectFradato" class="mb-0">Fra&nbsp;bilagsdato</label>
+			<label for="selectFradato" class="col-form-label-sm mb-0">Fra&nbsp;bilagsdato</label>
 			<input type="text" class="form-control form-control-sm" id="selectFradato" size="8" maxlength="8">
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectFrapermnd" class="mb-0">Fra&nbsp;periode</label>
+			<label for="selectFrapermnd" class="col-form-label-sm mb-0">Fra&nbsp;periode</label>
 			<input type="text" class="form-control form-control-sm" id="selectFrapermnd" placeholder="mm" size="2" maxlength="2">
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectFraperaar" class="mb-0">&nbsp;</label>
+			<label for="selectFraperaar" class="col-form-label-sm mb-0">&nbsp;</label>
 			<input type="text" class="form-control form-control-sm" id="selectFraperaar" placeholder="yy" size="2" maxlength="2">
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectTilpermnd" class="mb-0">Til&nbsp;periode</label>
+			<label for="selectTilpermnd" class="col-form-label-sm mb-0">Til&nbsp;periode</label>
 			<input type="text" class="form-control form-control-sm" id="selectTilpermnd"  placeholder="mm" size="2" maxlength="2">
 		</div>
 		<div class="form-group pr-2">
-			<label for="selectTilperaar" class="mb-0">&nbsp;</label>
+			<label for="selectTilperaar" class="col-form-label-sm mb-0">&nbsp;</label>
 			<input type="text" class="form-control form-control-sm" id="selectTilperaar"  placeholder="yy" size="2" maxlength="2">
 		</div>
 
@@ -97,7 +97,7 @@
 
 	<div class="form-row left-right-border">
 		<div class="form-group pr-2 pl-1">
-			<label for="selectReklamasjon">
+			<label for="selectReklamasjon" class="col-form-label-sm">
 				<img onMouseOver="showPop('reklCode_info');" onMouseOut="hidePop('reklCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
 				Kun&nbsp;Rekl.
 			</label>
@@ -115,16 +115,16 @@
 		    </select>
 		</div>
 		<div class="form-group pr-2 pl-1">
-			<label for="selectFrisokKode">Fri&nbsp;søkvei</label>
+			<label for="selectFrisokKode" class="col-form-label-sm">Fri&nbsp;søkvei</label>
 			<input type="text" class="form-control form-control-sm" placeholder="kode" id="selectFrisokKode" size="3" maxlength="3">
 		</div>
 		<div class="form-group pr-2 pl-1">
-			<label for="selectFrisokTxt">&nbsp;</label>
+			<label for="selectFrisokTxt" class="col-form-label-sm">&nbsp;</label>
 			<input type="text" class="form-control form-control-sm" placeholder="tekst" id="selectFrisokTxt" size="15" maxlength="15">
 		</div>
 
 		<div class="form-group pr-2 pl-1">
-			<label for="selectStatus">
+			<label for="selectStatus" class="col-form-label-sm">
 				<img onMouseOver="showPop('statusCode_info');" onMouseOut="hidePop('statusCode_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
 				Status
 			</label>
@@ -173,6 +173,7 @@
 					<th>Fakturanr</th>
 					<th>Gebyrkode</th>
 					<th>Leverandørnr</th>
+					<th>Leverandør</th>
 					<th>Att.kode</th>
 					<th>Bilagsdato</th>
 					<th>Valuta</th>
