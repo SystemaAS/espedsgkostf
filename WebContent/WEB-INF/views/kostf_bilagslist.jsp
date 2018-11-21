@@ -166,6 +166,7 @@
 			<thead class="tableHeaderField">
 				<tr>
 					<th>Innreg.nr</th>
+					<th>Endre</th>
 					<th>Bilagsnr</th>
 					<th>Status</th>
 					<th>Periode(mån)</th>

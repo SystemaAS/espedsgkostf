@@ -21,19 +21,20 @@ function initKostaSearch() {
 	    responsive: true,
 		"columnDefs" : [ 
 			{
-				"targets" : 0,
+				"targets" : 1,
+				className: 'dt-body-center',
 			    "render": function ( data, type, row, meta ) {
 			    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
-			    	var href = '<a href="'+url+'"' +'>'+data+'</a>';
+			    	var href = '<a href="'+url+'"' +'><img class= "img-fluid float-center" src="resources/images/update.gif" onClick="setBlockUI();"></a>';
 			    	return href;
-			    }		
+			    }			
 			},
 			{
 				"targets" : -1,
 				className: 'dt-body-center',
 			    "render": function ( data, type, row, meta ) {
 	           		return '<a>' +
-	       			'<img class= "img-fluid float-center" title="Slett post" src="resources/images/delete.gif">' +
+	       			'<img class="img-fluid float-center" title="Slett post" src="resources/images/delete.gif">' +
 	       			'</a>'    	
 			    }
 			}
@@ -41,6 +42,11 @@ function initKostaSearch() {
 		],		
 	    "columns": [
 	        { "data": "kabnr" },
+	    	{
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	},
 	        { "data": "kabnr2" },
 	        { "data": "kast" },
 	        { "data": "kapmn" },
@@ -48,7 +54,11 @@ function initKostaSearch() {
 	        { "data": "kafnr" },
 	        { "data": "kavk" },
 	        { "data": "kalnr" },
-	        { "data":  null }, 
+	    	{
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": 'todo'
+	    	},	        
 	        { "data": "kasg" },
 	        { "data": "kabdt" },
 	        { "data": "kaval" },
@@ -57,7 +67,12 @@ function initKostaSearch() {
 	        { "data": "kabb" },
 	        { "data": "kaffdt" },
 	        { "data": "katxt" },
-	        { "data": null }
+	    	{
+	        	"class":          "delete",
+	        	"orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	}		        
 	    ],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
@@ -66,7 +81,7 @@ function initKostaSearch() {
 	
 	});
 
-	kostaTable.on( 'click', 'img', function () {
+	kostaTable.on( 'click', 'td.delete img', function () {
 	    let data = kostaTable.row( jq(this).parents('tr') ).data();
 	    bilagUrl_delete = bilagUrl_delete + "&kabnr="+data['kabnr'];
 	    
@@ -165,7 +180,7 @@ function initKostaSearch() {
 		  placeholder: '',
 		  allowClear: true,
 	  	  escapeMarkup: function (markup) { return markup; },
-		  minimumInputLength: 1,
+		  minimumInputLength: 3,
 	 	  templateResult: formatData,
 	  	  templateSelection: formatDataSelection
 	});	
@@ -176,11 +191,6 @@ function initKostaSearch() {
 		
 	
 }
-
-
-
-
-
 
 
 function formatData (data) {
