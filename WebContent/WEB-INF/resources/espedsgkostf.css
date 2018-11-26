@@ -74,4 +74,14 @@ select.form-control:not([size]):not([multiple]) {
 	margin-bottom: .1rem !important;
 }
 
+/** color on responsiveness icon*/
+table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > th:first-child:before {
+   background-color: green;
+}
+
+/**color on filtered text*/
+.mark, mark {
+    padding: .2em;
+    background-color: #8FBC8F;
+}
 
