@@ -13,11 +13,12 @@ function initKostaSearch() {
 
 	//Init datatables
 	kostaTable = jq('#kostaTable').DataTable({
-		"dom" : '<"top">t<"bottom"flip><"clear">',
-	    "ajax": {
+		"dom" : '<"top"f>t<"bottom"lip><"clear">',
+		"ajax": {
 	        "url": kostaUrl+"&innregnr=0", //short-circuit //TODO 2018-11-08 ingen annan lösning, ex: http://live.datatables.net/jacivile/1/edit
 	        "dataSrc": ""
 	    },	
+		mark: true,
 	    responsive: true,
 		"columnDefs" : [ 
 			{

@@ -66,8 +66,8 @@
 					<option value="">-velg-</option>
 					<option value="${user.signatur}" selected>${user.signatur}</option>
 				</select>
-			
 		</div>
+
 		<div class="form-group pr-2">
 			<label for="selectKomment" class="col-form-label-sm mb-0">Kommentar</label>
 			<input type="text" class="form-control form-control-sm" id="selectKomment" size="35" maxlength="35">
