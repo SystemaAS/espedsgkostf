@@ -11,7 +11,7 @@ function initKostaSearch() {
 	}
 	console.log('initKosta');
 
-	//Init datatables
+	//Init datatables, done once, then reload with ajax
 	kostaTable = jq('#kostaTable').DataTable({
 		"dom" : '<"top"f>t<"bottom"lip><"clear">',
 		"ajax": {
@@ -112,7 +112,10 @@ function initKostaSearch() {
 	
 	} );	
 
-
+    jq('#kostaTable').on( 'draw.dt', function () {
+        unBlockUI();
+    });	
+	
 	//init selectAttkode-data-ajax
 	jq.ajax({
 			  type: 'GET',
@@ -215,8 +218,11 @@ function loadKosta() {
 	runningUrl = getRunningKostaUrl(kostaUrl);
 	console.log("runningUrl=" + runningUrl);
 
+	setBlockUI();
+	
 	kostaTable.ajax.url(runningUrl);
 	kostaTable.ajax.reload();
+//	unBlockUI(); is done in draw.dt
 
 }
 
