@@ -48,50 +48,31 @@
 				 </div>
 			</div>
 
-			<div class="row tabThinBorderLightGreenLogoutE2">
-				<div class="col-8"></div>
- 				<div class="col-4">
+			<div class="row tabThinBorderLightGreenLogoutE2 align-items-center justify-content-end">
+ 				<div class="float-right">
     				<c:if test="${ empty user.usrLang || user.usrLang == 'NO'}">
-	               		<img src="resources/images/countryFlags/Flag_NO.gif" height="12" border="0" alt="country">
+	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_NO.gif" height="12">
 	               	</c:if>
 	               	<c:if test="${ user.usrLang == 'DA'}">
-	               		<img src="resources/images/countryFlags/Flag_DK.gif" height="12" border="0" alt="country">
+	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_DK.gif" height="12">
 	               	</c:if>
 	               	<c:if test="${ user.usrLang == 'SV'}">
-	               		<img src="resources/images/countryFlags/Flag_SE.gif" height="12" border="0" alt="country">
+	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_SE.gif" height="12">
 	               	</c:if>
 	               	<c:if test="${ user.usrLang == 'EN'}">
-	               		<img src="resources/images/countryFlags/Flag_UK.gif" height="12" border="0" alt="country">
+	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_UK.gif" height="12">
 	               	</c:if>
-      				&nbsp;
-      				<font class="headerMenuGreenNoPointer">
-	    				<img src="resources/images/appUser.gif" border="0" onClick="showPop('specialInformationAdmin');" > 
-				        <span style="position:absolute; left:100px; top:150px; width:1000px; height:400px;" id="specialInformationAdmin" class="popupWithInputText"  >
-				           		<div class="text11" align="left">
-				           			${activeUrlRPG_TODO}
-				           			<br/><br/>
-				           			<button name="specialInformationButtonClose" class="buttonGrayInsideDivPopup" type="button" onClick="hidePop('specialInformationAdmin');">Close</button> 
-				           		</div>
-				        </span>   		
-	    				<font class="text14User" >${user.user}&nbsp;</font>${user.usrLang}</font>
-	    				<font color="#FFFFFF"; style="font-weight: bold;">&nbsp;|&nbsp;&nbsp;</font>
-		    			<a tabindex=-1 href="logout.do">
-		    				<font class="headerMenuGreen"><img src="resources/images/home.gif" border="0">&nbsp;
-		    					<font class="text14User" ><spring:message code="dashboard.menu.button"/>&nbsp;</font>
-		    				</font>
-		    			</a>
-		    			<font color="#FFFFFF"; style="font-weight: bold;">&nbsp;&nbsp;|&nbsp;</font>
-		    			<font class="text12LightGreen" style="cursor:pointer;" onClick="showPop('versionInfo');">${user.versionSpring}&nbsp;</font>
-		    			<div class="text14" style="position: relative;" align="left">
-							<span style="position:absolute; left:50px; top:10px; width:250px" id="versionInfo" class="popupWithInputText"  >	
-			           			<b>${user.versionEspedsg}</b>
-			           			<br/>
-			           			&nbsp;<a href="renderLocalLog4j.do" target="_blank">log4j</a>
-			           			<br/><br/>
-			           			<button name="versionInformationButtonClose" class="buttonGrayInsideDivPopup" type="button" onClick="hidePop('versionInfo');">Close</button> 
-				           	</span>
-						</div> 
- 				</div>			
+ 
+					<span class="headerMenuGreenNoPointer">
+						<img class="img-fluid" src="resources/images/appUser.gif">&nbsp;${user.user}&nbsp;${user.usrLang}			
+					</span> 					
+ 	   				<font color="#FFFFFF" style="font-weight: bold;">&nbsp;&nbsp;|&nbsp;</font>
+ 					<span class="headerMenuGreenNoPointer">
+						<a class="headerMenuGreen text14" tabindex=-1 href="logout.do">
+							<img class="img-fluid" src="resources/images/home.gif">&nbsp;<spring:message code="dashboard.menu.button"/>		
+						</a>
+ 					</span>
+ 				</div>
 			</div>
 
 	   </div> 
