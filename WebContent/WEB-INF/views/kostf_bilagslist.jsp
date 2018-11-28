@@ -9,6 +9,9 @@
 
 <script type="text/javascript">
 	"use strict";
+	var signatur = "${user.signatur}";
+	var attkode = "&attkode="+signatur;
+	
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 	var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
 	var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
@@ -18,6 +21,9 @@
 	jq(document).ready(function() {
 
 		initKostaSearch();
+		
+		jq('#selectAttkode').append('<option selected="true">${user.signatur}</option>');
+		jq('#selectAttkode').prop('selectedIndex', '${user.signatur}');			
 		
 	});
 
@@ -62,10 +68,7 @@
 
 		<div class="form-group pr-2 col-1">
 			<label for="selectAttkode" class="col-form-label-sm mb-0">Att.kode</label>
-				<select class="selectAttkode-data-ajax form-control form-control-sm" id="selectAttkode">
-					<option value="">-velg-</option>
-					<option value="${user.signatur}" selected>${user.signatur}</option>
-				</select>
+				<select class="form-control form-control-sm" id="selectAttkode"></select>
 		</div>
 
 		<div class="form-group pr-2">

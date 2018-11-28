@@ -11,11 +11,15 @@ function initKostaSearch() {
 	}
 	console.log('initKosta');
 
+	let addSign = "";
+	if (signatur.length > 1) { //signature is mandatory
+		addSign = attkode;
+	}
 	//Init datatables, done once, then reload with ajax
 	kostaTable = jq('#kostaTable').DataTable({
 		"dom" : '<"top"f>t<"bottom"lip><"clear">',
 		"ajax": {
-	        "url": kostaUrl+"&innregnr=0", //short-circuit //TODO 2018-11-08 ingen annan lösning, ex: http://live.datatables.net/jacivile/1/edit
+	        "url": kostaUrl+addSign,
 	        "dataSrc": ""
 	    },	
 		mark: true,
@@ -116,7 +120,7 @@ function initKostaSearch() {
         unBlockUI();
     });	
 	
-	//init selectAttkode-data-ajax
+	//init selectAttkode
 	jq.ajax({
 			  type: 'GET',
 			  url: kodtsfUrl,
@@ -124,24 +128,12 @@ function initKostaSearch() {
 			  cache: false,
 			  contentType: 'application/json',
 			  success: function(data) {
-			  	var len = data.length;
-			  	var i = 0;
-				let select_data = [];
+				jq('#selectAttkode').append('<option value="">-velg-</option>');
+				jq('#selectAttkode').prop('selectedIndex', 0);
+	
 				_.each(data, function( d) {
-			  		select_data.push({
-			  	        id: d.kosfsi,
-			  	        text: d.kosfnv
-			  		});
-			  	 });
-			  	
-			  	//Inject dropdown
-				jq('.selectAttkode-data-ajax').select2({
-					 data: select_data,
-					 language: "nb",
-					 escapeMarkup: function (markup) { return markup; }, // let our custom formatter work;formatData
-					 templateResult: formatData,
-					 templateSelection: formatDataSelection
-				})	
+					jq('#selectAttkode').append(jq('<option></option>').attr('value', d.kosfsi).text(d.kosfsi));		//d.kosfnv		
+				});
 				
 			  }, 
 
@@ -149,13 +141,8 @@ function initKostaSearch() {
 				    alert('Error loading ...look in console log.');
 				    console.log(jqXHR);
 			  }	
-	});		
-
-	jq('.selectAttkode-data-ajax').change(function() {
-		var selected = jq('.selectAttkode-data-ajax').select2('data');
-		jq('#selectAttkode').val(selected[0].id);
-	});
-	//end init selectAttkode-data-ajax
+	});	
+	//end init selectAttkode
 
 	
 	//init selectSuppliernr-data-ajax
@@ -190,11 +177,8 @@ function initKostaSearch() {
 	});	
 	//end selectSuppliernr-data-ajax
 	
-
-	//jq('#submitBtn').click();
-		
 	
-}
+} //end initKostaSearch
 
 
 function formatData (data) {
