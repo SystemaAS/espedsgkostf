@@ -216,7 +216,7 @@ public class KostfBilagsListController {
 			}
 		}
 		
-		setDtoValues(dto, dao);
+		setDtoValues(dto, dao, appUser);
 		
 		return dto;
 		
@@ -243,7 +243,7 @@ public class KostfBilagsListController {
 
 		if (kostaList.get(0) != null) {
 			KostaDto dto = new KostaDto();
-			setDtoValues(dto, kostaList.get(0));
+			setDtoValues(dto, kostaList.get(0),appUser);
 			return dto;
 		} else {
 			return null;
@@ -251,7 +251,29 @@ public class KostfBilagsListController {
 
 	}
 	
-	private void setDtoValues(KostaDto dto, KostaDao dao) {
+	
+	private String getLevName(SystemaWebUser appUser, Integer levnr) {
+		logger.info("getLevName::levnr::"+levnr);
+		String BASE_URL = KostfUrlDataStore.LEVEF_NAME_URL;
+		StringBuilder urlRequestParams = new StringBuilder();
+		urlRequestParams.append("?user=" + appUser.getUser());
+		urlRequestParams.append("&levnr=" + levnr);
+		logger.info("Full url: " + BASE_URL +urlRequestParams.toString());
+
+		ResponseEntity<String> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(),
+				HttpMethod.GET, null, String.class);
+
+		logger.info("response="+response);	
+
+		if (response != null) {
+			return response.getBody();
+		} else {
+			return null;
+		}
+
+	}	
+	
+	private void setDtoValues(KostaDto dto, KostaDao dao, SystemaWebUser appUser) {
 		if (dao == null) {
 			throw new RuntimeException("dao cannot be null.");
 		}
@@ -275,6 +297,7 @@ public class KostfBilagsListController {
 		dto.setKatme(dao.getKatme());
 		dto.setKatxt(dao.getKatxt());
 		dto.setKauser(dao.getKauser());
+		dto.setLevnavn(getLevName(appUser, dao.getKalnr()));
 		
 		dto.setOpp_dato(DateTimeManager.getDateTime(dao.getKadte(),dao.getKatme()));
 		dto.setReg_dato(DateTimeManager.getDateTime(dao.getKadtr(),dao.getKatdr()));

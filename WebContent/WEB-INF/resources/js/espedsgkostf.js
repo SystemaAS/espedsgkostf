@@ -2,6 +2,9 @@ var jq = jQuery.noConflict();
 var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 
 var kostaTable;
+var levefTable;
+
+var levefInitialized = false;
 
 function initKostaSearch() {
 	console.log('kostaTable', kostaTable);
@@ -59,11 +62,7 @@ function initKostaSearch() {
 	        { "data": "kafnr" },
 	        { "data": "kavk" },
 	        { "data": "kalnr" },
-	    	{
-	            "orderable":      false,
-	            "data":           null,
-	            "defaultContent": 'todo'
-	    	},	        
+	    	{ "data": "levnavn" },	        
 	        { "data": "kasg" },
 	        { "data": "kabdt" },
 	        { "data": "kaval" },
@@ -73,7 +72,7 @@ function initKostaSearch() {
 	        { "data": "kaffdt" },
 	        { "data": "katxt" },
 	    	{
-	        	"class":          "delete",
+	        	"class":          "delete dt-body-center",
 	        	"orderable":      false,
 	            "data":           null,
 	            "defaultContent": ''
@@ -81,7 +80,7 @@ function initKostaSearch() {
 	    ],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
-			"url" : getLanguage('NO')
+			"url" : getLanguage(lang)
 		}        
 	
 	});
@@ -180,6 +179,63 @@ function initKostaSearch() {
 	
 } //end initKostaSearch
 
+
+function initLevefSearch() {
+	
+	console.log('initLevefSearch');
+	
+	console.log('levefUrl',levefUrl);
+	
+	
+	levefTable = jq('#levefTable').DataTable({
+		"dom" : '<"top">t<"bottom"flip><"clear">',
+		"ajax": {
+	        "url": levefUrl,
+	        "dataSrc": ""
+	    },	
+		mark: true,			
+		responsive : true,
+		select : true,
+		destroy : true,
+		"order" : [ [ 1, "desc" ] ],
+		"columns" : [ 
+			{"data" : "levnr"}, 
+			{"data" : "lnavn"},
+			{"data" : "adr1"},
+			{"data" : "adr2"},
+			{"data" : "adr3"},
+			{"data" : "postnr"},
+			{"data" : "land"}
+		 ],
+		"lengthMenu" : [ 10, 25, 75],
+		"language" : {
+			"url" : getLanguage(lang)
+		},
+		
+	    initComplete: function () {
+	    	levefInitialized = true;
+	    }
+
+	});
+
+	levefTable.on( 'draw.dt', function () {
+	    unBlockUI();
+	});		
+	
+}//end initLevefSearch
+
+function loadLevef() {
+	let runningUrl;
+	runningUrl = getRunningLevefUrl(levefUrl);
+	console.log("levef runningUrl=" + runningUrl);
+
+	setBlockUI();
+	
+	levefTable.ajax.url(runningUrl);
+	levefTable.ajax.reload();
+//	unBlockUI(); is done in draw.dt
+
+}
 
 function formatData (data) {
 	if (data.loading) {
@@ -305,11 +361,28 @@ function getRunningKostaUrl(kostaUrl) {
 function getRunningKostbUrl() {
 	let runningUrl = kostbUrl;
 	runningUrl = runningUrl + "&kbbnr=" + kabnr;
-	console.log("runningUrl", runningUrl);
+	console.log("kostb runningUrl", runningUrl);
 	
 	return runningUrl;
 }
 
+function getRunningLevefUrl() {
+	let runningUrl = levefUrl;
+
+	var selectedLevnr = jq('#selectLevnr').val();
+	var selectedLnavn = jq('#selectLnavn').val();
+
+	if (selectedLevnr != "") {
+		runningUrl = runningUrl + "&levnr=" + selectedLevnr;
+	} 
+	if (selectedLnavn != "") {
+		runningUrl = runningUrl + "&lnavn=" + selectedLnavn;
+	} 		
+	
+	console.log("levef runningUrl", runningUrl);
+	
+	return runningUrl;
+}
 
 
 jq(function() {
@@ -329,9 +402,7 @@ jq(function() {
 
 	jq('a#levnr_Link').click(function() {
 		jq('#levnr_Link').attr('target','_blank');
-		console.log("levnr link");
-		alert('TODO, levnr link');
-//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+    	window.open('childwindow_codes.do?caller=selectSuppliernr', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
 	
 	jq('a#gebyrkode_Link').click(function() {
@@ -358,8 +429,6 @@ jq(function() {
 
 	
 });  
-
-
 
 
 jq(document).keypress(function(e) {

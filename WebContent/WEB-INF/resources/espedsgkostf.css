@@ -29,6 +29,12 @@
 	background-size: 0.8rem 0.8rem;
 }
 
+.find {
+	color: black !important;
+	background: url('images/find.png') no-repeat center right; 
+	background-size: 0.8rem 0.8rem;
+}
+
 .form-row  {
    margin-right: 0px !important;
    margin-left: 0px !important;

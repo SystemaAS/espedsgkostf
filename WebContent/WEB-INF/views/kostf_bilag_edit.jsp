@@ -128,7 +128,7 @@
 							<img style="cursor:pointer;vertical-align: middle;" src="resources/images/find.png" width="14px" height="14px">
 						</a>&nbsp;
 
-						<input type="text" readonly class="form-control w-100" id="levname" value="levname TODO">
+						<input type="text" readonly class="form-control w-100" id="levnavn" value="${record.levnavn}">
 
 				</div>
 
@@ -196,6 +196,6 @@
 
 		<div class="padded-row-small left-right-bottom-border"></div>	
 		
-
+</form>
 
 </div>

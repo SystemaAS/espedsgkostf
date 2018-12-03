@@ -7,7 +7,7 @@
 		<meta charset="utf-8">
 	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		
-		<title>eSpedsg - <spring:message code="systema.kostf.title"/></title>
+		<title>eSpedsg - <spring:message code="search.label"/></title>
 
 		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/css/select2.min.css" rel="stylesheet" />
 		<link href="/espedsg2/resources/${user.cssEspedsg}?ver=${user.versionEspedsg}" rel="stylesheet" type="text/css"/>
@@ -32,56 +32,13 @@
 		<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.js"></script>
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js)"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/features/mark.js/datatables.mark.js"></script>
-		
+
 		<script>
 			var lang = '${user.usrLang}';
 		</script>
 
+
 	</head>
 	
-	
-<div id="headerWrapper"> 
-   <header> 
-	   <div class="container-fluid"> 
-			<div class="row headerTdsBannerAreaBg p-2">
-			 	<div class="col-8">
-					 <label class="text32Bold float-right" style="color:#778899;">eSpedsg-<spring:message code="systema.kostf.title"/></label>
-				 </div>
-				 <div class="col-4">
-					<img class="img-fluid float-right" src="resources/images/systema_logo.png" width=80px height=50px>
-				 </div>
-			</div>
-
-			<div class="row tabThinBorderLightGreenLogoutE2 align-items-center justify-content-end">
- 				<div class="float-right">
-    				<c:if test="${ empty user.usrLang || user.usrLang == 'NO'}">
-	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_NO.gif" height="12">
-	               	</c:if>
-	               	<c:if test="${ user.usrLang == 'DA'}">
-	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_DK.gif" height="12">
-	               	</c:if>
-	               	<c:if test="${ user.usrLang == 'SV'}">
-	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_SE.gif" height="12">
-	               	</c:if>
-	               	<c:if test="${ user.usrLang == 'EN'}">
-	               		<img class="img-fluid" src="resources/images/countryFlags/Flag_UK.gif" height="12">
-	               	</c:if>
- 
-					<span class="headerMenuGreenNoPointer">
-						<img class="img-fluid" src="resources/images/appUser.gif">&nbsp;${user.user}&nbsp;${user.usrLang}			
-					</span> 					
- 	   				<font color="#FFFFFF" style="font-weight: bold;">&nbsp;&nbsp;|&nbsp;</font>
- 					<span class="headerMenuGreenNoPointer">
-						<a class="headerMenuGreen text14" tabindex=-1 href="logout.do">
-							<img class="img-fluid" src="resources/images/home.gif">&nbsp;<spring:message code="dashboard.menu.button"/>		
-						</a>
- 					</span>
- 				</div>
-			</div>
-
-	   </div> 
-   </header>
-   
-</div>
 </html>
 	

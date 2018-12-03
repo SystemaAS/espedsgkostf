@@ -21,6 +21,10 @@ public final class KostfUrlDataStore {
 
 	/**http://localhost:8080/syjserviceskostf/syjsKOSTB.do?user=OSCAR&kabnr=10 */
 	static public String KOSTB_BASE_MAIN_URL = AppConstants.HTTP_ROOT_SERVLET_JSERVICES + "/syjserviceskostf/syjsKOSTB.do";	
+
+	/**http://localhost:8080/syjserviceskostf/syjsLEVEF_NAME?user=SYSTEMA&levnr=1*/
+	static public String LEVEF_NAME_URL = AppConstants.HTTP_ROOT_SERVLET_JSERVICES + "/syjserviceskostf/syjsLEVEF_NAME.do";		
+	
 	
 	//-------------------------
 	//[2] UPDATE record (U/A/D

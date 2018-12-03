@@ -59,14 +59,19 @@
 			<input type="text" class="form-control form-control-sm" id="selectFaktnr"  size="13"  maxlength="13">
 		</div>
 
-		<div class="form-group pr-2 col-1">
-			<label for="selectSuppliernr" class="col-form-label-sm mb-0">Leverandør</label>
-				<select class="selectSuppliernr-data-ajax form-control form-control-sm" id="selectSuppliernr">
-					<option value="">-velg-</option>
-				</select>
+		<div class="form-group pr-2">
+				<label for="selectSuppliernr" class="col-form-label-sm mb-0 mr-1">Lev.nr</label>
+				<div class="input-group">
+                    <input type="text" class="form-control form-control-sm" id="selectSuppliernr" size="8" maxlength="8">&nbsp;
+                    <span class="input-group-prepend">
+       					<a tabindex="-1" id="levnr_Link">
+							<img src="resources/images/find.png" width="14px" height="14px">
+						</a>
+                    </span>
+                </div>
 		</div>
 
-		<div class="form-group pr-2 col-1">
+		<div class="form-group pr-2">
 			<label for="selectAttkode" class="col-form-label-sm mb-0">Att.kode</label>
 				<select class="form-control form-control-sm" id="selectAttkode"></select>
 		</div>
@@ -111,7 +116,7 @@
 					<label>O= Ferdig oppgjort</label>
 				</span>
 			</div>			
-		    <select class="form-control" id="selectReklamasjon">
+		    <select class="form-control form-control-sm" id="selectReklamasjon">
 		      <option value="">-velg-</option>
 		      <option value="S">S</option>
 		      <option value="O">O</option>
@@ -141,7 +146,7 @@
 					<label>O= oppdatert bilag i økonomi</label>
 				</span>
 			</div>
-		    <select class="form-control" id="selectStatus">
+		    <select class="form-control form-control-sm" id="selectStatus">
 		      <option value="" selected>-blank-</option>
 		      <option value="*">Alle</option>
 		      <option value="A">A</option>
@@ -165,25 +170,25 @@
 
  	
 	<div class="left-right-bottom-border no-gutters">
-		<table class="display compact cell-border responsive" id="kostaTable">
+		<table class="display compact cell-border responsive nowrap" id="kostaTable">
 			<thead class="tableHeaderField">
 				<tr>
 					<th>Innreg.nr</th>
 					<th>Endre</th>
 					<th>Bilagsnr</th>
 					<th>Status</th>
-					<th>Periode(mån)</th>
-					<th>Periode(år)</th>
-					<th>Fakturanr</th>
-					<th>Gebyrkode</th>
-					<th>Leverandørnr</th>
+					<th>P.(mn)</th>
+					<th>P.(år)</th>
+					<th>Fakt.nr</th>
+					<th>Gebyr</th>
+					<th>Lev.nr</th>
 					<th>Leverandør</th>
 					<th>Att.kode</th>
 					<th>Bilagsdato</th>
 					<th>Valuta</th>
 					<th>Beløp</th>
 					<th>Moms</th>
-					<th>Bet.betingelse</th>
+					<th>Bet.bet.</th>
 					<th>Forfallsdato</th>
 					<th>Kommentar</th>
 					<th class="all">Slett</th>					
