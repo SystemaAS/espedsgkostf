@@ -6,69 +6,14 @@
 <jsp:include page="/WEB-INF/views/headerKostfChildWindow.jsp" />
 <!-- =====================end header ==========================-->
 
-<style type="text/css">
-.ui-datepicker {
-	font-size: 9pt;
-}
-</style>
+<link href="resources/espedsgkostf.css" rel="stylesheet" type="text/css"/>
 
 <script type="text/javascript">
 	"use strict";
-
 	var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}";
 	
-// 	function load_data() {
-// 		var runningUrl = baseUrl;
-
-// 		var selectedLevnr = jq('#selectLevnr').val();
-// 		var selectedLnavn = jq('#selectLnavn').val();
-
-// 		if (selectedLevnr != "") {
-// 			runningUrl = runningUrl + "&levnr=" + selectedLevnr;
-// 		} 
-// 		if (selectedLnavn != "") {
-// 			runningUrl = runningUrl + "&lnavn=" + selectedLnavn;
-// 		} 		
-		
-// 		console.log("runningUrl=" + runningUrl);
-
-// 		setBlockUI();
-
-// 		jq('#supplierTable').DataTable({
-// 			"dom" : '<"top">t<"bottom"flip><"clear">',
-// 			"ajax": {
-// 		        "url": runningUrl,
-// 		        "dataSrc": ""
-// 		    },	
-// 			mark: true,			
-// 			responsive : true,
-// 			select : true,
-// 			destroy : true,
-// 			"order" : [ [ 1, "desc" ] ],
-// 			"columns" : [ 
-// 				{"data" : "levnr"}, 
-// 				{"data" : "lnavn"},
-// 				{"data" : "adr1"},
-// 				{"data" : "adr2"},
-// 				{"data" : "adr3"},
-// 				{"data" : "postnr"},
-// 				{"data" : "land"}
-// 			 ],
-// 			"lengthMenu" : [ 10, 25, 75],
-// 			"language" : {
-// 				"url" : getLanguage('NO')
-// 			}
-
-// 		});
-
-// 		unBlockUI();
-
-// 	}
-	
 	jq(document).ready(function() {
-
 		initLevefSearch();
-		
 	});	
 
 </script>
@@ -98,6 +43,7 @@
 			<thead class="tableHeaderField">
 				<tr>
 					<th>Levnr</th>
+					<th>Velg</th>					
 					<th>Navn</th>
 					<th>Adr</th>
 					<th>Adr</th>

@@ -143,63 +143,43 @@ function initKostaSearch() {
 	});	
 	//end init selectAttkode
 
-	
-	//init selectSuppliernr-data-ajax
-	jq(".selectSuppliernr-data-ajax").select2({
-			ajax: {
-		    url: levefUrl,
-		    dataType: 'json',
-		    delay: 250,
-		    data: function (params) {
-		      return {
-		        lnavn: params.term, // search term
-		        page: params.page
-		      };
-		    },
-		    processResults: function (data, params) {
-		      params.page = params.page || 1;
-		      return {
-		        results: data.items,
-		        pagination: {
-		          more: (params.page * 30) < data.countFiltered
-		        }
-		      };
-		    },
-		    cache: true	
-		  },
-		  placeholder: '',
-		  allowClear: true,
-	  	  escapeMarkup: function (markup) { return markup; },
-		  minimumInputLength: 3,
-	 	  templateResult: formatData,
-	  	  templateSelection: formatDataSelection
-	});	
-	//end selectSuppliernr-data-ajax
-	
-	
 } //end initKostaSearch
 
 
 function initLevefSearch() {
-	
-	console.log('initLevefSearch');
-	
-	console.log('levefUrl',levefUrl);
-	
-	
+
 	levefTable = jq('#levefTable').DataTable({
-		"dom" : '<"top">t<"bottom"flip><"clear">',
+		"dom" : '<"top"f>t<"bottom"lip><"clear">',
 		"ajax": {
-	        "url": levefUrl,
+	        "url": levefUrl+"&lnavn=NONE",  //short-circuit for now...., 2018-11-03, testa denna: http://live.datatables.net/dugacuka/1/edit
 	        "dataSrc": ""
 	    },	
 		mark: true,			
 		responsive : true,
 		select : true,
 		destroy : true,
-		"order" : [ [ 1, "desc" ] ],
+		"scrollY" : "300px",
+		"scrollCollapse" : false,
+		"order" : [ [ 3, "desc" ] ],
+		"columnDefs" : [ 
+			{
+				"targets" : 1,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+	           		return '<a>' +
+	       			'<img class="img-fluid float-center" title="Velg" src="resources/images/bebullet.gif">' +
+	       			'</a>'    	
+			    }
+			}
+		],			
 		"columns" : [ 
 			{"data" : "levnr"}, 
+	    	{
+	        	"class":          "choose dt-body-center",
+	        	"orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	},		
 			{"data" : "lnavn"},
 			{"data" : "adr1"},
 			{"data" : "adr2"},
@@ -218,6 +198,19 @@ function initLevefSearch() {
 
 	});
 
+	levefTable.on( 'click', 'td.choose img', function () {	
+	    let row = levefTable.row( jq(this).parents('tr') ).data();	
+
+		var caller = '#selectSuppliernr';
+		opener.jq(caller).val(row.levnr);
+		opener.jq(caller).change();
+		opener.jq(caller).focus();
+		
+		window.close();
+		
+	});	
+	
+	
 	levefTable.on( 'draw.dt', function () {
 	    unBlockUI();
 	});		
@@ -233,25 +226,9 @@ function loadLevef() {
 	
 	levefTable.ajax.url(runningUrl);
 	levefTable.ajax.reload();
-//	unBlockUI(); is done in draw.dt
+	//	unBlockUI(); is done in draw.dt
 
 }
-
-function formatData (data) {
-	if (data.loading) {
-		return data.text;
-	}
-	console.log("data",data);
-	var markup = "<div>" + data.id ; 
- 	markup += '<p class="text-md-left" style="font-size:75%;">' + data.text +'</p></div>';
-	  
-	return markup;
-}
-
-function formatDataSelection (data) {
-	  return data.id || data.text;
-}
-
 
 function loadKosta() {
 	let runningUrl;
@@ -412,13 +389,6 @@ jq(function() {
 //		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
 	
-	jq('a#attkode_Link').click(function() {
-		jq('#attkode_Link').attr('target','_blank');
-		console.log("attkode link");
-		alert('TODO, attkode link');
-//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
-	}); 		
-
 	jq('a#bilagsserie_Link').click(function() {
 		jq('#bilagsserie_Link').attr('target','_blank');
 		console.log("bilagsserie link");
