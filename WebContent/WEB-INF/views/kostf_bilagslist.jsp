@@ -13,7 +13,6 @@
 	var attkode = "&attkode="+signatur;
 	
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
-	var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
 	var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
@@ -46,20 +45,20 @@
 	<div class="padded-row-small left-right-border"></div>	
 
 	<div class="form-row left-right-border">
-		<div class="form-group pr-2 pl-1">
+		<div class="form-group pr-2 pl-1 col-1">
 			<label for="selectBilagsnr" class="col-form-label-sm mb-0">Bilagsnr</label>
 			<input type="text" class="form-control form-control-sm" id="selectBilagsnr" size="8" maxlength="7">	
 		</div>
-		<div class="form-group pr-2">
+		<div class="form-group pr-2 col-1">
 			<label for="selectInnregnr" class="col-form-label-sm mb-0">Innreg.nr</label>
 			<input type="text" class="form-control form-control-sm" id="selectInnregnr" size="8" maxlength="7"/>
 		</div>
-		<div class="form-group pr-2">
+		<div class="form-group pr-2 col-1">
 			<label for="selectFaktnr" class="col-form-label-sm mb-0">Fakturanr</label>
 			<input type="text" class="form-control form-control-sm" id="selectFaktnr"  size="13"  maxlength="13">
 		</div>
 
-		<div class="form-group pr-2">
+		<div class="form-group pr-2 col-1">
 				<label for="selectSuppliernr" class="col-form-label-sm mb-0 mr-1">Lev.nr</label>
 				<div class="input-group">
                     <input type="text" class="form-control form-control-sm" id="selectSuppliernr" size="8" maxlength="8">&nbsp;
@@ -71,34 +70,37 @@
                 </div>
 		</div>
 
-		<div class="form-group pr-2">
+		<div class="form-group pr-2 col-1">
 			<label for="selectAttkode" class="col-form-label-sm mb-0">Att.kode</label>
 				<select class="form-control form-control-sm" id="selectAttkode"></select>
 		</div>
 
-		<div class="form-group pr-2">
-			<label for="selectKomment" class="col-form-label-sm mb-0">Kommentar</label>
+		<div class="form-group pr-2 col-2">
+			<label for="selectKomment" class="col-form-label-sm mb-0">Bilagskomm.</label>
 			<input type="text" class="form-control form-control-sm" id="selectKomment" size="35" maxlength="35">
 		</div>
-		<div class="form-group pr-2">
+		<div class="form-group pr-2 col-1">
 			<label for="selectFradato" class="col-form-label-sm mb-0">Fra&nbsp;bilagsdato</label>
 			<input type="text" class="form-control form-control-sm" id="selectFradato" size="8" maxlength="8">
 		</div>
+
 		<div class="form-group pr-2">
-			<label for="selectFrapermnd" class="col-form-label-sm mb-0">Fra&nbsp;periode</label>
-			<input type="text" class="form-control form-control-sm" id="selectFrapermnd" placeholder="mm" size="2" maxlength="2">
+			<label for="selectFrapermnd" class="col-form-label-sm mb-0">Fra</label>
+			<input type="text" class="form-control form-control-sm" id="selectFrapermnd" placeholder="mm" size="3" maxlength="2">
 		</div>
 		<div class="form-group pr-2">
 			<label for="selectFraperaar" class="col-form-label-sm mb-0">&nbsp;</label>
-			<input type="text" class="form-control form-control-sm" id="selectFraperaar" placeholder="yy" size="2" maxlength="2">
+			<input type="text" class="form-control form-control-sm" id="selectFraperaar" placeholder="yy" size="3" maxlength="2">
 		</div>
+
+
 		<div class="form-group pr-2">
-			<label for="selectTilpermnd" class="col-form-label-sm mb-0">Til&nbsp;periode</label>
-			<input type="text" class="form-control form-control-sm" id="selectTilpermnd"  placeholder="mm" size="2" maxlength="2">
+			<label for="selectTilpermnd" class="col-form-label-sm mb-0">Til</label>
+			<input type="text" class="form-control form-control-sm" id="selectTilpermnd"  placeholder="mm" size="3" maxlength="2">
 		</div>
 		<div class="form-group pr-2">
 			<label for="selectTilperaar" class="col-form-label-sm mb-0">&nbsp;</label>
-			<input type="text" class="form-control form-control-sm" id="selectTilperaar"  placeholder="yy" size="2" maxlength="2">
+			<input type="text" class="form-control form-control-sm" id="selectTilperaar"  placeholder="yy" size="3" maxlength="2">
 		</div>
 
 	</div>
@@ -159,7 +161,7 @@
 
 		<div class="form-group col-2 align-self-end">
 			<div class="float-md-right">
-				<button class="btn inputFormSubmit" onclick="loadKosta()" id="submitBtn"  autofocus>Søk</button>
+				<button class="btn inputFormSubmit btn-sm" onclick="loadKosta()" id="submitBtn"  autofocus>Søk</button>
 			</div>
 		</div>	
 	

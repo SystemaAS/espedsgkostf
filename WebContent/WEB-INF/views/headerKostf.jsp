@@ -35,6 +35,7 @@
 		
 		<script>
 			var lang = '${user.usrLang}';
+			var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
 		</script>
 
 	</head>

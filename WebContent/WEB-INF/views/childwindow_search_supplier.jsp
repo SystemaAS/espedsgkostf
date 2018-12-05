@@ -11,9 +11,10 @@
 <script type="text/javascript">
 	"use strict";
 	var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}";
+ 	let caller = "#${model.caller}";
 	
 	jq(document).ready(function() {
-		initLevefSearch();
+		initLevefSearch(caller);
 	});	
 
 </script>
@@ -33,7 +34,7 @@
 
 		<div class="form-group col-2 align-self-end">
 			<div class="float-md-right">
-				<button class="btn inputFormSubmit" onclick="loadLevef();" id="loadLevef"  autofocus>Søk</button>
+				<button class="btn inputFormSubmit" onclick="loadLevef();" id="submitBtn"  autofocus>Søk</button>
 			</div>
 		</div>
 	</div>

@@ -146,7 +146,34 @@ function initKostaSearch() {
 } //end initKostaSearch
 
 
-function initLevefSearch() {
+
+function getAttKode(caller){
+	
+	jq.ajax({
+			  type: 'GET',
+			  url: kodtsfUrl,
+			  dataType: 'json',
+			  cache: false,
+			  contentType: 'application/json',
+			  success: function(data) {
+				jq(caller).append('<option value="">-velg-</option>');
+				jq(caller).prop('selectedIndex', 0);
+	
+				_.each(data, function( d) {
+					jq(caller).append(jq('<option></option>').attr('value', d.kosfsi).text(d.kosfsi));		//d.kosfnv		
+				});
+				
+			  }, 
+
+			  error: function (jqXHR, exception) {
+				    alert('Error loading ...look in console log.');
+				    console.log(jqXHR);
+			  }	
+	});	
+}
+
+
+function initLevefSearch(caller) {
 
 	levefTable = jq('#levefTable').DataTable({
 		"dom" : '<"top"f>t<"bottom"lip><"clear">',
@@ -201,7 +228,11 @@ function initLevefSearch() {
 	levefTable.on( 'click', 'td.choose img', function () {	
 	    let row = levefTable.row( jq(this).parents('tr') ).data();	
 
-		var caller = '#selectSuppliernr';
+		//var caller = '#selectSuppliernr';
+	    
+	    console.log('click, caller',caller);
+	    
+	    caller
 		opener.jq(caller).val(row.levnr);
 		opener.jq(caller).change();
 		opener.jq(caller).focus();
@@ -370,6 +401,10 @@ jq(function() {
 		dateFormat: 'yymmdd'
 	});
 
+	jq("#kabdt").datepicker({
+		dateFormat: 'yymmdd'
+	});	
+	
 	jq('a#kommentar_Link').click(function() {
 		jq('#kommentar_Link').attr('target','_blank');
 		console.log("komm link");
@@ -377,10 +412,16 @@ jq(function() {
 //		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 
 
+	//search
 	jq('a#levnr_Link').click(function() {
 		jq('#levnr_Link').attr('target','_blank');
     	window.open('childwindow_codes.do?caller=selectSuppliernr', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
+	//edit
+	jq('a#levnr_Link2').click(function() {
+		jq('#levnr_Link2').attr('target','_blank');
+    	window.open('childwindow_codes.do?caller=kalnr', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 
 	
 	jq('a#gebyrkode_Link').click(function() {
 		jq('#gebyrkode_Link').attr('target','_blank');

@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import no.systema.jservices.common.dao.ArkextDao;
@@ -38,19 +39,19 @@ public class ChildWindowsSearchController {
 
 
 	@RequestMapping(value="childwindow_codes.do",  method={RequestMethod.GET} )
-	public ModelAndView getCodes(HttpSession session, HttpServletRequest request){
-		ModelAndView successView = new ModelAndView("childwindow_search_supplier");
+	public ModelAndView getCodes(HttpSession session, HttpServletRequest request,
+								@RequestParam(value = "caller", required = true) String caller){
 
+		ModelAndView successView = new ModelAndView("childwindow_search_supplier");
 		SystemaWebUser appUser = (SystemaWebUser)session.getAttribute(AppConstants.SYSTEMA_WEB_USER_KEY);
 		Map model = new HashMap();
-		String caller = request.getParameter("caller");  //Field in jsp
 		
 		if(appUser==null){
 			return this.loginView;
 		}else{
 			  
-			List list = getCodeList(appUser, caller);
-			model.put("codeList", list);
+//			List list = getCodeList(appUser, caller);
+//			model.put("codeList", list);
 			model.put("caller", caller);
 			
 			successView.addObject("model" , model);
