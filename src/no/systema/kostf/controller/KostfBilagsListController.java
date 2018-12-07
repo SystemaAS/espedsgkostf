@@ -131,7 +131,7 @@ public class KostfBilagsListController {
 			} else {
 				logger.info("Create save...");
 				KostaDto dao = saveRecord(appUser, record, "A");
-				returnDto = fetchRecord(appUser, dao.getKabnr(), CRUDEnum.READ); // TODO
+				returnDto = fetchRecord(appUser, dao.getKabnr());
 				editView.addObject("record", returnDto);
 
 				kabnr = record.getKabnr();
@@ -154,7 +154,7 @@ public class KostfBilagsListController {
 
 		} else if (action.equals(CRUDEnum.READ.getValue())) {
 			logger.info("Read...");
-			returnDto = fetchRecord(appUser, record.getKabnr(), CRUDEnum.READ);
+			returnDto = fetchRecord(appUser, record.getKabnr());
 			bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
 
 			editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
@@ -215,52 +215,25 @@ public class KostfBilagsListController {
 			}
 		}
 		
-//		setDtoValues(dto, dao, appUser);
-		
 		dto = get(dao, appUser);
 		return dto;
 		
 	}
 	
-	private KostaDto fetchRecord(SystemaWebUser appUser, Integer kabnr, CRUDEnum action) {
+	private KostaDto fetchRecord(SystemaWebUser appUser, Integer kabnr) {
 		logger.info("fetchRecord::kabnr::"+kabnr);
 		String BASE_URL = KostfUrlDataStore.KOSTA_GET_MAIN_URL;
 		StringBuilder urlRequestParams = new StringBuilder();
 		urlRequestParams.append("?user=" + appUser.getUser());
 		urlRequestParams.append("&innregnr=" + kabnr);
-//		urlRequestParams.append("&action=" + action.getValue());
 		logger.info("Full url: " + BASE_URL +urlRequestParams.toString());
 
-//		ResponseEntity<List<KostaDao>> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(),
-//				HttpMethod.GET, null, new ParameterizedTypeReference<List<KostaDao>>() {});
-//		List<KostaDao> kostaList = response.getBody();		
-//		logger.info("kostaList size="+kostaList.size());	
-
-		
 		ResponseEntity<KostaDto> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(), HttpMethod.GET, null, KostaDto.class);
 		KostaDto dto = response.getBody();		
-		logger.info("dto="+ReflectionToStringBuilder.toString(dto));
-		
-//		//Sanity check
-//		if (kostaList.size() > 1) {  //implicit: kostaList cannot be null
-//			throw new RuntimeException("fetchRecord for kabnr :"+kabnr+ " gives more than one row!");
-//		}
-//
-//		if (kostaList.get(0) != null) {
-//			KostaDao dao = kostaList.get(0);
-//			KostaDto dto = get(dao, appUser);		
 			
-//			dto.setLevnavn(getLevName(appUser, dao.getKalnr()));
-//			dto.setOpp_dato(DateTimeManager.getDateTime(dao.getKadte(),dao.getKatme()));
-//			dto.setReg_dato(DateTimeManager.getDateTime(dao.getKadtr(),dao.getKatdr()));			
-			
-			return dto;
-//		} else {
-//			return null;
-//		}
+		return dto;
 
 	}
-	
 	
 	private String getLevName(SystemaWebUser appUser, Integer levnr) {
 		logger.info("getLevName::levnr::"+levnr);
@@ -282,19 +255,6 @@ public class KostfBilagsListController {
 		}
 
 	}	
-	
-//	private void setDtoValues(KostaDto dto, KostaDao dao, SystemaWebUser appUser) {
-//		if (dao == null) {
-//			throw new RuntimeException("dao cannot be null.");
-//		}
-//		dto = KostaDto.get(dao);		
-//		
-//		dto.setLevnavn(getLevName(appUser, dao.getKalnr()));
-//		dto.setOpp_dato(DateTimeManager.getDateTime(dao.getKadte(),dao.getKatme()));
-//		dto.setReg_dato(DateTimeManager.getDateTime(dao.getKadtr(),dao.getKatdr()));
-//		
-//	}
-
 	
 	private KostaDto get(KostaDao dao, SystemaWebUser appUser) {
 		if (dao == null) {
