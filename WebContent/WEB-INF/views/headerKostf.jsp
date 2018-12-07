@@ -36,12 +36,14 @@
 		<script>
 			var lang = '${user.usrLang}';
 			var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
+			var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
 		</script>
 
 	</head>
 	
 	
 <div id="headerWrapper"> 
+	<input type="hidden" name="language" id=language value="${user.usrLang}">
    <header> 
 	   <div class="container-fluid"> 
 			<div class="row headerTdsBannerAreaBg p-2">

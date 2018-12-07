@@ -119,36 +119,9 @@ function initKostaSearch() {
         unBlockUI();
     });	
 	
-	//init selectAttkode
-	jq.ajax({
-			  type: 'GET',
-			  url: kodtsfUrl,
-			  dataType: 'json',
-			  cache: false,
-			  contentType: 'application/json',
-			  success: function(data) {
-				jq('#selectAttkode').append('<option value="">-velg-</option>');
-				jq('#selectAttkode').prop('selectedIndex', 0);
-	
-				_.each(data, function( d) {
-					jq('#selectAttkode').append(jq('<option></option>').attr('value', d.kosfsi).text(d.kosfsi));		//d.kosfnv		
-				});
-				
-			  }, 
-
-			  error: function (jqXHR, exception) {
-				    alert('Error loading ...look in console log.');
-				    console.log(jqXHR);
-			  }	
-	});	
-	//end init selectAttkode
-
 } //end initKostaSearch
 
-
-
 function getAttKode(caller){
-	
 	jq.ajax({
 			  type: 'GET',
 			  url: kodtsfUrl,
@@ -164,10 +137,10 @@ function getAttKode(caller){
 				});
 				
 			  }, 
-
 			  error: function (jqXHR, exception) {
-				    alert('Error loading ...look in console log.');
-				    console.log(jqXHR);
+				    alert('Error loading att.kode...look in console log.');
+				    console.log("jqXHR",jqXHR);
+				    console.log("exception",exception);
 			  }	
 	});	
 }
@@ -228,11 +201,6 @@ function initLevefSearch(caller) {
 	levefTable.on( 'click', 'td.choose img', function () {	
 	    let row = levefTable.row( jq(this).parents('tr') ).data();	
 
-		//var caller = '#selectSuppliernr';
-	    
-	    console.log('click, caller',caller);
-	    
-	    caller
 		opener.jq(caller).val(row.levnr);
 		opener.jq(caller).change();
 		opener.jq(caller).focus();
@@ -404,6 +372,34 @@ jq(function() {
 	jq("#kabdt").datepicker({
 		dateFormat: 'yymmdd'
 	});	
+
+	jq("#kafdt").datepicker({
+		dateFormat: 'yymmdd'
+	});		
+	
+	jq("#kalnr").blur(function() { 
+		jq.ajax({
+//			  type: 'GET',
+			  url: levefUrlGet,
+		  	  data: { levnr : jq("#kalnr").val() }, 
+			  dataType: 'json',
+			  cache: false,
+			  contentType: 'application/json',
+			  success: function(data) {
+				jq("#levnavn").val(data.lnavn);
+				jq("#kabb").val(data.betbet);
+				//jq("#kaffdt").val(kaffdt);  gör i backend
+				
+			  }, 
+			  error: function (jqXHR, exception) {
+				    alert('Error loading ...look in console log.');
+				    console.log(jqXHR);
+			  }	
+		});		
+	
+	});	
+	
+	
 	
 	jq('a#kommentar_Link').click(function() {
 		jq('#kommentar_Link').attr('target','_blank');
@@ -437,10 +433,9 @@ jq(function() {
 //		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 		
 	
-
+	jq("input[required]").parent("label").addClass("required");
 	
 });  
-
 
 jq(document).keypress(function(e) {
     if(e.which == 13) {

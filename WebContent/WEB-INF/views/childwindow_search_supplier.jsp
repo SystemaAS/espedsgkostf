@@ -29,12 +29,12 @@
 
 		<div class="form-group pr-2 pl-1">
 			<label for="selectLnavn" class="col-form-label-sm mb-0">Lev.navn</label>
-			<input type="text" class="form-control form-control-sm" id="selectLnavn" size="11" maxlength="10">	
+			<input type="text" class="form-control form-control-sm" id="selectLnavn" size="11" maxlength="10" autofocus>	
 		</div>
 
 		<div class="form-group col-2 align-self-end">
 			<div class="float-md-right">
-				<button class="btn inputFormSubmit" onclick="loadLevef();" id="submitBtn"  autofocus>Søk</button>
+				<button class="btn inputFormSubmit" onclick="loadLevef();" id="submitBtn">Søk</button>
 			</div>
 		</div>
 	</div>

@@ -13,7 +13,6 @@
 	var attkode = "&attkode="+signatur;
 	
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
-	var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
@@ -23,6 +22,8 @@
 		
 		jq('#selectAttkode').append('<option selected="true">${user.signatur}</option>');
 		jq('#selectAttkode').prop('selectedIndex', '${user.signatur}');			
+		
+		getAttKode('#selectAttkode');
 		
 	});
 
@@ -45,13 +46,13 @@
 	<div class="padded-row-small left-right-border"></div>	
 
 	<div class="form-row left-right-border">
-		<div class="form-group pr-2 pl-1 col-1">
-			<label for="selectBilagsnr" class="col-form-label-sm mb-0">Bilagsnr</label>
-			<input type="text" class="form-control form-control-sm" id="selectBilagsnr" size="8" maxlength="7">	
-		</div>
 		<div class="form-group pr-2 col-1">
 			<label for="selectInnregnr" class="col-form-label-sm mb-0">Innreg.nr</label>
 			<input type="text" class="form-control form-control-sm" id="selectInnregnr" size="8" maxlength="7"/>
+		</div>
+		<div class="form-group pr-2 pl-1 col-1">
+			<label for="selectBilagsnr" class="col-form-label-sm mb-0">Bilagsnr</label>
+			<input type="text" class="form-control form-control-sm" id="selectBilagsnr" size="8" maxlength="7">	
 		</div>
 		<div class="form-group pr-2 col-1">
 			<label for="selectFaktnr" class="col-form-label-sm mb-0">Fakturanr</label>
@@ -165,12 +166,8 @@
 			</div>
 		</div>	
 	
-	
 	</div>
 
-	<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
-
- 	
 	<div class="left-right-bottom-border no-gutters">
 		<table class="display compact cell-border responsive nowrap" id="kostaTable">
 			<thead class="tableHeaderField">
@@ -179,20 +176,20 @@
 					<th>Endre</th>
 					<th>Bilagsnr</th>
 					<th>Status</th>
-					<th>P.(mn)</th>
+					<th>P.(mån)</th>
 					<th>P.(år)</th>
 					<th>Fakt.nr</th>
 					<th>Gebyr</th>
 					<th>Lev.nr</th>
-					<th>Leverandør</th>
+					<th>Lev.navn</th>
 					<th>Att.kode</th>
 					<th>Bilagsdato</th>
 					<th>Valuta</th>
 					<th>Beløp</th>
-					<th>Moms</th>
+					<th>Mva</th>
 					<th>Bet.bet.</th>
 					<th>Forfallsdato</th>
-					<th>Kommentar</th>
+					<th>Bilagskomm.</th>
 					<th class="all">Slett</th>					
 				</tr>
 			</thead>

@@ -22,6 +22,16 @@
    border-bottom-width: 1px;
    border-color: #D5E0CE; 
  }
+ 
+ .left-right-top-border {
+   border-style: solid; 
+   border-left-width: 1px; 
+   border-right-width: 1px; 
+   border-top-width: 1px;
+   border-bottom-width: 1px;
+   border-color: #D5E0CE; 
+ }
+ 
 
 .nav-new {
 	color: black !important;  /*link is defined in espedsg.css, override*/
@@ -81,4 +91,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child:b
 	font-size:9pt !important;
 }
 
-
+.required:before {
+  content:"*";
+  color:red;
+}
