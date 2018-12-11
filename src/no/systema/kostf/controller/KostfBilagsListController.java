@@ -111,7 +111,9 @@ public class KostfBilagsListController {
 		ModelAndView returnView = editView; //default
 		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_edit.do");		
 		KostaDto returnDto = null;
-		Integer kabnr = new Integer(0);
+//		Integer kabnr = new Integer(0);
+		String kabnr = null;
+
 		
 		BilagSessionParams sessionParams =  (BilagSessionParams) session.getAttribute(SESSION_PARAMS);
 		if (session.getAttribute(SESSION_PARAMS) == null) {
@@ -128,17 +130,24 @@ public class KostfBilagsListController {
 			if (sessionParams.getKabnr() == null) {
 				logger.info("Create init...");
 				returnDto = new KostaDto();
+				
+				// Set callback state
+				editView.addObject("action", CRUDEnum.CREATE.getValue());
+				
 			} else {
 				logger.info("Create save...");
-				KostaDto dao = saveRecord(appUser, record, "A");
-				returnDto = fetchRecord(appUser, dao.getKabnr());
+				KostaDto dto = saveRecord(appUser, record, "A");
+				returnDto = fetchRecord(appUser, dto.getKabnr());
+				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
+				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 				editView.addObject("record", returnDto);
-
+				
 				kabnr = record.getKabnr();
 
+				// Set callback state
+				editView.addObject("action", CRUDEnum.UPDATE.getValue());
+				
 			}
-			// Set callback state
-			editView.addObject("action", CRUDEnum.CREATE.getValue());
 
 		} else if (action.equals(CRUDEnum.UPDATE.getValue())) {
 			logger.info("Update...");
@@ -169,6 +178,9 @@ public class KostfBilagsListController {
 			returnDto = saveRecord(appUser, record, "D");
 			returnView = listView;
 			session.removeAttribute(SESSION_PARAMS);
+			
+			// Set callback state
+			editView.addObject("action", CRUDEnum.READ.getValue());	
 
 		}
 
@@ -220,7 +232,7 @@ public class KostfBilagsListController {
 		
 	}
 	
-	private KostaDto fetchRecord(SystemaWebUser appUser, Integer kabnr) {
+	private KostaDto fetchRecord(SystemaWebUser appUser, String kabnr) {
 		logger.info("fetchRecord::kabnr::"+kabnr);
 		String BASE_URL = KostfUrlDataStore.KOSTA_GET_MAIN_URL;
 		StringBuilder urlRequestParams = new StringBuilder();
@@ -246,7 +258,7 @@ public class KostfBilagsListController {
 		ResponseEntity<String> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(),
 				HttpMethod.GET, null, String.class);
 
-		logger.info("response="+response);	
+//		logger.info("response="+response);	
 
 		if (response != null) {
 			return response.getBody();
@@ -263,9 +275,7 @@ public class KostfBilagsListController {
 		KostaDto dto = KostaDto.get(dao);		
 		
 		dto.setLevnavn(getLevName(appUser, dao.getKalnr()));
-		dto.setOpp_dato(DateTimeManager.getDateTime(dao.getKadte(),dao.getKatme()));
-		dto.setReg_dato(DateTimeManager.getDateTime(dao.getKadtr(),dao.getKatdr()));		
-		
+
 		return dto;
 		
 	}

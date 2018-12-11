@@ -9,50 +9,15 @@
 
 <script type="text/javascript">
 	"use strict";
-	var kosttUrl = "/syjserviceskostf/syjsKOSTT";
+	var kosttUrl = "/syjserviceskostf/syjsKOSTT?user=${user.user}";
 	var levefUrlGet = "/syjserviceskostf/syjsLEVEF_GET?user=${user.user}"
 	
 	jq(document).ready(function() {
  		jq('[data-toggle="tooltip"]').tooltip(); //TODO
 
- 		jq.ajax({
- 			  type: 'GET',
- 			  url: kosttUrl,
- 			  data: { user : '${user.user}'},
- 			  dataType: 'json',
- 			  cache: false,
- 			  contentType: 'application/json',
- 			  success: function(data) {
- 			  	var len = data.length;
- 			  	var i = 0;
- 				var select_data = [];
- 				_.each(data, function( d) {
- 			  		select_data.push({
- 			  	        id: d.kttyp,
- 			  	        text: d.kttyp
- 			  		});
- 			  	 });
-			  	
- 			  	//Inject dropdown
- 				jq('.bilagsserie-data-ajax').select2({
- 					 data: select_data,
- 					 language: "no",
- 				})	
- 				
- 			  }, 
- 			  error: function (jqXHR, exception) {
- 				    alert('Error loading kosttUrl...look in console log.');
- 				    console.log(jqXHR);
- 			  }	
- 		});		
- 		
-		jq('.bilagsserie-data-ajax').change(function() {
-			var selected = jq('.bilagsserie-data-ajax').select2('data');
-			jq('#kttyp').val(selected[0].text);
-		});
-	
 		getAttKode('#kasg');
-
+		getBilagsSerie('#kttyp');
+		
 	});
 </script>
 
@@ -77,7 +42,7 @@
 		<form action="kostf_bilag_edit.do" method="POST">
 			<input type="hidden" name="action" id="action" value='${action}'>
 		    <input type="hidden" name="kabnr" id="kabnr" value='${sessionParams.kabnr}'>
-		    <input type="hidden" name="kttyp" id="kttyp" value='${record.kttyp}'>
+		    <!--  input type="hidden" name="kttyp" id="kttyp" value='${record.kttyp}'-->
 	
 			<div class="form-row left-right-border formFrameHeader">
 				<div class="col-sm-12">
@@ -90,9 +55,9 @@
 			 <c:if test="${action == 1}"> <!-- CREATE -->
 					<div class="form-group pr-2 col-1">
 						<label for="kttyp" class="col-form-label-sm mb-0">Bilagsserie</label>
-							<select class="bilagsserie-data-ajax form-control form-control-sm" id="kttyp">
-								<option value="">-velg-</option>
-							</select>
+						<select class="form-control form-control-sm" name="kttyp" id="kttyp">
+							<option value="${record.kttyp}" selected>${record.kttyp}</option>	
+						</select>
 					</div>
 			 </c:if>
 			 <c:if test="${action == 3}"> <!-- UPDATE -->
@@ -105,7 +70,7 @@
 					<div class="form-group pr-2 col-1">
 							<label for="kalnr" class="col-form-label-sm mb-0 mr-1">Lev.nr</label>
 							<div class="input-group">
-			                    <input type="text" class="form-control form-control-sm" id="kalnr" value="${record.kalnr}" onKeyPress="return numberKey(event)" size="8" maxlength="8">&nbsp;
+			                    <input type="text" class="form-control form-control-sm" name="kalnr" id="kalnr" value="${record.kalnr}" onKeyPress="return numberKey(event)" size="8" maxlength="8">&nbsp;
 			                    <span class="input-group-prepend">
 			       					<a tabindex="-1" id="levnr_Link2">
 										<img src="resources/images/find.png" width="14px" height="14px">
@@ -121,9 +86,9 @@
 	
 					<div class="form-group pr-2">
 						<label for="kasg" class="col-form-label-sm mb-0">Att.kode</label>
-							<select class="form-control form-control-sm" name="kasg" id="kasg">
-								<option value="${record.kasg}" selected>${record.kasg}</option>	
-							</select>
+						<select class="form-control form-control-sm" name="kasg" id="kasg">
+							<option value="${record.kasg}" selected>${record.kasg}</option>	
+						</select>
 					</div>
 	
 					<div class="form-group pr-2 col-2">
@@ -150,11 +115,11 @@
 							<input type="text" required class="form-control form-control-sm" name="KAPÅR" id="KAPÅR" value="${record.KAPÅR}" placeholder="yy" onKeyPress="return numberKey(event)" size="3" maxlength="2">
 						</div>
 					</div>
-		
+
 					<div class="form-group pr-2 col-1">
 						<label for="kavk" class="col-form-label-sm mb-0 required">Gebyrkode</label>
 						<div class="input-group">
-							<input type="text" required class="form-control form-control-sm mr-1" name="kavk" id="kavk" value="${record.kavk}">
+							<input type="text" required class="form-control form-control-sm mr-1" name="kavk" id="kavk" value="${record.kavk}" size="4" maxlength="3">
 								<span class="input-group-prepend">
 									<a tabindex="-1" id="gebyrkode_Link">
 										<img src="resources/images/find.png" width="14px" height="14px">

@@ -122,15 +122,16 @@ function initKostaSearch() {
 } //end initKostaSearch
 
 function getAttKode(caller){
+	console.log('getAttKode, caller',caller);
 	jq.ajax({
 			  type: 'GET',
 			  url: kodtsfUrl,
 			  dataType: 'json',
-			  cache: false,
+			  cache: true,
 			  contentType: 'application/json',
 			  success: function(data) {
-				jq(caller).append('<option value="">-velg-</option>');
-				jq(caller).prop('selectedIndex', 0);
+//				jq(caller).append('<option value="">-velg-</option>');
+//				jq(caller).prop('selectedIndex', 0);
 	
 				_.each(data, function( d) {
 					jq(caller).append(jq('<option></option>').attr('value', d.kosfsi).text(d.kosfsi));		//d.kosfnv		
@@ -145,6 +146,31 @@ function getAttKode(caller){
 	});	
 }
 
+
+function getBilagsSerie(caller){
+	console.log('getBilagsSerie, caller',caller);
+	jq.ajax({
+			  type: 'GET',
+			  url: kosttUrl,
+			  dataType: 'json',
+			  cache: true,
+			  contentType: 'application/json',
+			  success: function(data) {
+//				jq(caller).append('<option value="">-velg-</option>');
+//				jq(caller).prop('selectedIndex', 0);
+	
+				_.each(data, function( d) {
+					jq(caller).append(jq('<option></option>').attr('value', d.kttyp).text(d.kttyp));
+				});
+				
+			  }, 
+			  error: function (jqXHR, exception) {
+				    alert('Error loading bilagsserie...look in console log.');
+				    console.log("jqXHR",jqXHR);
+				    console.log("exception",exception);
+			  }	
+	});	
+}
 
 function initLevefSearch(caller) {
 
@@ -378,24 +404,30 @@ jq(function() {
 	});		
 	
 	jq("#kalnr").blur(function() { 
-		jq.ajax({
-//			  type: 'GET',
-			  url: levefUrlGet,
-		  	  data: { levnr : jq("#kalnr").val() }, 
-			  dataType: 'json',
-			  cache: false,
-			  contentType: 'application/json',
-			  success: function(data) {
-				jq("#levnavn").val(data.lnavn);
-				jq("#kabb").val(data.betbet);
-				//jq("#kaffdt").val(kaffdt);  gör i backend
-				
-			  }, 
-			  error: function (jqXHR, exception) {
-				    alert('Error loading ...look in console log.');
-				    console.log(jqXHR);
-			  }	
-		});		
+		console.log('kalnr', jq("#kalnr").val());
+		let kalnr = jq("#kalnr").val();
+		console.log('kalnr',kalnr);
+		if (kalnr != undefined && kalnr.length > 0 ) {
+			jq.ajax({
+				  url: levefUrlGet,
+			  	  data: { levnr : jq("#kalnr").val() }, 
+				  dataType: 'json',
+				  cache: false,
+				  contentType: 'application/json',
+				  success: function(data) {
+					  console.log('data',data);
+					  if (data != null) {
+						jq("#levnavn").val(data.lnavn);
+						jq("#kabb").val(data.betbet);						
+					  }
+				  }, 
+				  error: function (jqXHR, exception) {
+					    alert('Error loading kalnr...look in console log.exception', exception);
+					    console.log("jqXHR",jqXHR);
+					    console.log("exception",exception);
+				  }	
+			});	
+		}
 	
 	});	
 	
@@ -433,6 +465,7 @@ jq(function() {
 //		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 		
 	
+	/*the asterix*/
 	jq("input[required]").parent("label").addClass("required");
 	
 });  

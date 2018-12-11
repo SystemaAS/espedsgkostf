@@ -12,5 +12,5 @@ import lombok.Data;
 @Data
 public class BilagSessionParams {
 
-	private Integer kabnr;
+	private String kabnr;
 }
