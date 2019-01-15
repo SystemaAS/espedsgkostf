@@ -15,8 +15,17 @@
 	jq(document).ready(function() {
  		jq('[data-toggle="tooltip"]').tooltip(); //TODO
 
-		getAttKode('#kasg');
+		//default when NEW
+ 		jq('#kasg').append('<option selected="true">${user.signatur}</option>');
+		jq('#kasg').prop('selectedIndex', '${user.signatur}');	
+ 	
+		//default when NEW
+//  		jq('#kttyp').append('<option selected="true">-velg-</option>');
+// 		jq('#kttyp').prop('selectedIndex', 1);			
+		
+ 		getAttKode('#kasg');
 		getBilagsSerie('#kttyp');
+		
 		
 	});
 </script>
@@ -53,19 +62,32 @@
 			<div class="form-row left-right-bottom-border formFrame">
 	
 			 <c:if test="${action == 1}"> <!-- CREATE -->
-					<div class="form-group pr-2 col-1">
+					<div class="form-group pr-2">
 						<label for="kttyp" class="col-form-label-sm mb-0">Bilagsserie</label>
-						<select class="form-control form-control-sm" name="kttyp" id="kttyp">
+						<select class="form-control form-control-sm w-auto" name="kttyp" id="kttyp">
 							<option value="${record.kttyp}" selected>${record.kttyp}</option>	
 						</select>
 					</div>
-			 </c:if>
-			 <c:if test="${action == 3}"> <!-- UPDATE -->
 					<div class="form-group pr-2 col-1">
 						<label for="kabnr2" class="col-form-label-sm mb-0">Bilagsnr</label>
 						<input type="text" class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
 					</div>
 			 </c:if>
+			 <c:if test="${action == 3}"> <!-- UPDATE -->
+					<div class="form-group pr-2">
+						<label for="kttyp" class="col-form-label-sm mb-0">Bilagsserie</label>
+						<input tabindex="-1" type="text" readonly class="form-control form-control-sm w-auto" name="kttyp" id="kttyp" value="${record.kttyp}" size="2" maxlength="1">
+					</div>
+					<div class="form-group pr-2 col-1">
+						<label for="kabnr2" class="col-form-label-sm mb-0">Bilagsnr</label>
+						<input type="text" readonly class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
+					</div>
+	 		</c:if>
+	
+					<div class="form-group pr-2 col-1">
+						<label for="kabdt" class="col-form-label-sm mb-0">Bilagsdato</label>
+						<input type="text" required class="form-control form-control-sm" name="kabdt" id="kabdt" value="${record.kabdt}" onKeyPress="return numberKey(event)" size="8" maxlength="8">
+					</div>
 	
 					<div class="form-group pr-2 col-1">
 							<label for="kalnr" class="col-form-label-sm mb-0 mr-1">Lev.nr</label>
@@ -85,9 +107,11 @@
 					</div>	
 	
 					<div class="form-group pr-2">
-						<label for="kasg" class="col-form-label-sm mb-0">Att.kode</label>
+						<label for="kasg" class="col-form-label-sm mb-0 required">Att.kode</label>
 						<select class="form-control form-control-sm" name="kasg" id="kasg">
+ 					<c:if test="${action == 3}"> <!-- UPDATE -->
 							<option value="${record.kasg}" selected>${record.kasg}</option>	
+ 					</c:if>
 						</select>
 					</div>
 	
@@ -103,10 +127,6 @@
 						</div>
 					</div>
 	
-					<div class="form-group pr-2 col-1">
-						<label for="kabdt" class="col-form-label-sm mb-0">Bilagsdato</label>
-						<input type="text" required class="form-control form-control-sm" name="kabdt" id="kabdt" value="${record.kabdt}" onKeyPress="return numberKey(event)" size="8" maxlength="8">
-					</div>
 	
 					<div class="form-group pr-2 col-1">
 						<label for="kapmn" class="col-form-label-sm mb-0 required">Per.(mån/år)</label>
@@ -127,12 +147,12 @@
 								</span>
 						</div>
 					</div>
-	
+
 					<div class="form-group pr-2 col-1">
 						<label for="kabl" class="col-form-label-sm mb-0 required">Beløp</label>
 						<input type="text" required class="form-control form-control-sm" name="kabl" id="kabl" value="${record.kabl}" onKeyPress="return numberKey(event)"  size="14" maxlength="13">
 					</div>
-	
+
 					<div class="form-group pr-2">
 						<label for="kamva" class="col-form-label-sm mb-0">Mva</label>
 							<select class="form-control form-control-sm" name="kamva" id="kamva">
@@ -141,19 +161,63 @@
 			  					<option value="F"<c:if test="${record.kamva == 'F'}"> selected </c:if>>F</option>
 							</select>						
 					</div>
-	
+
+					<div class="form-group pr-2 col-1">
+						<label for="kablm" class="col-form-label-sm mb-0">Herav MVA</label>
+						<input type="text" class="form-control form-control-sm" name="kablm" id="kablm" value="${record.kablm}" onKeyPress="return numberKey(event)"  size="14" maxlength="13">
+					</div>
+
+					<div class="form-group pr-2 col-1">
+						<label for="kaval" class="col-form-label-sm mb-0 required">Valutakode</label>
+						<div class="input-group">
+							<input type="text" class="form-control form-control-sm mr-1" name="kaval" id="kaval" value="${record.kaval}" size="4" maxlength="3">
+								<span class="input-group-prepend">
+									<a tabindex="-1" id="valutakode_Link">
+										<img src="resources/images/find.png" width="14px" height="14px">
+									</a>
+								</span>
+						</div>
+					</div>
+
+					<div class="form-group pr-2">
+						<label for="kavku" class="col-form-label-sm mb-0">Kurs</label>
+						<input type="text" class="form-control form-control-sm" name="kavku" id="kavku" value="${record.kavku}" onKeyPress="return amountKey(event)" size="8" maxlength="7">
+					</div>
+
 					<div class="form-group pr-2">
 						<label for="kabb" class="col-form-label-sm mb-0">Bet.bet</label>
-						<input type="text" tabindex="-1" readonly class="form-control form-control-sm" name="kabb" id="kabb" value="${record.kabb}" size="3" maxlength="2">
+						<input type="text" class="form-control form-control-sm" name="kabb" id="kabb" value="${record.kabb}" onKeyPress="return numberKey(event)" size="3" maxlength="2">
 					</div>
 	
 					<div class="form-group pr-2 col-1">
 						<label for="kaffdt" class="col-form-label-sm mb-0">Forfallsdato</label>
-						<input type="text" tabindex="-1" readonly class="form-control form-control-sm" name="kaffdt" id="kaffdt" value="${record.kaffdt}" onKeyPress="return numberKey(event)" size="9" maxlength="8"/>
+						<input type="text" class="form-control form-control-sm" name="kaffdt" id="kaffdt" value="${record.kaffdt}" onKeyPress="return numberKey(event)" size="9" maxlength="8"/>
 					</div>
 	
+					<div class="form-group pr-2 col-2">
+						<label for="kafnr" class="col-form-label-sm mb-0">Fakturanr</label>
+						<input type="text" class="form-control form-control-sm" name="kafnr" id="kafnr"  size="14" maxlength="13" value="${record.kafnr}"/>
+					</div>
+
+					<div class="form-group pr-2 col-3">
+						<label for="kalkid" class="col-form-label-sm mb-0">KID</label>
+						<input type="text" class="form-control form-control-sm" name="kalkid" id="kalkid" value="${record.kalkid}" size="26" maxlength="25"/>
+					</div>
+	
+					<div class="form-group pr-2">
+						<label for="kaffdt" class="col-form-label-sm mb-0">Fakturadato
+							<img class="img-fluid" onMouseOver="showPop('fdato_info');" onMouseOut="hidePop('fdato_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
+						</label>
+						<div class="text11" style="position: relative;" align="left">
+							<span style="position:absolute; left:0px; top:0px; width:200px" id="fdato_info" class="popupWithInputText"  >
+			         			<label>Blank = Bilagsdato</label>
+							</span>
+						</div>	
+						<input type="text" class="form-control form-control-sm" name="kaffdt" id="kaffdt" value="${record.kaffdt}" onKeyPress="return numberKey(event)" size="9" maxlength="8"/>
+					</div>	
+	
 					
-					<div class="form-group col-2 align-self-end">
+					<div class="form-group col-11 align-self-end">
 						<div class="float-md-right">
 							<button class="btn inputFormSubmit btn-sm" id="submitBtn"  autofocus>Lagre</button>
 						</div>
@@ -164,6 +228,8 @@
 		</form>
    	</div> <!-- container -->
 
+	<!-- TODO remove when appropriate -->
+<!--  
 	<div class="container-fluid p-1 left-right-border">
 		<form>	
 			<fieldset <c:if test="${action == 3}"> disabled</c:if>>
@@ -187,24 +253,25 @@
 				</div>
 			</fieldset>
 		</form>
-	
-	</div> <!-- container -->
+
+	</div>
+
+-->
 
 	<div class="container-fluid p-1 left-right-border">
 		<div class="form-row left-right-top-border">
 
 				<div class="form-group pr-2 col-1">
-					<label for="kauser" class="col-form-label-sm mb-0">Sist&nbsp;oppdaterat</label>
-					 <p class="form-control-sm form-control-static" id="kauser">${record.kauser}</p>
+					<label for="kauser" class="col-form-label-sm mb-0 pb-0">Sist&nbsp;oppdaterat</label>
+					<label class="form-control-plaintext form-control-sm">${record.kauser}</label>
 				</div>
-				<div class="form-group pr-2 col-1">
-					<label for="oppdatert_dato" class="col-form-label-sm mb-0">&nbsp;</label>
-					 <p class="form-control-sm form-control-static" id="oppdatert_dato">${record.opp_dato}</p>
+				<div class="form-group pr-2">
+					<label for="oppdatert_dato" class="col-form-label-sm mb-0 pb-0">Dato</label>
+					<label class="form-control-plaintext form-control-sm" id="oppdatert_dato">${record.opp_dato}</label>
 				</div>	
-
-				<div class="form-group pr-2 col-1">
-					<label for="reg_dato" class="col-form-label-sm mb-0">Reg.dato</label>
-					<p class="form-control-sm form-control-static" id="reg_dato">${record.reg_dato}</p>
+				<div class="form-group pr-2">
+					<label for="reg_dato" class="col-form-label-sm mb-0">Reg.dato/tid</label>
+					<label class="form-control-plaintext form-control-sm" id="reg_dato">${record.reg_dato}</label>
 				</div>
 
 		</div>

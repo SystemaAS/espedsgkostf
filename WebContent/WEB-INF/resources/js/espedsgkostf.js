@@ -388,24 +388,20 @@ function getRunningLevefUrl() {
 
 
 jq(function() {
-	jq("#selectFradato").datepicker({
-		dateFormat: 'yymmdd'
-	});
-	jq("#selectTildato").datepicker({
-		dateFormat: 'yymmdd'
-	});
 
-	jq("#kabdt").datepicker({
+	jq("#kabdt").datepicker({  //Bilagsdato
 		dateFormat: 'yymmdd'
 	});	
 
-	jq("#kafdt").datepicker({
+	jq("#kaffdt").datepicker({ //Forfallsdato
 		dateFormat: 'yymmdd'
 	});		
 	
 	jq("#kalnr").blur(function() { 
 		console.log('kalnr', jq("#kalnr").val());
-		let kalnr = jq("#kalnr").val();
+		let kalnr = jq("#kalnr").val();  //Lev.nr
+		let kabdt =  jq("#kabdt").val(); //Bilagsdato
+		let kabb =  jq("#kabb").val(); //Bet.bet
 		console.log('kalnr',kalnr);
 		if (kalnr != undefined && kalnr.length > 0 ) {
 			jq.ajax({
@@ -418,7 +414,17 @@ jq(function() {
 					  console.log('data',data);
 					  if (data != null) {
 						jq("#levnavn").val(data.lnavn);
-						jq("#kabb").val(data.betbet);						
+						jq("#kabb").val(data.betbet);
+						jq("#kaval").val(data.valkod);	
+						if (kabdt != undefined && kabdt.length > 0) {
+							let kabdtParsed = parseSyspedDato(kabdt);
+							let result = new Date(kabdtParsed);
+							result.setDate(result.getDate() + kabb);
+							let kaffdt = formatSyspedDato(result);
+	
+							jq("#kaffdt").val(kaffdt);	
+
+						}
 					  }
 				  }, 
 				  error: function (jqXHR, exception) {
@@ -457,6 +463,14 @@ jq(function() {
 		alert('TODO, gebyrkode link');
 //		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
+
+	jq('a#valutakode_Link').click(function() {
+		jq('#valutakode_Link').attr('target','_blank');
+		console.log("valutakode link");
+		alert('TODO, valutakode link');
+//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 	
+	
 	
 	jq('a#bilagsserie_Link').click(function() {
 		jq('#bilagsserie_Link').attr('target','_blank');
@@ -469,6 +483,15 @@ jq(function() {
 	jq("input[required]").parent("label").addClass("required");
 	
 });  
+
+
+function formatSyspedDato(dato) {
+	return jq.datepicker.formatDate('yymmdd', dato);	
+}
+
+function parseSyspedDato(dato) {
+	return jq.datepicker.parseDate('yymmdd', dato);
+}
 
 jq(document).keypress(function(e) {
     if(e.which == 13) {

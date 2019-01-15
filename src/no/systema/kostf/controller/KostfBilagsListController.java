@@ -110,32 +110,31 @@ public class KostfBilagsListController {
 		ModelAndView listView = new ModelAndView("kostf_bilagslist"); 
 		ModelAndView returnView = editView; //default
 		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_edit.do");		
-		KostaDto returnDto = null;
-//		Integer kabnr = new Integer(0);
+		KostaDto returnDto = new KostaDto();
 		String kabnr = null;
 
-		
-		BilagSessionParams sessionParams =  (BilagSessionParams) session.getAttribute(SESSION_PARAMS);
-		if (session.getAttribute(SESSION_PARAMS) == null) {
-			sessionParams = new BilagSessionParams();
-			session.setAttribute(SESSION_PARAMS, sessionParams);
-		} 
-		
-		logger.info("sessionParams="+sessionParams);
 		logger.info("doEdit, record="+ReflectionToStringBuilder.reflectionToString(record));
 		logger.info("action="+action);
 		
+		
+		BilagSessionParams sessionParams =  (BilagSessionParams) session.getAttribute(SESSION_PARAMS);
+		if (session.getAttribute(SESSION_PARAMS) == null) {
+			logger.info("Init...");
+			
+			sessionParams = new BilagSessionParams();
+			session.setAttribute(SESSION_PARAMS, sessionParams);
+			
+			editView.addObject("action", CRUDEnum.CREATE.getValue());
+			
+			return returnView;
+			
+		} 
 
+		logger.info("sessionParams="+sessionParams);
+		
+		
 		if (action.equals(CRUDEnum.CREATE.getValue())) {
-			if (sessionParams.getKabnr() == null) {
-				logger.info("Create init...");
-				returnDto = new KostaDto();
-				
-				// Set callback state
-				editView.addObject("action", CRUDEnum.CREATE.getValue());
-				
-			} else {
-				logger.info("Create save...");
+				logger.info("Create...");
 				KostaDto dto = saveRecord(appUser, record, "A");
 				returnDto = fetchRecord(appUser, dto.getKabnr());
 				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
@@ -146,8 +145,6 @@ public class KostfBilagsListController {
 
 				// Set callback state
 				editView.addObject("action", CRUDEnum.UPDATE.getValue());
-				
-			}
 
 		} else if (action.equals(CRUDEnum.UPDATE.getValue())) {
 			logger.info("Update...");
@@ -242,6 +239,8 @@ public class KostfBilagsListController {
 
 		ResponseEntity<KostaDto> response = restTemplate.exchange(BASE_URL + urlRequestParams.toString(), HttpMethod.GET, null, KostaDto.class);
 		KostaDto dto = response.getBody();		
+		
+		logger.info("dto="+ReflectionToStringBuilder.toString(dto));
 			
 		return dto;
 
