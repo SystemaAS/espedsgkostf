@@ -13,8 +13,8 @@
 	var attkode = "&attkode="+signatur;
 	
 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
-	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
-	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
+// 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
+// 	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
 	jq(document).ready(function() {
 

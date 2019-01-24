@@ -37,9 +37,9 @@
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
 			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link active disabled">Bilag[${sessionParams.kabnr}]</a>
+			<a class="nav-item nav-link active disabled">Bilag[${record.kabnr}]</a>
 			<c:if test="${action == 3}"> <!-- UPDATE -->
-				<a class="nav-item nav-link" href="${bilagLinesUrl_read}">Fordel kostnader[${sessionParams.kabnr}]</a>
+				<a class="nav-item nav-link" href="${bilagLinesUrl_read}">Fordel kostnader[${record.kabnr}]</a>
 			</c:if>	
 		</div>
 	</nav>
@@ -50,7 +50,7 @@
 
 		<form action="kostf_bilag_edit.do" method="POST">
 			<input type="hidden" name="action" id="action" value='${action}'>
-		    <input type="hidden" name="kabnr" id="kabnr" value='${sessionParams.kabnr}'>
+		    <input type="hidden" name="kabnr" id="kabnr" value="${record.kabnr}">
 		    <!--  input type="hidden" name="kttyp" id="kttyp" value='${record.kttyp}'-->
 	
 			<div class="form-row left-right-border formFrameHeader">
@@ -70,7 +70,7 @@
 					</div>
 					<div class="form-group pr-2 col-1">
 						<label for="kabnr2" class="col-form-label-sm mb-0">Bilagsnr</label>
-						<input type="text" class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
+						<input type="text" autofocus class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
 					</div>
 			 </c:if>
 			 <c:if test="${action == 3}"> <!-- UPDATE -->
@@ -85,7 +85,7 @@
 	 		</c:if>
 	
 					<div class="form-group pr-2 col-1">
-						<label for="kabdt" class="col-form-label-sm mb-0">Bilagsdato</label>
+						<label for="kabdt" class="col-form-label-sm mb-0 required">Bilagsdato</label>
 						<input type="text" required class="form-control form-control-sm" name="kabdt" id="kabdt" value="${record.kabdt}" onKeyPress="return numberKey(event)" size="8" maxlength="8">
 					</div>
 	
@@ -170,7 +170,7 @@
 					<div class="form-group pr-2 col-1">
 						<label for="kaval" class="col-form-label-sm mb-0 required">Valutakode</label>
 						<div class="input-group">
-							<input type="text" class="form-control form-control-sm mr-1" name="kaval" id="kaval" value="${record.kaval}" size="4" maxlength="3">
+							<input type="text" required class="form-control form-control-sm mr-1" name="kaval" id="kaval" value="${record.kaval}" size="4" maxlength="3">
 								<span class="input-group-prepend">
 									<a tabindex="-1" id="valutakode_Link">
 										<img src="resources/images/find.png" width="14px" height="14px">
@@ -216,10 +216,9 @@
 						<input type="text" class="form-control form-control-sm" name="kaffdt" id="kaffdt" value="${record.kaffdt}" onKeyPress="return numberKey(event)" size="9" maxlength="8"/>
 					</div>	
 	
-					
 					<div class="form-group col-11 align-self-end">
 						<div class="float-md-right">
-							<button class="btn inputFormSubmit btn-sm" id="submitBtn"  autofocus>Lagre</button>
+							<button class="btn inputFormSubmit btn-sm" id="submitBtn">Lagre</button>
 						</div>
 					</div>					
 					
@@ -277,8 +276,17 @@
 		</div>
 	</div>
 
+<c:if test="${not empty error}">
+	<div class="container-fluid p-1 left-right-bottom-border">
+		<div class="form-row no-gutters">
 
-	<div class="padded-row-small left-right-bottom-border"></div>	
+			<div class="alert alert-danger" role="alert">
+				<p class="mb-0">${error}</p>
+			</div>
+
+		</div>
+	</div>
+</c:if>
 
 
 

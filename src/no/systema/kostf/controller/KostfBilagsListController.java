@@ -10,10 +10,10 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +28,6 @@ import no.systema.jservices.common.dao.KostaDao;
 import no.systema.jservices.common.dto.KostaDto;
 import no.systema.jservices.common.json.JsonDtoContainer;
 import no.systema.jservices.common.json.JsonReader;
-import no.systema.jservices.common.util.DateTimeManager;
 import no.systema.jservices.common.util.StringUtils;
 import no.systema.jservices.common.values.CRUDEnum;
 import no.systema.kostf.url.store.KostfUrlDataStore;
@@ -107,88 +106,75 @@ public class KostfBilagsListController {
 		}		
 		
 		ModelAndView editView = new ModelAndView("kostf_bilag_edit"); 
-		ModelAndView listView = new ModelAndView("kostf_bilagslist"); 
+		ModelAndView redirectListView = new ModelAndView("redirect:kostf_bilagslist.do"); 
 		ModelAndView returnView = editView; //default
 		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_edit.do");		
 		KostaDto returnDto = new KostaDto();
-		String kabnr = null;
 
 		logger.info("doEdit, record="+ReflectionToStringBuilder.reflectionToString(record));
 		logger.info("action="+action);
 		
-		
-		BilagSessionParams sessionParams =  (BilagSessionParams) session.getAttribute(SESSION_PARAMS);
-		if (session.getAttribute(SESSION_PARAMS) == null) {
+		if (action.equals(CRUDEnum.CREATE.getValue()) && record.getKabnr() == null) {
 			logger.info("Init...");
-			
-			sessionParams = new BilagSessionParams();
-			session.setAttribute(SESSION_PARAMS, sessionParams);
-			
-			editView.addObject("action", CRUDEnum.CREATE.getValue());
 			
 			return returnView;
 			
 		} 
 
-		logger.info("sessionParams="+sessionParams);
-		
-		
-		if (action.equals(CRUDEnum.CREATE.getValue())) {
+		try {
+
+			if (action.equals(CRUDEnum.CREATE.getValue())) {
 				logger.info("Create...");
 				KostaDto dto = saveRecord(appUser, record, "A");
 				returnDto = fetchRecord(appUser, dto.getKabnr());
 				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
 				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 				editView.addObject("record", returnDto);
-				
-				kabnr = record.getKabnr();
 
 				// Set callback state
 				editView.addObject("action", CRUDEnum.UPDATE.getValue());
 
-		} else if (action.equals(CRUDEnum.UPDATE.getValue())) {
-			logger.info("Update...");
-			returnDto = saveRecord(appUser, record, "U");
-			bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
+			} else if (action.equals(CRUDEnum.UPDATE.getValue())) {
+				logger.info("Update...");
+				returnDto = saveRecord(appUser, record, "U");
+				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
 
-			editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
-			editView.addObject("record", returnDto);
+				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
+				editView.addObject("record", returnDto);
+
+			} else if (action.equals(CRUDEnum.READ.getValue())) {
+				logger.info("Read...");
+				returnDto = fetchRecord(appUser, record.getKabnr());
+				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
+
+				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
+				editView.addObject("record", returnDto);
+				// Set callback state
+				editView.addObject("action", CRUDEnum.UPDATE.getValue());
+
+			} else if (action.equals(CRUDEnum.DELETE.getValue())) {
+				logger.info("Delete...");
+				returnDto = saveRecord(appUser, record, "D");
+				returnView = redirectListView;
+
+				// Set callback state
+				editView.addObject("action", CRUDEnum.READ.getValue());
+
+			}
+
+		} catch (Exception e) {
+			logger.error("ERROR:", e);
 			// Set callback state
-			editView.addObject("action", CRUDEnum.UPDATE.getValue());
-			
-			kabnr = record.getKabnr();
-
-		} else if (action.equals(CRUDEnum.READ.getValue())) {
-			logger.info("Read...");
-			returnDto = fetchRecord(appUser, record.getKabnr());
-			bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-
-			editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
-			editView.addObject("record", returnDto);
-			// Set callback state
-			editView.addObject("action", CRUDEnum.UPDATE.getValue());
-
-			kabnr = record.getKabnr();
-
-		} else if (action.equals(CRUDEnum.DELETE.getValue())) {
-			logger.info("Delete...");
-			returnDto = saveRecord(appUser, record, "D");
-			returnView = listView;
-			session.removeAttribute(SESSION_PARAMS);
-			
-			// Set callback state
-			editView.addObject("action", CRUDEnum.READ.getValue());	
+			editView.addObject("action", action);
+			editView.addObject("error", e.getMessage());
 
 		}
-
-		sessionParams.setKabnr(kabnr);
-		session.setAttribute(SESSION_PARAMS, sessionParams);
-
+		
 		return returnView;
 		
 	}	
 
-	
+
 	private KostaDto saveRecord(SystemaWebUser appUser, KostaDto record, String mode) {
 		logger.info("saveRecord::record::"+ReflectionToStringBuilder.toString(record));
 		MultiValueMap<String, String> recordParams = UrlRequestParameterMapper.getUriParameter(record);
@@ -213,7 +199,8 @@ public class KostfBilagsListController {
 		if (container != null) {
 			if (StringUtils.hasValue(container.getErrMsg())) {
 				String errMsg = String.format("DML-error on bilag, kabnr: %s. Error message: %s", record.getKabnr(), container.getErrMsg()) ;
-				throw new RuntimeException(errMsg);
+				logger.info(errMsg);
+				throw new RuntimeException(container.getErrMsg());
 			}		
 			list = container.getDtoList();
 			if (list.isEmpty() || list.size() != 1){
@@ -273,7 +260,7 @@ public class KostfBilagsListController {
 		}
 		KostaDto dto = KostaDto.get(dao);		
 		
-		dto.setLevnavn(getLevName(appUser, dao.getKalnr()));
+		dto.setLevnavn(getLevName(appUser, dao.getKalnr().intValue()));
 
 		return dto;
 		

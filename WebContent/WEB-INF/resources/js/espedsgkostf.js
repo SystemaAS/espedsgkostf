@@ -3,6 +3,9 @@ var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 
 var kostaTable;
 var levefTable;
+var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
+var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
+
 
 var levefInitialized = false;
 
