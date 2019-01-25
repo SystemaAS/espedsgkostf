@@ -6,7 +6,6 @@ var levefTable;
 var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
-
 var levefInitialized = false;
 
 function initKostaSearch() {
@@ -133,8 +132,8 @@ function getAttKode(caller){
 			  cache: true,
 			  contentType: 'application/json',
 			  success: function(data) {
-//				jq(caller).append('<option value="">-velg-</option>');
-//				jq(caller).prop('selectedIndex', 0);
+				jq(caller).append('<option value="">-velg-</option>');
+				jq(caller).prop('selectedIndex', 0);
 	
 				_.each(data, function( d) {
 					jq(caller).append(jq('<option></option>').attr('value', d.kosfsi).text(d.kosfsi));		//d.kosfnv		
@@ -431,7 +430,7 @@ jq(function() {
 					  }
 				  }, 
 				  error: function (jqXHR, exception) {
-					    alert('Error loading kalnr...look in console log.exception', exception);
+					  	console.log("Kalnr dont exist", kalnr);
 					    console.log("jqXHR",jqXHR);
 					    console.log("exception",exception);
 				  }	
@@ -440,7 +439,20 @@ jq(function() {
 	
 	});	
 	
-	
+	jq("#kabdt").blur(function() { 
+		let kabdt =  jq("#kabdt").val(); //Bilagsdato
+		
+		if (kabdt != undefined && kabdt.length > 0) {
+			let year = kabdt.substring(2,4);
+			let month = kabdt.substring(4,6);
+			
+			jq("#kapmn").val(month);	
+			jq("#KAPÅR").val(year);	
+
+		}		
+		
+		
+	});	
 	
 	jq('a#kommentar_Link').click(function() {
 		jq('#kommentar_Link').attr('target','_blank');
@@ -510,7 +522,3 @@ window.addEventListener('error', function(e) {
 	alert('Uforutsett fel har intreffet. \n Error: '+error);
 
 });
-
-
-
-  

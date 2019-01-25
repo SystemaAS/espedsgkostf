@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import lombok.extern.slf4j.Slf4j;
 import no.systema.jservices.common.dao.KostaDao;
 import no.systema.jservices.common.dao.KostbDao;
 import no.systema.jservices.common.dto.KostaDto;
@@ -41,6 +42,7 @@ import no.systema.main.validator.LoginValidator;
  * 
  */
 @Controller
+@Slf4j
 public class KostfBilagLinesController {
 	private static Logger logger = Logger.getLogger(KostfBilagLinesController.class.getName());
 	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
@@ -49,19 +51,25 @@ public class KostfBilagLinesController {
 	@Autowired
 	RestTemplate restTemplate;
 	
+	
 	@RequestMapping(value="kostf_bilag_lines_list.do", method={RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
+	public ModelAndView doFind(@RequestParam(value = "kabnr", required = true) Integer kabnr,
+			HttpSession session, HttpServletRequest request){
 		ModelAndView successView = new ModelAndView("kostf_bilag_lines_edit"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
 		StringBuilder bilagUrl = new StringBuilder("kostf_bilag_lines_edit.do"); //TODO bilagslinesedit
-	
+
+		log.info("Inside kostf_bilag_lines_list.do");
+		
 		if (appUser == null) {
 			return loginView;
 		} else {
 			
 			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
 			successView.addObject("bilagUrl_create", bilagUrl.toString());
+	
+			successView.addObject("kabnr", kabnr);
 			
 			return successView;
 		}		
@@ -97,7 +105,7 @@ public class KostfBilagLinesController {
 		if (appUser == null) {
 			return loginView;
 		} else {
-			BilagSessionParams sessionParams = (BilagSessionParams) session.getAttribute("sessionParams");
+//			BilagSessionParams sessionParams = (BilagSessionParams) session.getAttribute("sessionParams");
 
 			if (action.equals(CRUDEnum.CREATE.getValue())) {
 				logger.info("Create...");
@@ -109,13 +117,13 @@ public class KostfBilagLinesController {
 			} 
 			
 //			returnDao = fetchRecord(appUser, sessionParams.getKabnr(), CRUDEnum.READ);
-			logger.info("sessionParams.getKabnr()="+sessionParams.getKabnr());
-//			logger.info("returnDao.getKbbnr()"+returnDao.getKbbnr());
+//			logger.info("sessionParams.getKabnr()="+sessionParams.getKabnr());
+			logger.info("returnDao.getKbbnr()"+returnDao.getKbbnr());
 
-//			successView.addObject("record", returnDao);
+			successView.addObject("record", returnDao);
 			
-			bilagUrl_read.append("?kabnr=").append(sessionParams.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
-			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
+//			bilagUrl_read.append("?kabnr=").append(sessionParams.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
+//			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
 
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			

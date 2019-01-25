@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	"use strict";
 	var kostbUrl = "/syjserviceskostf/syjsKOSTB?user=${user.user}";
-	var kabnr = "${sessionParams.kabnr}";
+ 	var kabnr = "${kabnr}";
 	
 	jq(document).ready(function() {
 

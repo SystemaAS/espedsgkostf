@@ -9,6 +9,7 @@
 
 <script type="text/javascript">
 	"use strict";
+
 	var kosttUrl = "/syjserviceskostf/syjsKOSTT?user=${user.user}";
 	var levefUrlGet = "/syjserviceskostf/syjsLEVEF_GET?user=${user.user}"
 	
@@ -19,10 +20,6 @@
  		jq('#kasg').append('<option selected="true">${user.signatur}</option>');
 		jq('#kasg').prop('selectedIndex', '${user.signatur}');	
  	
-		//default when NEW
-//  		jq('#kttyp').append('<option selected="true">-velg-</option>');
-// 		jq('#kttyp').prop('selectedIndex', 1);			
-		
  		getAttKode('#kasg');
 		getBilagsSerie('#kttyp');
 		
@@ -108,7 +105,7 @@
 	
 					<div class="form-group pr-2">
 						<label for="kasg" class="col-form-label-sm mb-0 required">Att.kode</label>
-						<select class="form-control form-control-sm" name="kasg" id="kasg">
+						<select required class="form-control form-control-sm" name="kasg" id="kasg">
  					<c:if test="${action == 3}"> <!-- UPDATE -->
 							<option value="${record.kasg}" selected>${record.kasg}</option>	
  					</c:if>

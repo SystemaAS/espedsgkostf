@@ -12,9 +12,7 @@
 	var signatur = "${user.signatur}";
 	var attkode = "&attkode="+signatur;
 	
-	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
-// 	var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
-// 	var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
+ 	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 
 	jq(document).ready(function() {
 

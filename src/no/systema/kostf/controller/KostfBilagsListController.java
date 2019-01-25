@@ -48,8 +48,6 @@ public class KostfBilagsListController {
 	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
 	private LoginValidator loginValidator = new LoginValidator();
 	
-	private static String SESSION_PARAMS = "sessionParams";
-	
 	@Autowired
 	RestTemplate restTemplate;
 	
@@ -62,14 +60,6 @@ public class KostfBilagsListController {
 	@RequestMapping(value="kostf_bilagslist.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
 		ModelAndView successView = new ModelAndView("kostf_bilagslist"); 
-//		ModelAndView successView = new ModelAndView("NewFile"); 
-//		ModelAndView successView = new ModelAndView("NewFile2"); 
-//		ModelAndView successView = new ModelAndView("NewFile3"); 
-		
-		
-		//Cleanup, if exist
-		session.removeAttribute(SESSION_PARAMS);
-		
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 	
 		if (appUser == null) {
@@ -79,7 +69,7 @@ public class KostfBilagsListController {
 			StringBuilder bilagUrl_create = new StringBuilder("kostf_bilag_edit.do");
 			bilagUrl_create.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
 			successView.addObject("bilagUrl_create", bilagUrl_create.toString());
-			
+
 			return successView;
 		}		
 		
@@ -108,7 +98,7 @@ public class KostfBilagsListController {
 		ModelAndView editView = new ModelAndView("kostf_bilag_edit"); 
 		ModelAndView redirectListView = new ModelAndView("redirect:kostf_bilagslist.do"); 
 		ModelAndView returnView = editView; //default
-		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_edit.do");		
+		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_list.do");		
 		KostaDto returnDto = new KostaDto();
 
 		logger.info("doEdit, record="+ReflectionToStringBuilder.reflectionToString(record));
@@ -116,9 +106,9 @@ public class KostfBilagsListController {
 		
 		if (action.equals(CRUDEnum.CREATE.getValue()) && record.getKabnr() == null) {
 			logger.info("Init...");
+			editView.addObject("action", CRUDEnum.CREATE.getValue());
 			
 			return returnView;
-			
 		} 
 
 		try {
@@ -141,6 +131,9 @@ public class KostfBilagsListController {
 
 				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 				editView.addObject("record", returnDto);
+				
+				// Set callback state
+				editView.addObject("action", CRUDEnum.UPDATE.getValue());
 
 			} else if (action.equals(CRUDEnum.READ.getValue())) {
 				logger.info("Read...");
@@ -149,6 +142,7 @@ public class KostfBilagsListController {
 
 				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 				editView.addObject("record", returnDto);
+
 				// Set callback state
 				editView.addObject("action", CRUDEnum.UPDATE.getValue());
 

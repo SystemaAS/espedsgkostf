@@ -9,7 +9,6 @@
 		
 		<title>eSpedsg - <spring:message code="systema.kostf.title"/></title>
 
-		<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/css/select2.min.css" rel="stylesheet" />
 		<link href="/espedsg2/resources/${user.cssEspedsg}?ver=${user.versionEspedsg}" rel="stylesheet" type="text/css"/>
 		<link href="resources/espedsgkostf.css" rel="stylesheet" type="text/css"/>
 		<link type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css" rel="stylesheet"/>
@@ -21,7 +20,6 @@
 		
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.1/js/select2.min.js"></script>
 		<script type="text/javascript" src="resources/js/jquery.blockUI.js"></script>
 		<script type="text/javascript" src="/espedsg2/resources/js/systemaWebGlobal.js?ver=${user.versionEspedsg}"></script>
 		<script type="text/javascript" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
@@ -33,10 +31,15 @@
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js)"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/features/mark.js/datatables.mark.js"></script>
 		
+		<!-- https://date-fns.org/docs/Getting-Started -->
+		<script src="http://cdn.date-fns.org/v1.9.0/date_fns.min.js"></script>
+		
+		
 		<script>
 			var lang = '${user.usrLang}';
 			var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
 			var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
+					
 		</script>
 
 	</head>
