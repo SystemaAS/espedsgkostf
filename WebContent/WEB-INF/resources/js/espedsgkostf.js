@@ -286,10 +286,29 @@ function loadKostb() {
 		responsive : true,
 		"order" : [ [ 1, "desc" ] ],
 		"columns" : [ 
-			{"data" : "kbbnr"}, 
-			{"data" : "kbavd"},
-			{"data" : "kbopd"}
-		],
+			{"data" : "kbavd"}, 
+			{"data" : "kbopd"},
+			{"data" : null}, //Ot(?)
+			{"data" : null}, //Fra(?)
+			{"data" : "kbnøkk"},
+			{"data" : null}, //SK(?)
+			{"data" : "kbkn"},
+			{"data" : "kbvk"},
+			{"data" : null}, //Val(?)
+			{"data" : "kbblhb"},
+			{"data" : "kbkdm"}, 
+			{"data" : "kbbilt"},
+			{"data" : "kbkdmv"},
+			{"data" : null}, //Vkt1(?)
+			{"data" : null}, //Vkt2(?)
+			{"data" : null}, //Ant(?)
+			{"data" : null}, //Budsjett(?)
+			{"data" : null}, //Diff%(?)
+			{"data" : null},//Gren%(?)
+			{"data" : null},//Re(?)
+			{"data" : null} //At(?)
+
+			],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
 			"url" : getLanguage('NO')

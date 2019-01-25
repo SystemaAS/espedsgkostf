@@ -27,8 +27,8 @@
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
 			<a class="nav-item nav-link" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link" href="${bilagUrl_read}">Bilag[${sessionParams.kabnr}]</a>
-			<a class="nav-item nav-link active disabled">Fordel kostnader[${sessionParams.kabnr}]</a>
+			<a class="nav-item nav-link" href="${bilagUrl_read}">Bilag[${kabnr}]</a>
+			<a class="nav-item nav-link active disabled">Fordel kostnader[${kabnr}]</a>
 			
 		</div>
 	</nav>
@@ -40,12 +40,32 @@
 		<div class="padded-row-small left-right-border no-gutters">&nbsp;</div>
 		
 		<div class="panel-body left-right-bottom-border no-gutters">
-			<table class="display responsive" id="kostbTable">
+			<table class="display compact cell-border responsive nowrap" id="kostbTable">
 				<thead class="tableHeaderField">
 					<tr>
-						<th>kbbnr</th>
-						<th>kbavd</th>
-						<th>kbopd</th>
+						<th>Avd(kostb:kbavd)</th>
+						<th>Opdnr(kostb:kbopd)</th>
+						<th>Ot(?)</th>
+						<th>Fra(?)</th>
+						<th>Nø(kostb:kbnøkk)</th>
+						<th>SK(?)</th>
+						<th>Kundenr(kostb:kbkn)</th>
+						<th>Geb(kostb:kbvk)</th>
+						<th>Val(?)</th>
+						<th>Beløp(kostb:kbblhb)</th>
+						<th>Mko(kostb:kbkdm)</th>
+						<th>Bel til innt.(kostb:kbbilt)</th>
+						<th>MVA(kostb:kbkdmv)</th>
+						<th>Vkt1(?)</th>
+						<th>Vkt2(?)</th>
+						<th>Ant(?)</th>
+						<th>Budsjett(?)</th>
+						<th>Diff%(?)</th>
+						<th>Gren%(?)</th>
+						<th>Re(?)</th>
+						<th>At(?)</th>
+
+
 					</tr>
 				</thead>
 			</table>

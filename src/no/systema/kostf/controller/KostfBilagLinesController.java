@@ -59,6 +59,7 @@ public class KostfBilagLinesController {
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
 		StringBuilder bilagUrl = new StringBuilder("kostf_bilag_lines_edit.do"); //TODO bilagslinesedit
+		StringBuilder bilagUrl_read = new StringBuilder("kostf_bilag_edit.do");
 
 		log.info("Inside kostf_bilag_lines_list.do");
 		
@@ -69,6 +70,11 @@ public class KostfBilagLinesController {
 			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
 			successView.addObject("bilagUrl_create", bilagUrl.toString());
 	
+			bilagUrl_read.append("?kabnr=").append(kabnr).append("&action=").append(CRUDEnum.READ.getValue()); // =href
+
+			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
+			
+			
 			successView.addObject("kabnr", kabnr);
 			
 			return successView;
@@ -116,14 +122,14 @@ public class KostfBilagLinesController {
 				updateRecord(appUser, record);
 			} 
 			
-//			returnDao = fetchRecord(appUser, sessionParams.getKabnr(), CRUDEnum.READ);
+//			returnDao = fetchRecord(appUser,  record.getKbbnr(), CRUDEnum.READ);
 //			logger.info("sessionParams.getKabnr()="+sessionParams.getKabnr());
 			logger.info("returnDao.getKbbnr()"+returnDao.getKbbnr());
 
 			successView.addObject("record", returnDao);
 			
-//			bilagUrl_read.append("?kabnr=").append(sessionParams.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
-//			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
+			bilagUrl_read.append("?kabnr=").append(record.getKbbnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
+			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
 
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			
