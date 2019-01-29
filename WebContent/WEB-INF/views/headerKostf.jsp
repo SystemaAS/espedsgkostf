@@ -39,6 +39,10 @@
 			var lang = '${user.usrLang}';
 			var kodtsfUrl = "/syjserviceskostf/syjsKODTSF?user=${user.user}";
 			var levefUrl = "/syjserviceskostf/syjsLEVEF?user=${user.user}"
+		  	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
+			var kostaGetUrl = "/syjserviceskostf/syjsKOSTA_GET?user=${user.user}";
+			var kostbUrl = "/syjserviceskostf/syjsKOSTB_XTRA?user=${user.user}";
+				
 					
 		</script>
 

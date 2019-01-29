@@ -48,7 +48,6 @@
 		<form action="kostf_bilag_edit.do" method="POST">
 			<input type="hidden" name="action" id="action" value='${action}'>
 		    <input type="hidden" name="kabnr" id="kabnr" value="${record.kabnr}">
-		    <!--  input type="hidden" name="kttyp" id="kttyp" value='${record.kttyp}'-->
 	
 			<div class="form-row left-right-border formFrameHeader">
 				<div class="col-sm-12">
@@ -77,7 +76,7 @@
 					</div>
 					<div class="form-group pr-2 col-1">
 						<label for="kabnr2" class="col-form-label-sm mb-0">Bilagsnr</label>
-						<input type="text" readonly class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
+						<input type="text" class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
 					</div>
 	 		</c:if>
 	
@@ -134,9 +133,9 @@
 					</div>
 
 					<div class="form-group pr-2 col-1">
-						<label for="kavk" class="col-form-label-sm mb-0 required">Gebyrkode</label>
+						<label for="kavk" class="col-form-label-sm mb-0">Gebyrkode</label>
 						<div class="input-group">
-							<input type="text" required class="form-control form-control-sm mr-1" name="kavk" id="kavk" value="${record.kavk}" size="4" maxlength="3">
+							<input type="text" class="form-control form-control-sm mr-1" name="kavk" id="kavk" value="${record.kavk}" size="4" maxlength="3">
 								<span class="input-group-prepend">
 									<a tabindex="-1" id="gebyrkode_Link">
 										<img src="resources/images/find.png" width="14px" height="14px">
@@ -192,8 +191,8 @@
 					</div>
 	
 					<div class="form-group pr-2 col-2">
-						<label for="kafnr" class="col-form-label-sm mb-0">Fakturanr</label>
-						<input type="text" class="form-control form-control-sm" name="kafnr" id="kafnr"  size="14" maxlength="13" value="${record.kafnr}"/>
+						<label for="kafnr" class="col-form-label-sm mb-0 required">Fakturanr</label>
+						<input type="text" required class="form-control form-control-sm" name="kafnr" id="kafnr"  size="14" maxlength="13" value="${record.kafnr}"/>
 					</div>
 
 					<div class="form-group pr-2 col-3">
@@ -254,23 +253,19 @@
 
 -->
 
-	<div class="container-fluid p-1 left-right-border">
-		<div class="form-row left-right-top-border">
-
-				<div class="form-group pr-2 col-1">
-					<label for="kauser" class="col-form-label-sm mb-0 pb-0">Sist&nbsp;oppdaterat</label>
-					<label class="form-control-plaintext form-control-sm">${record.kauser}</label>
-				</div>
-				<div class="form-group pr-2">
-					<label for="oppdatert_dato" class="col-form-label-sm mb-0 pb-0">Dato</label>
-					<label class="form-control-plaintext form-control-sm" id="oppdatert_dato">${record.opp_dato}</label>
-				</div>	
-				<div class="form-group pr-2">
-					<label for="reg_dato" class="col-form-label-sm mb-0">Reg.dato/tid</label>
-					<label class="form-control-plaintext form-control-sm" id="reg_dato">${record.reg_dato}</label>
-				</div>
-
-		</div>
+	<div class="form-row left-right-top-border">
+			<div class="form-group pr-2 col-2">
+				<label for="kauser" class="col-form-label-sm mb-0 pb-0">Sist&nbsp;oppdaterat</label>
+				<label class="form-control-plaintext form-control-sm">${record.kauser}</label>
+			</div>
+			<div class="form-group pr-2 col-2">
+				<label for="oppdatert_dato" class="col-form-label-sm mb-0 pb-0">Dato</label>
+				<label class="form-control-plaintext form-control-sm" id="oppdatert_dato">${record.opp_dato}</label>
+			</div>	
+			<div class="form-group pr-2 col-2">
+				<label for="reg_dato" class="col-form-label-sm mb-0 pb-0">Reg.dato/tid</label>
+				<label class="form-control-plaintext form-control-sm" id="reg_dato">${record.reg_dato}</label>
+			</div>
 	</div>
 
 <c:if test="${not empty error}">

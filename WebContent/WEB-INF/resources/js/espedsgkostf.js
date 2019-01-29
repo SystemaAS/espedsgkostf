@@ -6,6 +6,9 @@ var levefTable;
 var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
+//var kostaUrl2 = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
+
+
 var levefInitialized = false;
 
 function initKostaSearch() {
@@ -277,6 +280,8 @@ function loadKostb() {
 	runningUrl= getRunningKostbUrl();
 	console.log("runningUrl=" + runningUrl);
 	
+	setKostbViewHeader();
+
 	let kostbTable = jq('#kostbTable').DataTable({
 		"dom" : '<"top">t<"bottom"flip><"clear">',
 	    "ajax": {
@@ -288,25 +293,25 @@ function loadKostb() {
 		"columns" : [ 
 			{"data" : "kbavd"}, 
 			{"data" : "kbopd"},
-			{"data" : null}, //Ot(?)
-			{"data" : null}, //Fra(?)
+			{"data" : "ot"},
+			{"data" : "fra"}, 
 			{"data" : "kbnøkk"},
-			{"data" : null}, //SK(?)
+			{"data" : "sk"}, 
 			{"data" : "kbkn"},
 			{"data" : "kbvk"},
-			{"data" : null}, //Val(?)
+			{"data" : "val"}, 
 			{"data" : "kbblhb"},
 			{"data" : "kbkdm"}, 
 			{"data" : "kbbilt"},
 			{"data" : "kbkdmv"},
-			{"data" : null}, //Vkt1(?)
-			{"data" : null}, //Vkt2(?)
-			{"data" : null}, //Ant(?)
-			{"data" : null}, //Budsjett(?)
-			{"data" : null}, //Diff%(?)
-			{"data" : null},//Gren%(?)
-			{"data" : null},//Re(?)
-			{"data" : null} //At(?)
+			{"data" : "vkt1"}, 
+			{"data" : "vkt2"}, 
+			{"data" : "ant"}, 
+			{"data" : "budsjett"}, 
+			{"data" : "diff"}, 
+			{"data" : "gren"},
+			{"data" : "kbrekl"},
+			{"data" : "kbsgg"} 
 
 			],
 		"lengthMenu" : [ 25, 75, 100 ],
@@ -317,6 +322,35 @@ function loadKostb() {
 	});
 	
 } //loadKostb
+
+
+function setKostbViewHeader() {
+	jq.ajax({
+		  url: kostaGetUrl,
+	  	  data: { innregnr : kabnr }, 
+		  dataType: 'json',
+		  cache: false,
+		  contentType: 'application/json',
+		  success: function(data) {
+			jq("#kabnr").text(data.kabnr);
+			jq("#kabdt").text(data.kabdt);
+			jq("#kabnr2").text(data.kabnr2);			  
+			jq("#kaval").text(data.kaval);	
+
+			jq("#kalnr").text(data.kalnr);	
+			jq("#levnavn").text(data.levnavn);	
+			jq("#kapmn").text(data.kabmn);			  
+			jq("#KAPÅR").text(data.KAPÅR);			  
+		  
+		  }, 
+		  error: function (jqXHR, exception) {
+		  	console.log("kabnr dont exist", kabnr);
+		    console.log("jqXHR",jqXHR);
+		    console.log("exception",exception);
+		  }	
+	});	
+	
+}
 
 function getRunningKostaUrl(kostaUrl) {
 	
