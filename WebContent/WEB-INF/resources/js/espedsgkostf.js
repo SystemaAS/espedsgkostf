@@ -288,10 +288,36 @@ function loadKostb() {
 	        "url": runningUrl,
 	        "dataSrc": ""
 	    },	
+	    mark: true,
 		responsive : true,
 		"order" : [ [ 1, "desc" ] ],
+		"columnDefs" : [ 
+			{
+				"targets" : 1,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+			    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
+			    	var href = '<a href="'+url+'"' +'><img class= "img-fluid float-center" src="resources/images/update.gif" onClick="setBlockUI();"></a>';
+			    	return href;
+			    }			
+			},
+			{
+				"targets" : -1,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+	           		return '<a>' +
+	       			'<img class="img-fluid float-center" title="Slett post" src="resources/images/delete.gif">' +
+	       			'</a>'    	
+			    }
+			}
+		],		
 		"columns" : [ 
 			{"data" : "kbavd"}, 
+	    	{
+	            "orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	},
 			{"data" : "kbopd"},
 			{"data" : "ot"},
 			{"data" : "fra"}, 
@@ -311,8 +337,13 @@ function loadKostb() {
 			{"data" : "diff"}, 
 			{"data" : "gren"},
 			{"data" : "kbrekl"},
-			{"data" : "kbsgg"} 
-
+			{"data" : "kbsgg"} ,
+	    	{
+	        	"class":          "delete dt-body-center",
+	        	"orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	}		        
 			],
 		"lengthMenu" : [ 25, 75, 100 ],
 		"language" : {
@@ -320,6 +351,38 @@ function loadKostb() {
 		}
 
 	});
+
+	kostbTable.on( 'click', 'td.delete img', function () {
+	    let data = kostbTable.row( jq(this).parents('tr') ).data();
+	    bilagUrl_delete = bilagUrl_delete + "&kbbnr="+data['kbbnr'];
+	    
+	    //TODO
+	    jq('<div></div>').dialog({
+	    	title: "TODO ::::Slett innregnr. " + data['kbbnr'] + " - bilagsnr. " + data['kabnr2'],
+	    	resizable: false,
+	        height: "auto",
+	        width: 500,
+	        modal: true,
+	        buttons: {
+	        	Fortsett: function() {
+	            jq( this ).dialog( "close" );
+	    		setBlockUI();
+	    		console.log('bilagUrl_delete',bilagUrl_delete);
+	            //window.location = bilagUrl_delete;
+	          },
+	          	Avbryt: function() {
+	            jq( this ).dialog( "close" );
+	          }
+	        },
+	        open: function() {
+		  		  var markup = "Er du sikker på at du vil slette denne?";
+		          jq(this).html(markup);
+		          jq(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
+		     }            
+	      });        
+	
+	} );	
+	
 	
 } //loadKostb
 
@@ -336,11 +399,12 @@ function setKostbViewHeader() {
 			jq("#kabdt").text(data.kabdt);
 			jq("#kabnr2").text(data.kabnr2);			  
 			jq("#kaval").text(data.kaval);	
-
 			jq("#kalnr").text(data.kalnr);	
 			jq("#levnavn").text(data.levnavn);	
 			jq("#kapmn").text(data.kabmn);			  
-			jq("#KAPÅR").text(data.KAPÅR);			  
+			jq("#KAPÅR").text(data.KAPÅR);		
+			jq("#tilfordel").text(data.kabl);	
+			jq("#fordelt").text(data.fordelt);	
 		  
 		  }, 
 		  error: function (jqXHR, exception) {
