@@ -6,9 +6,6 @@ var levefTable;
 var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
-//var kostaUrl2 = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
-
-
 var levefInitialized = false;
 
 function initKostaSearch() {
