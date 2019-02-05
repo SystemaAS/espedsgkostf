@@ -292,15 +292,15 @@ function loadKostb() {
 		responsive : true,
 		"order" : [ [ 1, "desc" ] ],
 		"columnDefs" : [ 
-			{
-				"targets" : 1,
-				className: 'dt-body-center',
-			    "render": function ( data, type, row, meta ) {
-			    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
-			    	var href = '<a href="'+url+'"' +'><img class= "img-fluid float-center" src="resources/images/update.gif" onClick="setBlockUI();"></a>';
-			    	return href;
-			    }			
-			},
+//			{
+//				"targets" : 1,
+//				className: 'dt-body-center',
+//			    "render": function ( data, type, row, meta ) {
+//			    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
+//			    	var href = '<a href="'+url+'"' +'><img class= "img-fluid float-center" src="resources/images/update.gif" onClick="setBlockUI();"></a>';
+//			    	return href;
+//			    }			
+//			},
 			{
 				"targets" : -1,
 				className: 'dt-body-center',
@@ -316,7 +316,8 @@ function loadKostb() {
 	    	{
 	            "orderable":      false,
 	            "data":           null,
-	            "defaultContent": ''
+	            className: 'edit dt-body-center',
+	            "defaultContent": '<img class= "img-fluid float-center" src="resources/images/update.gif">'
 	    	},
 			{"data" : "kbopd"},
 			{"data" : "ot"},
@@ -328,7 +329,7 @@ function loadKostb() {
 			{"data" : "val"}, 
 			{"data" : "kbblhb"},
 			{"data" : "kbkdm"}, 
-			{"data" : "kbbilt"},
+			{"data" : "kbblf"},
 			{"data" : "kbkdmv"},
 			{"data" : "vkt1"}, 
 			{"data" : "vkt2"}, 
@@ -382,6 +383,42 @@ function loadKostb() {
 	      });        
 	
 	} );	
+
+	kostbTable.on( 'click', 'td.edit img', function () {
+        let data = kostbTable.row( jq(this).parents('tr') ).data();
+        console.log("kostbTable.on click ,data",data);
+
+        jq("#kbavd").val(data["kbavd"]);
+        jq("#kbbilt").val(data["kbbilt"]);
+        jq("#kbblf").val(data["kbblf"]);
+        jq("#kbblhb").val(data["kbblhb"]);
+        jq("#kbbnr").val(data["kbbnr"]);
+        jq("#kbbuds").val(data["kbbuds"]);
+        jq("#kbbval").val(data["kbbval"]);
+        jq("#kbfree").val(data["kbfree"]);
+        jq("#kbgeby").val(data["kbgeby"]);
+        jq("#kbgod").val(data["kbgod"]);
+        jq("#kbkavd").val(data["kbkavd"]);
+        jq("#kbkavd").val(data["kbkavd"]);
+        jq("#kbkdm").val(data["kbkdm"]);
+        jq("#kbkdmv").val(data["kbkdmv"]);
+        jq("#kbkdpf").val(data["kbkdpf"]);
+        jq("#kbkkey").val(data["kbkkey"]);
+        jq("#kbkn").val(data["kbkn"]);
+        jq("#KBNØKK").val(data["kbnøkk"]);
+        jq("#kbopd").val(data["kbopd"]);
+        jq("#KBPÅR").val(data["kbpår"]);
+        jq("#kbpcc").val(data["kbpcc"]);
+        jq("#kbpmn").val(data["kbpmn"]);
+        jq("#kbrefa").val(data["kbrefa"]);
+        jq("#kbrefb").val(data["kbrefb"]);
+        jq("#kbrefc").val(data["kbrefc"]);
+        jq("#kbrekl").val(data["kbrekl"]);
+        jq("#kbsg").val(data["kbsg"]);
+        jq("#kbsgg").val(data["kbsgg"]);
+        jq("#kbvk").val(data["kbvk"]);
+
+	} );	
 	
 	
 } //loadKostb
@@ -405,7 +442,9 @@ function setKostbViewHeader() {
 			jq("#KAPÅR").text(data.KAPÅR);		
 			jq("#tilfordel").text(data.kabl);	
 			jq("#fordelt").text(data.fordelt);	
-		  
+			jq("#kast").text(data.kast);	
+
+			
 		  }, 
 		  error: function (jqXHR, exception) {
 		  	console.log("kabnr dont exist", kabnr);

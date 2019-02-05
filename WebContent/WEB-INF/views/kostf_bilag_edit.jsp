@@ -125,7 +125,7 @@
 	
 	
 					<div class="form-group pr-2 col-1">
-						<label for="kapmn" class="col-form-label-sm mb-0 required">Per.(mån/år)</label>
+						<label for="kapmn" class="col-form-label-sm mb-0 required">Per.(mån&#47;år)</label>
 						<div class="input-group">
 							<input type="text" required class="form-control form-control-sm mr-1" name="kapmn" id="kapmn" value="${record.kapmn}" placeholder="mm" onKeyPress="return numberKey(event)" size="3" maxlength="2">
 							<input type="text" required class="form-control form-control-sm" name="KAPÅR" id="KAPÅR" value="${record.KAPÅR}" placeholder="yy" onKeyPress="return numberKey(event)" size="3" maxlength="2">
@@ -212,6 +212,12 @@
 						<input type="text" class="form-control form-control-sm" name="kaffdt" id="kaffdt" value="${record.kaffdt}" onKeyPress="return numberKey(event)" size="9" maxlength="8"/>
 					</div>	
 	
+					<div class="form-group pr-2 col-1">
+						<label for="kast" class="col-form-label-sm mb-0">Status</label>
+						<input type="text" class="form-control form-control-sm" name="kast" id="kast" value="${record.kast}" size="2" maxlength="1"/>
+					</div>	
+	
+	
 					<div class="form-group col-11 align-self-end">
 						<div class="float-md-right">
 							<button class="btn inputFormSubmit btn-sm" id="submitBtn">Lagre</button>
@@ -263,7 +269,7 @@
 				<label class="form-control-plaintext form-control-sm" id="oppdatert_dato">${record.opp_dato}</label>
 			</div>	
 			<div class="form-group pr-2 col-2">
-				<label for="reg_dato" class="col-form-label-sm mb-0 pb-0">Reg.dato/tid</label>
+				<label for="reg_dato" class="col-form-label-sm mb-0 pb-0">Reg.dato&#47;tid</label>
 				<label class="form-control-plaintext form-control-sm" id="reg_dato">${record.reg_dato}</label>
 			</div>
 	</div>

@@ -32,7 +32,7 @@
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/features/mark.js/datatables.mark.js"></script>
 		
 		<!-- https://date-fns.org/docs/Getting-Started -->
-		<script src="http://cdn.date-fns.org/v1.9.0/date_fns.min.js"></script>
+		<!-- script src="https://cdn.date-fns.org/v1.9.0/date_fns.min.js"></script-->
 		
 		
 		<script>
@@ -42,8 +42,6 @@
 		  	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 			var kostaGetUrl = "/syjserviceskostf/syjsKOSTA_GET?user=${user.user}";
 			var kostbUrl = "/syjserviceskostf/syjsKOSTB_XTRA?user=${user.user}";
-				
-					
 		</script>
 
 	</head>

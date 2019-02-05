@@ -12,8 +12,6 @@
 	var signatur = "${user.signatur}";
 	var attkode = "&attkode="+signatur;
 	
-//  	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
-
 	jq(document).ready(function() {
 
 		initKostaSearch();

@@ -9,7 +9,6 @@
 
 <script type="text/javascript">
 	"use strict";
-// 	var kostbUrl = "/syjserviceskostf/syjsKOSTB_XTRA?user=${user.user}";
  	var kabnr = "${kabnr}";
 	
 	jq(document).ready(function() {
@@ -61,7 +60,7 @@
 					<label class="form-control-plaintext form-control-sm" nowrap id="levnavn"/>
 				</div>
 				<div class="form-group pr-2 col-1">
-					<label for="kapmn" class="col-form-label-sm mb-0 ">Per.(mån/år)</label>
+					<label for="kapmn" class="col-form-label-sm mb-0 ">Per.(mån&#47;år)</label>
 					<div class="input-group">
 						<label class="form-control-plaintext form-control-sm" id="kapmn"/>
 						<label class="form-control-plaintext form-control-sm" id="KAPÅR"/>
@@ -74,6 +73,10 @@
 				<div class="form-group pr-2 col-1">
 					<label for="fordelt" class="col-form-label-sm mb-0 pb-0">Fordelt</label>
 					<label class="form-control-plaintext form-control-sm" id="fordelt"/>
+				</div>
+				<div class="form-group pr-2 col-1">
+					<label for="kast" class="col-form-label-sm mb-0 pb-0">Status</label>
+					<label class="form-control-plaintext form-control-sm" id="kast"/>
 				</div>
 
 
@@ -124,84 +127,15 @@
 			</div>
 
 			<div class="form-row left-right-bottom-border formFrame">
-
-	
-			 <c:if test="${action == 1}"> <!-- CREATE -->
-					<div class="form-group pr-2">
-						<label for="kttyp" class="col-form-label-sm mb-0">Bilagsserie</label>
-						<select class="form-control form-control-sm w-auto" name="kttyp" id="kttyp">
-							<option value="${record.kttyp}" selected>${record.kttyp}</option>	
-						</select>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbblf" class="col-form-label-sm mb-0">Beløp,linje</label>
+						<input type="text" class="form-control form-control-sm" name="kbblf" id="kbblf" value="${record.kbblf}" onKeyPress="return numberKey(event)"  size="16" maxlength="15">
 					</div>
-					<div class="form-group pr-2 col-1">
-						<label for="kabnr2" class="col-form-label-sm mb-0">Bilagsnr</label>
-						<input type="text" autofocus class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
+					<div class="form-group pr-2 col-auto">
+						<label for="kbblhb" class="col-form-label-sm mb-0">Beløp,hovedbok</label>
+						<input type="text" class="form-control form-control-sm" name="kbblhb" id="kbblhb" value="${record.kbblhb}" onKeyPress="return numberKey(event)"  size="16" maxlength="15">
 					</div>
-			 </c:if>
-			 <c:if test="${action == 3}"> <!-- UPDATE -->
-					<div class="form-group pr-2">
-						<label for="kttyp" class="col-form-label-sm mb-0">Bilagsserie</label>
-						<input tabindex="-1" type="text" readonly class="form-control form-control-sm w-auto" name="kttyp" id="kttyp" value="${record.kttyp}" size="2" maxlength="1">
-					</div>
-					<div class="form-group pr-2 col-1">
-						<label for="kabnr2" class="col-form-label-sm mb-0">Bilagsnr</label>
-						<input type="text" class="form-control form-control-sm" name="kabnr2" id="kabnr2" value="${record.kabnr2}" onKeyPress="return numberKey(event)" size="8" maxlength="7">
-					</div>
-	 		</c:if>
-	
-					<div class="form-group pr-2 col-1">
-						<label for="kabdt" class="col-form-label-sm mb-0 required">Bilagsdato</label>
-						<input type="text" required class="form-control form-control-sm" name="kabdt" id="kabdt" value="${record.kabdt}" onKeyPress="return numberKey(event)" size="8" maxlength="8">
-					</div>
-	
-					<div class="form-group pr-2 col-1">
-							<label for="kalnr" class="col-form-label-sm mb-0 mr-1">Lev.nr</label>
-							<div class="input-group">
-			                    <input type="text" class="form-control form-control-sm" name="kalnr" id="kalnr" value="${record.kalnr}" onKeyPress="return numberKey(event)" size="8" maxlength="8">&nbsp;
-			                    <span class="input-group-prepend">
-			       					<a tabindex="-1" id="levnr_Link2">
-										<img src="resources/images/find.png" width="14px" height="14px">
-									</a>
-			                    </span>
-			                </div>
-					</div>
-	
-					<div class="form-group pr-2 pl-1 col-2">
-						<label for="levnavn" class="col-form-label-sm mb-0">Lev.navn</label>
-						<input tabindex="-1" type="text" readonly class="form-control form-control-sm" name="levnavn" id="levnavn" value="${record.levnavn}">
-					</div>	
-	
-					<div class="form-group pr-2">
-						<label for="kasg" class="col-form-label-sm mb-0 required">Att.kode</label>
-						<select required class="form-control form-control-sm" name="kasg" id="kasg">
- 					<c:if test="${action == 3}"> <!-- UPDATE -->
-							<option value="${record.kasg}" selected>${record.kasg}</option>	
- 					</c:if>
-						</select>
-					</div>
-	
-					<div class="form-group pr-2 col-2">
-						<label for="katxt" class="col-form-label-sm mb-0 mr-1">Bilagskomm.</label>
-						<div class="input-group">
-							<input type="text" class="form-control form-control-sm mr-1" name="katxt" id="katxt" value="${record.katxt}" size="35" maxlength="35">
-							 <span class="input-group-prepend">
-								<a tabindex="-1" id="kommentar_Link">
-										<img src="resources/images/find.png" width="14px" height="14px">
-								</a>
-							</span>
-						</div>
-					</div>
-	
-	
-					<div class="form-group pr-2 col-1">
-						<label for="kapmn" class="col-form-label-sm mb-0 required">Per.(mån/år)</label>
-						<div class="input-group">
-							<input type="text" required class="form-control form-control-sm mr-1" name="kapmn" id="kapmn" value="${record.kapmn}" placeholder="mm" onKeyPress="return numberKey(event)" size="3" maxlength="2">
-							<input type="text" required class="form-control form-control-sm" name="KAPÅR" id="KAPÅR" value="${record.KAPÅR}" placeholder="yy" onKeyPress="return numberKey(event)" size="3" maxlength="2">
-						</div>
-					</div>
-
-					<div class="form-group pr-2 col-1">
+					<div class="form-group pr-2 col-auto">
 						<label for="kavk" class="col-form-label-sm mb-0">Gebyrkode</label>
 						<div class="input-group">
 							<input type="text" class="form-control form-control-sm mr-1" name="kavk" id="kavk" value="${record.kavk}" size="4" maxlength="3">
@@ -212,78 +146,142 @@
 								</span>
 						</div>
 					</div>
-
-					<div class="form-group pr-2 col-1">
-						<label for="kabl" class="col-form-label-sm mb-0 required">Beløp</label>
-						<input type="text" required class="form-control form-control-sm" name="kabl" id="kabl" value="${record.kabl}" onKeyPress="return numberKey(event)"  size="14" maxlength="13">
+					<div class="form-group pr-2 col-auto">
+						<label for="kbkdpf" class="col-form-label-sm mb-0">Plikt&#47;fri</label>
+						<input type="text" class="form-control form-control-sm" name="kbkdpf" id="kbkdpf" value="${record.kbkdpf}" size="2" maxlength="1">
 					</div>
-
-					<div class="form-group pr-2">
-						<label for="kamva" class="col-form-label-sm mb-0">Mva</label>
-							<select class="form-control form-control-sm" name="kamva" id="kamva">
-			  					<option value="">-velg-</option>
-			  					<option value="P"<c:if test="${record.kamva == 'P'}"> selected </c:if>>P</option>
-			  					<option value="F"<c:if test="${record.kamva == 'F'}"> selected </c:if>>F</option>
-							</select>						
+					<div class="form-group pr-2 col-auto">
+						<label for="kbkdmv" class="col-form-label-sm mb-0">Mva</label>
+						<input type="text" class="form-control form-control-sm" name="kbkdmv" id="kbkdmv" value="${record.kbkdmv}" size="2" maxlength="1">
 					</div>
-
-					<div class="form-group pr-2 col-1">
-						<label for="kablm" class="col-form-label-sm mb-0">Herav MVA</label>
-						<input type="text" class="form-control form-control-sm" name="kablm" id="kablm" value="${record.kablm}" onKeyPress="return numberKey(event)"  size="14" maxlength="13">
+					<div class="form-group pr-2 col-auto">
+						<label for="kbkdm" class="col-form-label-sm mb-0">Momskode</label>
+						<input type="text" class="form-control form-control-sm" name="kbkdm" id="kbkdm" value="${record.kbkdm}" onKeyPress="return numberKey(event)"  size="2" maxlength="1">
 					</div>
-
-					<div class="form-group pr-2 col-1">
-						<label for="kaval" class="col-form-label-sm mb-0 required">Valutakode</label>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbkavd" class="col-form-label-sm mb-0">Fordel på avdeling</label>
+						<input type="text" class="form-control form-control-sm" name="kbkavd" id="kbkavd" value="${record.kbkavd}" onKeyPress="return numberKey(event)"  size="5" maxlength="4">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbavd" class="col-form-label-sm mb-0">Avdeling</label>
+						<input type="text" class="form-control form-control-sm" name="kbavd" id="kbavd" value="${record.kbavd}" onKeyPress="return numberKey(event)"  size="5" maxlength="4">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbopd" class="col-form-label-sm mb-0">Oppdragsnummer</label>
+						<input type="text" class="form-control form-control-sm" name="kbopd" id="kbopd" value="${record.kbopd}" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="x" class="col-form-label-sm mb-0">Turnummer?</label>
+						<input type="text" class="form-control form-control-sm" name="x" id="x" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="y" class="col-form-label-sm mb-0">Godsnummer?</label>
+						<input type="text" class="form-control form-control-sm" name="y" id="z" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbpmn" class="col-form-label-sm mb-0 required">Per.(mån&#47;år)</label>
 						<div class="input-group">
-							<input type="text" required class="form-control form-control-sm mr-1" name="kaval" id="kaval" value="${record.kaval}" size="4" maxlength="3">
-								<span class="input-group-prepend">
-									<a tabindex="-1" id="valutakode_Link">
-										<img src="resources/images/find.png" width="14px" height="14px">
-									</a>
-								</span>
+							<input type="text" required class="form-control form-control-sm mr-1" name="kbpmn" id="kbpmn" value="${record.kbpmn}" placeholder="mm" onKeyPress="return numberKey(event)" size="3" maxlength="2">
+							<input type="text" required class="form-control form-control-sm" name="KBPÅR" id="KBPÅR" value="${record.KBPÅR}" placeholder="yy" onKeyPress="return numberKey(event)" size="3" maxlength="2">
 						</div>
 					</div>
-
-					<div class="form-group pr-2">
-						<label for="kavku" class="col-form-label-sm mb-0">Kurs</label>
-						<input type="text" class="form-control form-control-sm" name="kavku" id="kavku" value="${record.kavku}" onKeyPress="return amountKey(event)" size="8" maxlength="7">
+					<div class="form-group pr-2 col-auto">
+						<label for="z" class="col-form-label-sm mb-0">I&#47;O?</label>
+						<input type="text" class="form-control form-control-sm" name="z" id="z" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="a" class="col-form-label-sm mb-0">Fran(*3)?</label>
+						<input type="text" class="form-control form-control-sm" name="a" id="a" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="b" class="col-form-label-sm mb-0">I&#47;O?</label>
+						<input type="text" class="form-control form-control-sm" name="b" id="b" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="c" class="col-form-label-sm mb-0">O.ty(*3)?</label>
+						<input type="text" class="form-control form-control-sm" name="c" id="c" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="d" class="col-form-label-sm mb-0">I&#47;O?</label>
+						<input type="text" class="form-control form-control-sm" name="d" id="d" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="e" class="col-form-label-sm mb-0">Part(*2)?</label>
+						<input type="text" class="form-control form-control-sm" name="e" id="e" value="TODO" onKeyPress="return numberKey(event)"  size="6" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbbilt" class="col-form-label-sm mb-0">Bilagstekst</label>
+						<input type="text" class="form-control form-control-sm" name="kbbilt" id="kbbilt" value="${record.kbbilt}" size="16" maxlength="15">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbbnr" class="col-form-label-sm mb-0">Bilagsnummer</label>
+						<input type="text" class="form-control form-control-sm" name="kbbnr" id="kbbnr" value="${record.kbbnr}" onKeyPress="return numberKey(event)"  size="8" maxlength="7">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbbuds" class="col-form-label-sm mb-0">Budsjett</label>
+						<input type="text" class="form-control form-control-sm" name="kbbuds" id="kbbuds" value="${record.kbbuds}" onKeyPress="return numberKey(event)"  size="16" maxlength="15">
 					</div>
 
-					<div class="form-group pr-2">
-						<label for="kabb" class="col-form-label-sm mb-0">Bet.bet</label>
-						<input type="text" class="form-control form-control-sm" name="kabb" id="kabb" value="${record.kabb}" onKeyPress="return numberKey(event)" size="3" maxlength="2">
+					<div class="form-group pr-2 col-auto">
+						<label for="kbbval" class="col-form-label-sm mb-0">Budsjett valkod</label>
+						<input type="text" class="form-control form-control-sm" name="kbbval" id="kbbval" value="${record.kbbval}" size="4" maxlength="3">
 					</div>
-	
-					<div class="form-group pr-2 col-1">
-						<label for="kaffdt" class="col-form-label-sm mb-0">Forfallsdato</label>
-						<input type="text" class="form-control form-control-sm" name="kaffdt" id="kaffdt" value="${record.kaffdt}" onKeyPress="return numberKey(event)" size="9" maxlength="8"/>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbfree" class="col-form-label-sm mb-0">Fritext</label>
+						<input type="text" class="form-control form-control-sm" name="kbfree" id="kbfree" value="${record.kbfree}" size="38" maxlength="37">
 					</div>
-	
-					<div class="form-group pr-2 col-2">
-						<label for="kafnr" class="col-form-label-sm mb-0 required">Fakturanr</label>
-						<input type="text" required class="form-control form-control-sm" name="kafnr" id="kafnr"  size="14" maxlength="13" value="${record.kafnr}"/>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbgeby" class="col-form-label-sm mb-0">Gebyr med&#47;u</label>
+						<input type="text" class="form-control form-control-sm" name="kbgeby" id="kbgeby" value="${record.kbgeby}" onKeyPress="return numberKey(event)"  size="2" maxlength="1">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbgod" class="col-form-label-sm mb-0">Godkjent</label>
+						<input type="text" class="form-control form-control-sm" name="kbgod" id="kbgod" value="${record.kbgod}" size="2" maxlength="1">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbkkey" class="col-form-label-sm mb-0">FORD.KEY OPD&#47;PRO&#47;GN(ej med?)</label>
+						<input type="text" class="form-control form-control-sm" name="kbkkey" id="kbkkey" value="${record.kbkkey}" size="16" maxlength="15">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbkn" class="col-form-label-sm mb-0">Kundenr</label>
+						<input type="text" class="form-control form-control-sm" name="kbkn" id="kbkn" value="${record.kbkn}" onKeyPress="return numberKey(event)"  size="9" maxlength="8">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="KBNØKK" class="col-form-label-sm mb-0">Konteringsmåte</label>
+						<input type="text" class="form-control form-control-sm" name="KBNØKK" id="KBNØKK" value="${record.KBNØKK}" onKeyPress="return numberKey(event)"  size="2" maxlength="1">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbpcc" class="col-form-label-sm mb-0">PERIODE-ÅRHUNDRE(ej med?)</label>
+						<input type="text" class="form-control form-control-sm" name="kbpcc" id="kbpcc" value="${record.kbpcc}" onKeyPress="return numberKey(event)"  size="3" maxlength="2">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbrefa" class="col-form-label-sm mb-0">Edi-motatt ref a</label>
+						<input type="text" class="form-control form-control-sm" name="kbrefa" id="kbrefa" value="${record.kbrefa}" size="36" maxlength="35">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbrefb" class="col-form-label-sm mb-0">Edi-motatt ref a(b?)</label>
+						<input type="text" class="form-control form-control-sm" name="kbrefb" id="kbrefb" value="${record.kbrefb}" size="36" maxlength="35">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbrefc" class="col-form-label-sm mb-0">Edi-motatt ref a(c?)</label>
+						<input type="text" class="form-control form-control-sm" name="kbrefbc" id="kbrefc" value="${record.kbrefc}" size="36" maxlength="35">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbrekl" class="col-form-label-sm mb-0">Reklamert status</label>
+						<input type="text" class="form-control form-control-sm" name="kbrekl" id="kbrekl" value="${record.kbrekl}" size="3" maxlength="2">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbsg" class="col-form-label-sm mb-0">Att.kode&#47;signatur</label>
+						<input type="text" class="form-control form-control-sm" name="kbsg" id="kbsg" value="${record.kbsg}" size="4" maxlength="3">
+					</div>
+					<div class="form-group pr-2 col-auto">
+						<label for="kbsgg" class="col-form-label-sm mb-0">Godkjent&#47;signatur</label>
+						<input type="text" class="form-control form-control-sm" name="kbsgg" id="kbsgg" value="${record.kbsgg}" size="4" maxlength="3">
 					</div>
 
-					<div class="form-group pr-2 col-3">
-						<label for="kalkid" class="col-form-label-sm mb-0">KID</label>
-						<input type="text" class="form-control form-control-sm" name="kalkid" id="kalkid" value="${record.kalkid}" size="26" maxlength="25"/>
-					</div>
-	
-					<div class="form-group pr-2">
-						<label for="kaffdt" class="col-form-label-sm mb-0">Fakturadato
-							<img class="img-fluid" onMouseOver="showPop('fdato_info');" onMouseOut="hidePop('fdato_info');"style="vertical-align:bottom;" width="12px" height="12px" src="resources/images/info3.png" alt="info">
-						</label>
-						<div class="text11" style="position: relative;" align="left">
-							<span style="position:absolute; left:0px; top:0px; width:200px" id="fdato_info" class="popupWithInputText"  >
-			         			<label>Blank = Bilagsdato</label>
-							</span>
-						</div>	
-						<input type="text" class="form-control form-control-sm" name="kaffdt" id="kaffdt" value="${record.kaffdt}" onKeyPress="return numberKey(event)" size="9" maxlength="8"/>
-					</div>	
-	
 					<div class="form-group col-11 align-self-end">
 						<div class="float-md-right">
-							<button class="btn inputFormSubmit btn-sm" id="submitBtn">Lagre</button>
+							<button disabled class="btn inputFormSubmit btn-sm" id="submitBtn">Lagre</button>
 						</div>
 					</div>					
 	
