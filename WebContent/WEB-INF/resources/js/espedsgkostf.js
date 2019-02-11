@@ -2,6 +2,7 @@ var jq = jQuery.noConflict();
 var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 
 var kostaTable;
+var kostbTable;
 var levefTable;
 var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
@@ -272,14 +273,32 @@ function loadKosta() {
 
 
 function loadKostb() {
+	console.log('loadKostb');
+	clearKostbLineValues();
+	
 	let runningUrl;
 	console.log('kabnr',kabnr);
 	runningUrl= getRunningKostbUrl();
 	console.log("runningUrl=" + runningUrl);
+
+	console.log('kostbTable', kostbTable);
+	if (kostbTable != undefined) {
+		console.log('initKostb already set.');
+		
+		kostbTable.ajax.url(runningUrl);
+		kostbTable.ajax.reload();		
+		
+		return;
+	}
+	
+	
+	
 	
 	setKostbViewHeader();
 
-	let kostbTable = jq('#kostbTable').DataTable({
+	console.log("setKostbViewHeader ready.");
+
+	kostbTable = jq('#kostbTable').DataTable({
 		"dom" : '<"top">t<"bottom"flip><"clear">',
 	    "ajax": {
 	        "url": runningUrl,
@@ -289,15 +308,6 @@ function loadKostb() {
 		responsive : true,
 		"order" : [ [ 1, "desc" ] ],
 		"columnDefs" : [ 
-//			{
-//				"targets" : 1,
-//				className: 'dt-body-center',
-//			    "render": function ( data, type, row, meta ) {
-//			    	var url= bilagUrl_read+'&kabnr='+row.kabnr; 
-//			    	var href = '<a href="'+url+'"' +'><img class= "img-fluid float-center" src="resources/images/update.gif" onClick="setBlockUI();"></a>';
-//			    	return href;
-//			    }			
-//			},
 			{
 				"targets" : -1,
 				className: 'dt-body-center',
@@ -380,7 +390,7 @@ function loadKostb() {
 	      });        
 	
 	} );	
-
+	
 	kostbTable.on( 'click', 'td.edit img', function () {
         let data = kostbTable.row( jq(this).parents('tr') ).data();
         console.log("kostbTable.on click ,data",data);
@@ -414,11 +424,55 @@ function loadKostb() {
         jq("#kbsg").val(data["kbsg"]);
         jq("#kbsgg").val(data["kbsgg"]);
         jq("#kbvk").val(data["kbvk"]);
+        jq("#rrn").val(data["rrn"]);
+        
+        jq("#action").val(3);  //UPDATE
 
 	} );	
 	
 	
 } //loadKostb
+
+
+
+function clearKostbLineValues() {
+	
+    jq("#kbavd").val("");
+    jq("#kbbilt").val("");
+    jq("#kbblf").val("");
+    jq("#kbblhb").val("");
+ //   jq("#kbbnr").val("");
+    jq("#kbbuds").val("");
+    jq("#kbbval").val("");
+    jq("#kbfree").val("");
+    jq("#kbgeby").val("");
+    jq("#kbgod").val("");
+    jq("#kbkavd").val("");
+    jq("#kbkavd").val("");
+    jq("#kbkdm").val("");
+    jq("#kbkdmv").val("");
+    jq("#kbkdpf").val("");
+    jq("#kbkkey").val("");
+    jq("#kbkn").val("");
+    jq("#KBNØKK").val("");
+    jq("#kbopd").val("");
+    jq("#KBPÅR").val("");
+    jq("#kbpcc").val("");
+    jq("#kbpmn").val("");
+    jq("#kbrefa").val("");
+    jq("#kbrefb").val("");
+    jq("#kbrefc").val("");
+    jq("#kbrekl").val("");
+    jq("#kbsg").val("");
+    jq("#kbsgg").val("");
+    jq("#kbvk").val("");
+    jq("#rrn").val("");
+    
+ //   jq("#action").val(2);  //READ 
+	
+	
+}
+
 
 
 function setKostbViewHeader() {
@@ -444,7 +498,7 @@ function setKostbViewHeader() {
 			
 		  }, 
 		  error: function (jqXHR, exception) {
-		  	console.log("kabnr dont exist", kabnr);
+		  	console.log("kabnr don't exist", kabnr);
 		    console.log("jqXHR",jqXHR);
 		    console.log("exception",exception);
 		  }	
@@ -544,6 +598,11 @@ function getRunningLevefUrl() {
 
 jq(function() {
 
+	jq('#clear').click(function() {
+		clearKostbLineValues();
+	});
+	
+	
 	jq("#kabdt").datepicker({  //Bilagsdato
 		dateFormat: 'yymmdd'
 	});	
