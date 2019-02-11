@@ -124,8 +124,6 @@ public class KostfBilagLinesController {
 				saveRecord(appUser, record, "U");
 			} 
 			
-//			successView.addObject("record", returnDto);
-			
 			bilagUrl_read.append("?kabnr=").append(record.getKbbnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
 			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
 
