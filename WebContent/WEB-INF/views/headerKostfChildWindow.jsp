@@ -35,6 +35,8 @@
 
 		<script>
 			var lang = '${user.usrLang}';
+			var valufUrl = "/syjserviceskostf/syjs_VALUF?user=${user.user}";
+
 		</script>
 
 

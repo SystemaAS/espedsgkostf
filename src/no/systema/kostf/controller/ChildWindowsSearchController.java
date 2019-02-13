@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javawebparts.core.CaseInsensitiveMap;
 import no.systema.jservices.common.dao.ArkextDao;
 import no.systema.jservices.common.dto.ArktxtDto;
 import no.systema.main.model.SystemaWebUser;
@@ -42,73 +43,45 @@ public class ChildWindowsSearchController {
 	public ModelAndView getCodes(HttpSession session, HttpServletRequest request,
 								@RequestParam(value = "caller", required = true) String caller){
 
-		ModelAndView successView = new ModelAndView("childwindow_search_supplier");
 		SystemaWebUser appUser = (SystemaWebUser)session.getAttribute(AppConstants.SYSTEMA_WEB_USER_KEY);
-		Map model = new HashMap();
 		
-		if(appUser==null){
+		if (appUser == null) {
+
 			return this.loginView;
-		}else{
-			  
-//			List list = getCodeList(appUser, caller);
-//			model.put("codeList", list);
-			model.put("caller", caller);
-			
-			successView.addObject("model" , model);
-			
-	    	return successView;
+
+		} else {
+
+			return successView(caller);
+
 		}
 	}
 		
-	private List<ChildWindowKode> getCodeList(SystemaWebUser appUser, String caller) {
-		List<ChildWindowKode> list = null;
+	private ModelAndView successView(String caller) {
+		ModelAndView successView;
+		Map model = new HashMap();
 
-		if ("selectSuppliernr".equals(caller)) { 
-			list = getArklagKoder(appUser);
-		} 
-		else {
-			throw new IllegalArgumentException(caller + " is not supported.");
+		switch (caller) {
+		case "kalnr":
+			successView = new ModelAndView("childwindow_search_supplier");
+			break;
+		case "selectSuppliernr":
+			successView = new ModelAndView("childwindow_search_supplier");
+			break;
+		case "kaval":
+			successView = new ModelAndView("childwindow_search_valutakode");
+			break;			
+		default:
+			String errMsg = String.format("caller %s not supported!", caller);
+			throw new RuntimeException(errMsg);
 		}
-
-		return list;
-	}
-	
-	
-	private List<ChildWindowKode>  getArklagKoder(SystemaWebUser appUser) {
-		return null;
-	}	
-	
-	private ChildWindowKode getChildWindowKode(ArkextDao dao) {
-		ChildWindowKode kode = new ChildWindowKode();
-		kode.setCode(dao.getArcext());
-		kode.setDescription(dao.getArcane());
-
-		return kode;
-	}		
-
-	private List<ChildWindowKode> getArkivuKoder(SystemaWebUser appUser) {
-		return null;
-	}	
-	
-	private List<ChildWindowKode> getArktxtKoder(SystemaWebUser appUser) {
-		return null;
-	}	
-	
-	private ChildWindowKode getChildWindowKode(JsonMaintMainChildWindowKofastRecord record) {
-		ChildWindowKode kode = new ChildWindowKode();
-		kode.setCode(record.getKfkod());
-		kode.setDescription(record.getKftxt());
 		
-		return kode;
-	}	
-	
-	private ChildWindowKode getChildWindowKode(ArktxtDto dto) {
-		ChildWindowKode kode = new ChildWindowKode();
-		kode.setCode(dto.getArtype());
-		kode.setDescription(dto.getArtxt());
-
-		return kode;
-	}	
+		model.put("caller", caller);
+		successView.addObject("model" , model);
+		
+    	return successView;		
+		
+		
+	}
 
 }
 

@@ -4,6 +4,7 @@ var BLOCKUI_OVERLAY_MESSAGE_DEFAULT = "Vennligst vent...";
 var kostaTable;
 var kostbTable;
 var levefTable;
+var valufTable;
 var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
@@ -176,6 +177,10 @@ function getBilagsSerie(caller){
 }
 
 function initLevefSearch(caller) {
+	
+	
+	console.log("levefTable", levefTable);
+	
 
 	levefTable = jq('#levefTable').DataTable({
 		"dom" : '<"top"f>t<"bottom"lip><"clear">',
@@ -245,6 +250,98 @@ function initLevefSearch(caller) {
 	
 }//end initLevefSearch
 
+function initValufSearch(caller) {
+
+	console.log("initValufSearch i js");
+	
+	console.log("valufUrl",valufUrl);
+	
+	
+	valufTable = jq('#valufTable').DataTable({
+		"dom" : '<"top"f>t<"bottom"lip><"clear">',
+		"ajax": {
+	        "url": valufUrl,
+	        "dataSrc": ""
+	    },	
+		mark: true,			
+		responsive : true,
+		select : true,
+		destroy : true,
+		"scrollY" : "300px",
+		"scrollCollapse" : false,
+		"order" : [ [ 1, "desc" ] ],
+		"columnDefs" : [ 
+			{
+				"targets" : 1,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+	           		return '<a>' +
+	       			'<img class="img-fluid float-center" title="Velg" src="resources/images/bebullet.gif">' +
+	       			'</a>'    	
+			    }
+			}
+		],			
+		"columns" : [ 
+			{"data" : "valkod"}, 
+	    	{
+	        	"class":          "choose dt-body-center",
+	        	"orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	},
+			{"data" : "valtek"}
+		 ],
+		"lengthMenu" : [ 10, 25, 75],
+		"language" : {
+			"url" : getLanguage(lang)
+		},
+		
+	    initComplete: function () {
+	    	//levefInitialized = true;
+	    }
+
+	});
+	
+	console.log("FrMo2");
+	
+
+	valufTable.on( 'click', 'td.choose img', function () {	
+	    let row = valufTable.row( jq(this).parents('tr') ).data();	
+
+		opener.jq(caller).val(row.valkod);
+		opener.jq(caller).change();
+		opener.jq(caller).focus();
+		
+		window.close();
+		
+	});	
+	
+	console.log("FrMo3");
+	
+	valufTable.on( 'draw.dt', function () {
+		console.log("FrMo4");
+		
+		
+		unBlockUI();
+	});		
+	
+}//end initValufSearch
+
+
+function loadValuf() {
+	let runningUrl;
+	runningUrl = getRunningValufUrl();
+	console.log("loadValuf() runningUrl=" + runningUrl);
+
+	setBlockUI();
+	
+	valufTable.ajax.url(runningUrl);
+	valufTable.ajax.reload();
+	//	unBlockUI(); is done in draw.dt
+
+}
+
+
 function loadLevef() {
 	let runningUrl;
 	runningUrl = getRunningLevefUrl(levefUrl);
@@ -290,9 +387,6 @@ function loadKostb() {
 		
 		return;
 	}
-	
-	
-	
 	
 	setKostbViewHeader();
 
@@ -595,6 +689,21 @@ function getRunningLevefUrl() {
 	return runningUrl;
 }
 
+function getRunningValufUrl() {
+	let runningUrl = valufUrl;
+
+	var selectedValkod = jq('#selectValkod').val();
+
+	if (selectedValkod != "") {
+		runningUrl = runningUrl + "&valkod=" + selectedValkod;
+	} 
+	
+	console.log("valuf runningUrl", runningUrl);
+	
+	return runningUrl;
+}
+
+
 
 jq(function() {
 
@@ -694,8 +803,7 @@ jq(function() {
 	jq('a#valutakode_Link').click(function() {
 		jq('#valutakode_Link').attr('target','_blank');
 		console.log("valutakode link");
-		alert('TODO, valutakode link');
-//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+    	window.open('childwindow_codes.do?caller=kaval', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
 	
 	
