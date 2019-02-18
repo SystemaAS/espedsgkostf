@@ -5,6 +5,7 @@ var kostaTable;
 var kostbTable;
 var levefTable;
 var valufTable;
+var kodtgeTable;
 var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
@@ -251,12 +252,12 @@ function initLevefSearch(caller) {
 }//end initLevefSearch
 
 function initValufSearch(caller) {
+	
+	console.log("kalle",(dateFns.isToday(new Date())));
+	
+	console.log("anka",dateFns.format(new Date(2014, 1, 11), 'MM.DD.YYYY'));
+	
 
-	console.log("initValufSearch i js");
-	
-	console.log("valufUrl",valufUrl);
-	
-	
 	valufTable = jq('#valufTable').DataTable({
 		"dom" : '<"top"f>t<"bottom"lip><"clear">',
 		"ajax": {
@@ -279,6 +280,13 @@ function initValufSearch(caller) {
 	       			'<img class="img-fluid float-center" title="Velg" src="resources/images/bebullet.gif">' +
 	       			'</a>'    	
 			    }
+			},
+			{
+				"targets" : 6,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+	           		return dateFns.format(new Date(row.valaar, row.valmnd - 1, row.valdag), 'MM.DD.YYYY');
+			    }
 			}
 		],			
 		"columns" : [ 
@@ -289,22 +297,22 @@ function initValufSearch(caller) {
 	            "data":           null,
 	            "defaultContent": ''
 	    	},
-			{"data" : "valtek"}
+			{"data" : "valtek"},
+			{"data" : "valku1"},
+			{"data" : "valku2"},
+			{"data" : "omrfak"},
+			{"data" :  null},
+			{"data" : "aktkod"},
+			{"data" : "firma"}
 		 ],
 		"lengthMenu" : [ 10, 25, 75],
 		"language" : {
 			"url" : getLanguage(lang)
-		},
+		}
 		
-	    initComplete: function () {
-	    	//levefInitialized = true;
-	    }
 
 	});
 	
-	console.log("FrMo2");
-	
-
 	valufTable.on( 'click', 'td.choose img', function () {	
 	    let row = valufTable.row( jq(this).parents('tr') ).data();	
 
@@ -316,16 +324,89 @@ function initValufSearch(caller) {
 		
 	});	
 	
-	console.log("FrMo3");
 	
 	valufTable.on( 'draw.dt', function () {
-		console.log("FrMo4");
-		
-		
 		unBlockUI();
 	});		
 	
 }//end initValufSearch
+
+function initKodtgeSearch(caller) {
+
+	kodtgeTable = jq('#kodtgeTable').DataTable({
+		"dom" : '<"top"f>t<"bottom"lip><"clear">',
+		"ajax": {
+	        "url": kodtgeUrl,
+	        "dataSrc": ""
+	    },	
+		mark: true,			
+		responsive : true,
+		select : true,
+		destroy : true,
+		"scrollY" : "300px",
+		"scrollCollapse" : false,
+		"order" : [ [ 1, "desc" ] ],
+		"columnDefs" : [ 
+			{
+				"targets" : 1,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+	           		return '<a>' +
+	       			'<img class="img-fluid float-center" title="Velg" src="resources/images/bebullet.gif">' +
+	       			'</a>'    	
+			    }
+			}
+		],			
+		"columns" : [ 
+			{"data" : "kgekod"}, 
+	    	{
+	        	"class":          "choose dt-body-center",
+	        	"orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	},
+			{"data" : "kgenot"}
+		 ],
+		"lengthMenu" : [ 10, 25, 75],
+		"language" : {
+			"url" : getLanguage(lang)
+		}
+	    
+	});
+	
+	kodtgeTable.on( 'click', 'td.choose img', function () {	
+	    let row = kodtgeTable.row( jq(this).parents('tr') ).data();	
+
+		opener.jq(caller).val(row.kgekod);
+		opener.jq(caller).change();
+		opener.jq(caller).focus();
+		
+		window.close();
+		
+	});	
+	
+	
+	kodtgeTable.on( 'draw.dt', function () {
+		unBlockUI();
+	});		
+	
+}//end initKodtgeSearch
+
+
+
+function loadKodtge() {
+	let runningUrl;
+	runningUrl = getRunningKodtgeUrl();
+	console.log("loadKodtge() runningUrl=" + runningUrl);
+
+	setBlockUI();
+	
+	kodtgeTable.ajax.url(runningUrl);
+	kodtgeTable.ajax.reload();
+	//	unBlockUI(); is done in draw.dt
+
+}
+
 
 
 function loadValuf() {
@@ -703,6 +784,19 @@ function getRunningValufUrl() {
 	return runningUrl;
 }
 
+function getRunningKodtgeUrl() {
+	let runningUrl = kodtgeUrl;
+
+	var selectedKgekod = jq('#selectKgekod').val();
+
+	if (selectedKgekod != "") {
+		runningUrl = runningUrl + "&kgekod=" + selectedKgekod;
+	} 
+	
+	console.log("kodtge runningUrl", runningUrl);
+	
+	return runningUrl;
+}
 
 
 jq(function() {
@@ -796,8 +890,7 @@ jq(function() {
 	jq('a#gebyrkode_Link').click(function() {
 		jq('#gebyrkode_Link').attr('target','_blank');
 		console.log("gebyrkode link");
-		alert('TODO, gebyrkode link');
-//		window.open('report_dashboard_childwindow_codes.do?caller=selectKundenr_avs', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+    	window.open('childwindow_codes.do?caller=kavk', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
 
 	jq('a#valutakode_Link').click(function() {
@@ -805,7 +898,6 @@ jq(function() {
 		console.log("valutakode link");
     	window.open('childwindow_codes.do?caller=kaval', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
-	
 	
 	jq('a#bilagsserie_Link').click(function() {
 		jq('#bilagsserie_Link').attr('target','_blank');

@@ -33,12 +33,14 @@
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/g/mark.js(jquery.mark.min.js)"></script>
 		<script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.19/features/mark.js/datatables.mark.js"></script>
 
+		<script type="text/javascript" src="https://cdn.date-fns.org/v1.9.0/date_fns.min.js"></script>
+
+
 		<script>
 			var lang = '${user.usrLang}';
 			var valufUrl = "/syjserviceskostf/syjs_VALUF?user=${user.user}";
-
+			var kodtgeUrl = "/syjserviceskostf/syjsKODTGE?user=${user.user}";
 		</script>
-
 
 	</head>
 	

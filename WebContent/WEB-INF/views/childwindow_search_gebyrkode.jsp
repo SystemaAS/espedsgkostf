@@ -14,8 +14,8 @@
 	
 	jq(document).ready(function() {
 		
-		initValufSearch(caller);
-		
+		initKodtgeSearch(caller);
+
 	});	
 
 </script>
@@ -24,31 +24,25 @@
 
 	<div class="form-row">
 		<div class="form-group pr-2 pl-1">
-			<label for="selectValkod" class="col-form-label-sm mb-0">Valutakod</label>
-			<input type="text" class="form-control form-control-sm" id="selectValkod" size="4" maxlength="3">	
+			<label for="selectKgekod" class="col-form-label-sm mb-0">Gebyrkode</label>
+			<input type="text" class="form-control form-control-sm" id="selectKgekod" size="4" maxlength="3">	
 		</div>
 
 
 		<div class="form-group col-2 align-self-end">
 			<div class="float-md-right">
-				<button class="btn inputFormSubmit" onclick="loadValuf();" id="submitBtn">Søk</button>
+				<button class="btn inputFormSubmit" onclick="loadKodtge();" id="submitBtn">Søk</button>
 			</div>
 		</div>
 	</div>
 
 	<div>
-		<table class="display compact cell-border responsive nowrap" id="valufTable">
+		<table class="display compact cell-border responsive nowrap" id="kodtgeTable">
 			<thead class="tableHeaderField">
 				<tr>
-					<th>Valutakode</th>
+					<th>Gebyrkode</th>
 					<th>Velg</th>					
-					<th>Beskrivelse</th>					
-					<th>Kurs,köp</th>	
-					<th>Kurs,selg</th>	
-					<th>Omr.fakt.</th>
-					<th>Valuta dato</th>						
-					<th>Akt</th>		
-					<th>Firma</th>	
+					<th>Beskrivelse</th>
 				</tr>
 			</thead>
 		</table>

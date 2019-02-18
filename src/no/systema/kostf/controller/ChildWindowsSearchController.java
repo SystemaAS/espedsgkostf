@@ -1,7 +1,6 @@
 package no.systema.kostf.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javawebparts.core.CaseInsensitiveMap;
-import no.systema.jservices.common.dao.ArkextDao;
-import no.systema.jservices.common.dto.ArktxtDto;
 import no.systema.main.model.SystemaWebUser;
 import no.systema.main.util.AppConstants;
-import no.systema.main.util.JsonDebugger;
-import no.systema.z.main.maintenance.model.jsonjackson.dbtable.JsonMaintMainChildWindowKofastRecord;
 
 /**
  * 
@@ -36,7 +30,6 @@ import no.systema.z.main.maintenance.model.jsonjackson.dbtable.JsonMaintMainChil
 public class ChildWindowsSearchController {
 	private static final Logger logger = Logger.getLogger(ChildWindowsSearchController.class.getName());
 	private ModelAndView loginView = new ModelAndView("login");
-	private static final JsonDebugger jsonDebugger = new JsonDebugger();
 
 
 	@RequestMapping(value="childwindow_codes.do",  method={RequestMethod.GET} )
@@ -69,6 +62,9 @@ public class ChildWindowsSearchController {
 			break;
 		case "kaval":
 			successView = new ModelAndView("childwindow_search_valutakode");
+			break;			
+		case "kavk":
+			successView = new ModelAndView("childwindow_search_gebyrkode");
 			break;			
 		default:
 			String errMsg = String.format("caller %s not supported!", caller);
