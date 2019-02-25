@@ -34,8 +34,7 @@
 	    <a class="nav-item nav-link active disabled">Bilager
 			<img class="img-fluid float-center" src="resources/images/list.gif">
 	    </a>
-		<a class="nav-item nav-link nav-new" onClick="setBlockUI();" href="${bilagUrl_create}">Lage ny bilag</a>
-		
+		<a class="nav-item nav-link nav-new" onClick="setBlockUI();" href="kostf_bilag_edit.do?action=1">Lage ny bilag</a>
 	  </div>
 	</nav>
 

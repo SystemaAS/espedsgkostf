@@ -51,27 +51,22 @@ public class KostfBilagsListController {
 	RestTemplate restTemplate;
 	
 	/**
-	 * This method render jsp
+	 * This method just render jsp
 	 * @param session
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping(value="kostf_bilagslist.do", method={RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView doFind(HttpSession session, HttpServletRequest request){
-		ModelAndView successView = new ModelAndView("kostf_bilagslist"); 
-		SystemaWebUser appUser = loginValidator.getValidUser(session);		
-	
+	public ModelAndView doFind(HttpSession session, HttpServletRequest request) {
+		ModelAndView successView = new ModelAndView("kostf_bilagslist");
+		SystemaWebUser appUser = loginValidator.getValidUser(session);
+
 		if (appUser == null) {
 			return loginView;
 		} else {
-
-			StringBuilder bilagUrl_create = new StringBuilder("kostf_bilag_edit.do");
-			bilagUrl_create.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
-			successView.addObject("bilagUrl_create", bilagUrl_create.toString());
-
 			return successView;
-		}		
-		
+		}
+
 	}
 
 	/**
@@ -97,8 +92,6 @@ public class KostfBilagsListController {
 		ModelAndView editView = new ModelAndView("kostf_bilag_edit"); 
 		ModelAndView redirectListView = new ModelAndView("redirect:kostf_bilagslist.do"); 
 		ModelAndView returnView = editView; //default
-		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_list.do");		
-		StringBuilder bilagFrisokUrl_read = new StringBuilder("kostf_bilag_frisok_list.do");		
 
 		KostaDto returnDto = new KostaDto();
 
@@ -148,13 +141,6 @@ public class KostfBilagsListController {
 				editView.addObject("action", CRUDEnum.READ.getValue());
 
 			}
-			
-			bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-			editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
-		
-			bilagFrisokUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-			editView.addObject("bilagFrisokUrl_read", bilagFrisokUrl_read.toString());
-			
 
 		} catch (Exception e) {
 			logger.error("ERROR:", e);

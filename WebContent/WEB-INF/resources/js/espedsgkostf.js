@@ -719,14 +719,13 @@ function loadFriskk() {
 			}
 		],		
 		"columns" : [ 
-			{"data" : "fsbnr"}, 
 	    	{
 	            "orderable":      false,
 	            "data":           null,
 	            className: 'edit dt-body-center',
 	            "defaultContent": '<img class= "img-fluid float-center" src="resources/images/update.gif">'
 	    	},
-			{"data" : "fskode"},
+	    	{"data" : "fskode"},
 			{"data" : "fssok"},
 			{"data" : "fsdato"}, 
 	    	{

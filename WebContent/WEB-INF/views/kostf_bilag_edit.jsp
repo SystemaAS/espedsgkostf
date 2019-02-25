@@ -33,13 +33,19 @@
 
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link active disabled">Bilag[${record.kabnr}]</a>
+			<a class="nav-item nav-link" onClick="setBlockUI(this);" href="kostf_bilagslist.do">Bilager<img style="vertical-align: middle;" src="resources/images/list.gif"></a>
+			<a class="nav-item nav-link active disabled img-bulletgreen">
+				&nbsp;&nbsp;Bilag[${record.kabnr}]
+			</a>
 			<c:if test="${action == 3}"> <!-- UPDATE -->
-				<a class="nav-item nav-link" href="${bilagLinesUrl_read}">Fordel kostnader[${record.kabnr}]</a>
+				<a class="nav-item nav-link img-budget" href="kostf_bilag_lines_list.do?action=2&kabnr=${record.kabnr}">
+					&nbsp;&nbsp;Fordel kostnader[${record.kabnr}]
+				</a>
 			</c:if>	
 			<c:if test="${action == 3}"> <!-- UPDATE -->
-				<a class="nav-item nav-link" href="${bilagFrisokUrl_read}">Frie søkveier[${record.kabnr}]</a>
+				<a class="nav-item nav-link img-lightbulb" href="kostf_bilag_frisok_list.do?action=2&kabnr=${record.kabnr}">
+					&nbsp;&nbsp;Frie søkveier[${record.kabnr}]
+				</a>
 			</c:if>	
 		</div>
 	</nav>

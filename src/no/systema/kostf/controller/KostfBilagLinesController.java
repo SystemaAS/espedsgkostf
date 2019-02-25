@@ -52,45 +52,29 @@ public class KostfBilagLinesController {
 	@Autowired
 	RestTemplate restTemplate;
 	
-	
+	/**
+	 * This method just render jsp
+	 * @param session
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value="kostf_bilag_lines_list.do", method={RequestMethod.GET, RequestMethod.POST} )
 	public ModelAndView doBilagsLinesList(@RequestParam(value = "kabnr", required = true) Integer kabnr,
 			HttpSession session, HttpServletRequest request){
 		ModelAndView successView = new ModelAndView("kostf_bilag_lines_edit"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
-		StringBuilder bilagUrl = new StringBuilder("kostf_bilag_lines_list.do"); 
-		StringBuilder bilagUrl_read = new StringBuilder("kostf_bilag_edit.do");
-		StringBuilder bilagFrisokUrl_read = new StringBuilder("kostf_bilag_frisok_list.do");		
-		
-
-		logger.info("Inside kostf_bilag_lines_list.do");
-		logger.info("kabnr="+kabnr);
-		
-		
 		if (appUser == null) {
 			return loginView;
 		} else {
 			
-			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
-			successView.addObject("bilagUrl_create", bilagUrl.toString());
-			bilagUrl_read.append("?kabnr=").append(kabnr).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-
-			bilagFrisokUrl_read.append("?kabnr=").append(kabnr).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-			successView.addObject("bilagFrisokUrl_read", bilagFrisokUrl_read.toString());
-			
-			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
 			successView.addObject("kabnr", kabnr);
-			
 			successView.addObject("action", CRUDEnum.CREATE.getValue());
-			
 			
 			return successView;
 		}		
 		
 	}
-
-
 
 	/**
 	 * This method supports CRU on {@linkplain KostaDto}.
@@ -108,10 +92,6 @@ public class KostfBilagLinesController {
 								BindingResult bindingResult, HttpSession session, HttpServletRequest request){
 		
 		ModelAndView successView = new ModelAndView("kostf_bilag_lines_edit"); 
-		StringBuilder bilagUrl_read = new StringBuilder("kostf_bilag_edit.do");
-		StringBuilder bilagFrisokUrl_read = new StringBuilder("kostf_bilag_frisok_list.do");		
-
-
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
 		logger.info("Inside kostf_bilag_lines_edit.do");
@@ -130,17 +110,10 @@ public class KostfBilagLinesController {
 				saveRecord(appUser, record, "U");
 			} 
 			
-			bilagUrl_read.append("?kabnr=").append(record.getKbbnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
-			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
-
-			bilagFrisokUrl_read.append("?kabnr=").append(record.getKbbnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-			successView.addObject("bilagFrisokUrl_read", bilagFrisokUrl_read.toString());
-			
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
 			successView.addObject("kabnr", record.getKbbnr());  
 			
 			return successView;
-			
 
 		}		
 		

@@ -95,3 +95,28 @@ table.dataTable.dtr-inline.collapsed > tbody > tr[role="row"] > td:first-child:b
   content:"*";
   color:red;
 }
+
+.img-lightbulb {
+	color: black !important; 
+	background: url('images/lightbulb.png') no-repeat; 
+	background-color: lightgrey;
+	background-size: 0.8rem 0.8rem;
+	background-position: left 0.3rem center;
+}
+
+.img-budget {
+	color: black !important; 
+	background: url('images/budget.png') no-repeat; 
+	background-color: lightgrey;
+	background-size: 0.8rem 0.8rem;
+	background-position: left 0.3rem center;
+}
+
+.img-bulletgreen {
+	color: black !important; 
+	background: url('images/bulletGreen.png') no-repeat; 
+	background-color: lightgrey;
+	background-size: 0.8rem 0.8rem;
+	background-position: left 0.3rem center;
+}
+

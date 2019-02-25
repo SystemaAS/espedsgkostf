@@ -26,11 +26,10 @@
 
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<a class="nav-item nav-link" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link" href="${bilagUrl_read}">Bilag[${kabnr}]</a>
-			<a class="nav-item nav-link" href="${bilagLinesUrl_read}">Fordel kostnader[${kabnr}]</a>
-			<a class="nav-item nav-link active disabled">Frie søkveier[${kabnr}]</a>
-			
+			<a class="nav-item nav-link" href="kostf_bilagslist.do">Bilager <img class="float-center" src="resources/images/list.gif"></a>
+			<a class="nav-item nav-link img-bulletgreen" href="kostf_bilag_edit.do?action=2&kabnr=${kabnr}">&nbsp;&nbsp;Bilag[${kabnr}]</a>
+			<a class="nav-item nav-link img-budget" href="kostf_bilag_lines_list.do?action=2&kabnr=${kabnr}">&nbsp;&nbsp;Fordel kostnader[${kabnr}]</a>
+			<a class="nav-item nav-link active disabled img-lightbulb">&nbsp;&nbsp;Frie søkveier[${kabnr}]</a>
 		</div>
 	</nav>
 
@@ -89,13 +88,11 @@
 		<table class="display compact cell-border responsive nowrap" id="friskkTable">
 			<thead class="tableHeaderField">
 				<tr>
-					<th>fsbnr</th>
-					<th>Endre</th>
-					<th>fskode</th>
-					<th>fssok</th>
-					<th>fsdato</th>
-
-					<th class="all">Slett</th>					
+					<th width="2%">Endre</th>
+					<th>Kode</th>
+					<th>Søketekst</th>
+					<th>Dato</th>
+					<th width="2%" class="all">Slett</th>					
 				</tr>
 			</thead>
 		</table>
@@ -116,23 +113,16 @@
 			<div class="form-row left-right-border formFrameHeader">
 				<div class="col-sm-12">
 					<span class="rounded-top">&nbsp;Lage ny / endre</span>
+					<img class="img-fluid float-center" src="resources/images/update.gif">
 				</div>
 			</div>
 
 			<div class="form-row left-right-bottom-border formFrame">
 
 				<div class="form-group pr-2 col-auto">
-					<label for="fsbnr" class="col-form-label-sm mb-0">fsbnr</label>
-					<input autofocus type="text" class="form-control form-control-sm" name="fsbnr" id="fsbnr" value="${record.fsbnr}" onKeyPress="return numberKey(event)"  size="16" maxlength="15">
-				</div>
-				<div class="form-group pr-2 col-auto">
-					<label for="fssok" class="col-form-label-sm mb-0">fssok</label>
-					<input type="text" class="form-control form-control-sm" name="fssok" id="fssok" value="${record.fssok}" size="16" maxlength="15">
-				</div>
-				<div class="form-group pr-2 col-auto">
-					<label for="fskode" class="col-form-label-sm mb-0">fskode</label>
+					<label for="fskode" class="col-form-label-sm mb-0 required">Kode</label>
 					<div class="input-group">
-						<input type="text" class="form-control form-control-sm mr-1" name="fskode" id="fskode" value="${record.fskode}" size="4" maxlength="3">
+						<input type="text" required class="form-control form-control-sm mr-1" name="fskode" id="fskode" value="${record.fskode}" size="4" maxlength="3">
 							<span class="input-group-prepend">
 								<a tabindex="-1" id="gebyrkode_Link">
 									<img src="resources/images/find.png" width="14px" height="14px">
@@ -140,6 +130,17 @@
 							</span>
 					</div>
 				</div>
+				<div class="form-group pr-2 col-auto">
+					<label for="fssok" class="col-form-label-sm mb-0 required">Søketekst</label>
+					<input type="text" required class="form-control form-control-sm" name="fssok" id="fssok" value="${record.fssok}" size="16" maxlength="15">
+				</div>
+
+				<div class="form-group col-11 align-self-end">
+					<div class="float-md-right">
+						<button class="btn inputFormSubmit btn-sm" id="submitBtn">Lagre</button>
+					</div>
+				</div>		
+
 	
 			</div> <!-- form-row -->
 

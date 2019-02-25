@@ -27,13 +27,11 @@
 	<nav>
 		<div class="nav nav-tabs" id="nav-tab" role="tablist">
 			<a class="nav-item nav-link" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
-			<a class="nav-item nav-link" href="${bilagUrl_read}">Bilag[${kabnr}]</a>
-			<a class="nav-item nav-link active disabled">Fordel kostnader[${kabnr}]</a>
-			<a class="nav-item nav-link" href="${bilagFrisokUrl_read}">Frie søkveier[${kabnr}]</a>
-			
+			<a class="nav-item nav-link img-bulletgreen" href="kostf_bilag_edit.do?action=2&kabnr=${kabnr}">&nbsp;&nbsp;Bilag[${kabnr}]</a>
+			<a class="nav-item nav-link active disabled img-budget">&nbsp;&nbsp;Fordel kostnader[${kabnr}]</a>
+			<a class="nav-item nav-link img-lightbulb" href="kostf_bilag_frisok_list.do?action=2&kabnr=${kabnr}">&nbsp;&nbsp;Frie søkveier[${kabnr}]</a>
 		</div>
 	</nav>
-
 
 	<div class="container-fluid p-1 left-right-border">
 		<div class="form-row">
