@@ -123,7 +123,14 @@
 		</div>
 		<div class="form-group pr-2 pl-1">
 			<label for="selectFrisokKode" class="col-form-label-sm">Fri&nbsp;søkvei</label>
-			<input type="text" class="form-control form-control-sm" placeholder="kode" id="selectFrisokKode" size="3" maxlength="3">
+			<div class="input-group">
+                   <input type="text" class="form-control form-control-sm" placeholder="kode" id="selectFrisokKode" size="4" maxlength="4">&nbsp;
+                   <span class="input-group-prepend">
+      					<a tabindex="-1" id="kodfri_Link">
+						<img src="resources/images/find.png" width="14px" height="14px">
+					</a>
+                   </span>
+               </div>
 		</div>
 		<div class="form-group pr-2 pl-1">
 			<label for="selectFrisokTxt" class="col-form-label-sm">&nbsp;</label>

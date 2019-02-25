@@ -65,7 +65,10 @@ public class ChildWindowsSearchController {
 			break;			
 		case "kavk":
 			successView = new ModelAndView("childwindow_search_gebyrkode");
-			break;			
+			break;		
+		case "selectFrisokKode":
+			successView = new ModelAndView("childwindow_search_kodfri");
+			break;				
 		default:
 			String errMsg = String.format("caller %s not supported!", caller);
 			throw new RuntimeException(errMsg);

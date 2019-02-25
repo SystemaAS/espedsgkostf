@@ -40,6 +40,7 @@
 			var lang = '${user.usrLang}';
 			var valufUrl = "/syjserviceskostf/syjs_VALUF?user=${user.user}";
 			var kodtgeUrl = "/syjserviceskostf/syjsKODTGE?user=${user.user}";
+			var kodfriUrl = "/syjserviceskostf/syjsKODFRI?user=${user.user}";
 		</script>
 
 	</head>

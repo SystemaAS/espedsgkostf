@@ -98,6 +98,8 @@ public class KostfBilagsListController {
 		ModelAndView redirectListView = new ModelAndView("redirect:kostf_bilagslist.do"); 
 		ModelAndView returnView = editView; //default
 		StringBuilder bilagLinesUrl_read = new StringBuilder("kostf_bilag_lines_list.do");		
+		StringBuilder bilagFrisokUrl_read = new StringBuilder("kostf_bilag_frisok_list.do");		
+
 		KostaDto returnDto = new KostaDto();
 
 		logger.info("doEdit, record="+ReflectionToStringBuilder.reflectionToString(record));
@@ -116,8 +118,6 @@ public class KostfBilagsListController {
 				logger.info("Create...");
 				KostaDto dto = saveRecord(appUser, record, "A");
 				returnDto = fetchRecord(appUser, dto.getKabnr());
-				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 				editView.addObject("record", returnDto);
 
 				// Set callback state
@@ -126,9 +126,6 @@ public class KostfBilagsListController {
 			} else if (action.equals(CRUDEnum.UPDATE.getValue())) {
 				logger.info("Update...");
 				returnDto = saveRecord(appUser, record, "U");
-				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-
-				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 				editView.addObject("record", returnDto);
 				
 				// Set callback state
@@ -137,9 +134,6 @@ public class KostfBilagsListController {
 			} else if (action.equals(CRUDEnum.READ.getValue())) {
 				logger.info("Read...");
 				returnDto = fetchRecord(appUser, record.getKabnr());
-				bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-
-				editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
 				editView.addObject("record", returnDto);
 
 				// Set callback state
@@ -154,6 +148,13 @@ public class KostfBilagsListController {
 				editView.addObject("action", CRUDEnum.READ.getValue());
 
 			}
+			
+			bilagLinesUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
+			editView.addObject("bilagLinesUrl_read", bilagLinesUrl_read.toString());
+		
+			bilagFrisokUrl_read.append("?kabnr=").append(returnDto.getKabnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
+			editView.addObject("bilagFrisokUrl_read", bilagFrisokUrl_read.toString());
+			
 
 		} catch (Exception e) {
 			logger.error("ERROR:", e);

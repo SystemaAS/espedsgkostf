@@ -29,6 +29,7 @@
 			<a class="nav-item nav-link" href="kostf_bilagslist.do">Bilager <img style="vertical-align: middle;" src="resources/images/list.gif"></a>
 			<a class="nav-item nav-link" href="${bilagUrl_read}">Bilag[${kabnr}]</a>
 			<a class="nav-item nav-link active disabled">Fordel kostnader[${kabnr}]</a>
+			<a class="nav-item nav-link" href="${bilagFrisokUrl_read}">Frie søkveier[${kabnr}]</a>
 			
 		</div>
 	</nav>

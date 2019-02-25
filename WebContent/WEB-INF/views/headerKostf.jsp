@@ -39,6 +39,7 @@
 		  	var kostaUrl = "/syjserviceskostf/syjsKOSTA?user=${user.user}";
 			var kostaGetUrl = "/syjserviceskostf/syjsKOSTA_GET?user=${user.user}";
 			var kostbUrl = "/syjserviceskostf/syjsKOSTB_XTRA?user=${user.user}";
+			var friskkUrl = "/syjserviceskostf/syjsFRISKK?user=${user.user}"
 		</script>
 
 	</head>

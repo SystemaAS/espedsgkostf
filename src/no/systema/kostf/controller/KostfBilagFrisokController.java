@@ -44,8 +44,8 @@ import no.systema.main.validator.LoginValidator;
  * 
  */
 @Controller
-public class KostfBilagLinesController {
-	private static Logger logger = Logger.getLogger(KostfBilagLinesController.class.getName());
+public class KostfBilagFrisokController {
+	private static Logger logger = Logger.getLogger(KostfBilagFrisokController.class.getName());
 	private ModelAndView loginView = new ModelAndView("redirect:logout.do");
 	private LoginValidator loginValidator = new LoginValidator();
 	
@@ -53,18 +53,18 @@ public class KostfBilagLinesController {
 	RestTemplate restTemplate;
 	
 	
-	@RequestMapping(value="kostf_bilag_lines_list.do", method={RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView doBilagsLinesList(@RequestParam(value = "kabnr", required = true) Integer kabnr,
+	@RequestMapping(value="kostf_bilag_frisok_list.do", method={RequestMethod.GET, RequestMethod.POST} )
+	public ModelAndView doBilagsFrisokList(@RequestParam(value = "kabnr", required = true) Integer kabnr,
 			HttpSession session, HttpServletRequest request){
-		ModelAndView successView = new ModelAndView("kostf_bilag_lines_edit"); 
+		ModelAndView successView = new ModelAndView("kostf_bilag_frisok_edit"); 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
 		StringBuilder bilagUrl = new StringBuilder("kostf_bilag_lines_list.do"); 
 		StringBuilder bilagUrl_read = new StringBuilder("kostf_bilag_edit.do");
 		StringBuilder bilagFrisokUrl_read = new StringBuilder("kostf_bilag_frisok_list.do");		
-		
 
-		logger.info("Inside kostf_bilag_lines_list.do");
+
+		logger.info("Inside kostf_bilag_frisok_list.do");
 		logger.info("kabnr="+kabnr);
 		
 		
@@ -72,14 +72,14 @@ public class KostfBilagLinesController {
 			return loginView;
 		} else {
 			
-			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue()); //=href in nav-new
+			bilagUrl.append("?action=").append(CRUDEnum.CREATE.getValue());
 			successView.addObject("bilagUrl_create", bilagUrl.toString());
-			bilagUrl_read.append("?kabnr=").append(kabnr).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-
-			bilagFrisokUrl_read.append("?kabnr=").append(kabnr).append("&action=").append(CRUDEnum.READ.getValue()); // =href
+			bilagUrl_read.append("?kabnr=").append(kabnr).append("&action=").append(CRUDEnum.READ.getValue()); 
+			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
+	
+			bilagFrisokUrl_read.append("?kabnr=").append(kabnr).append("&action=").append(CRUDEnum.READ.getValue()); 
 			successView.addObject("bilagFrisokUrl_read", bilagFrisokUrl_read.toString());
 			
-			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
 			successView.addObject("kabnr", kabnr);
 			
 			successView.addObject("action", CRUDEnum.CREATE.getValue());
@@ -102,19 +102,17 @@ public class KostfBilagLinesController {
 	 * @param request
 	 * @return {@linkplain KostaDto}
 	 */
-	@RequestMapping(value="kostf_bilag_lines_edit.do", method={RequestMethod.GET, RequestMethod.POST} )
-	public ModelAndView doEditLines( @ModelAttribute ("record") KostbDto record, 
+	@RequestMapping(value="kostf_bilag_frisok_edit.do", method={RequestMethod.GET, RequestMethod.POST} )
+	public ModelAndView doEditFrisok( @ModelAttribute ("record") KostbDto record, 
 								@RequestParam(value = "action", required = true) Integer action,
 								BindingResult bindingResult, HttpSession session, HttpServletRequest request){
 		
 		ModelAndView successView = new ModelAndView("kostf_bilag_lines_edit"); 
 		StringBuilder bilagUrl_read = new StringBuilder("kostf_bilag_edit.do");
-		StringBuilder bilagFrisokUrl_read = new StringBuilder("kostf_bilag_frisok_list.do");		
-
 
 		SystemaWebUser appUser = loginValidator.getValidUser(session);		
 		
-		logger.info("Inside kostf_bilag_lines_edit.do");
+		logger.info("Inside kostf_bilag_frisok_edit.do");
 		logger.info("record="+record);		
 		logger.info("action="+action);		
 		
@@ -133,10 +131,8 @@ public class KostfBilagLinesController {
 			bilagUrl_read.append("?kabnr=").append(record.getKbbnr()).append("&action=").append(CRUDEnum.READ.getValue()); //=href 
 			successView.addObject("bilagUrl_read", bilagUrl_read.toString());
 
-			bilagFrisokUrl_read.append("?kabnr=").append(record.getKbbnr()).append("&action=").append(CRUDEnum.READ.getValue()); // =href
-			successView.addObject("bilagFrisokUrl_read", bilagFrisokUrl_read.toString());
-			
 			successView.addObject("action", CRUDEnum.UPDATE.getValue());  //User can update
+			
 			successView.addObject("kabnr", record.getKbbnr());  
 			
 			return successView;

@@ -6,6 +6,8 @@ var kostbTable;
 var levefTable;
 var valufTable;
 var kodtgeTable;
+var kodfriTable;
+var friskkTable;
 var bilagUrl_read = "kostf_bilag_edit.do?user=${user.user}&action=2";
 var bilagUrl_delete = "kostf_bilag_edit.do?user=${user.user}&action=4";
 
@@ -178,10 +180,6 @@ function getBilagsSerie(caller){
 }
 
 function initLevefSearch(caller) {
-	
-	
-	console.log("levefTable", levefTable);
-	
 
 	levefTable = jq('#levefTable').DataTable({
 		"dom" : '<"top"f>t<"bottom"lip><"clear">',
@@ -253,11 +251,6 @@ function initLevefSearch(caller) {
 
 function initValufSearch(caller) {
 	
-	console.log("kalle",(dateFns.isToday(new Date())));
-	
-	console.log("anka",dateFns.format(new Date(2014, 1, 11), 'MM.DD.YYYY'));
-	
-
 	valufTable = jq('#valufTable').DataTable({
 		"dom" : '<"top"f>t<"bottom"lip><"clear">',
 		"ajax": {
@@ -392,7 +385,80 @@ function initKodtgeSearch(caller) {
 	
 }//end initKodtgeSearch
 
+function initKodfriSearch(caller) {
 
+	kodfriTable = jq('#kodfriTable').DataTable({
+		"dom" : '<"top"f>t<"bottom"lip><"clear">',
+		"ajax": {
+	        "url": kodfriUrl,
+	        "dataSrc": ""
+	    },	
+		mark: true,			
+		responsive : true,
+		select : true,
+		destroy : true,
+		"scrollY" : "300px",
+		"scrollCollapse" : false,
+		"order" : [ [ 1, "desc" ] ],
+		"columnDefs" : [ 
+			{
+				"targets" : 1,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+	           		return '<a>' +
+	       			'<img class="img-fluid float-center" title="Velg" src="resources/images/bebullet.gif">' +
+	       			'</a>'    	
+			    }
+			}
+		],			
+		"columns" : [ 
+			{"data" : "kfsoko"}, 
+	    	{
+	        	"class":          "choose dt-body-center",
+	        	"orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	},
+			{"data" : "kfsotx"}
+		 ],
+		"lengthMenu" : [ 10, 25, 75],
+		"language" : {
+			"url" : getLanguage(lang)
+		}
+	    
+	});
+	
+	kodfriTable.on( 'click', 'td.choose img', function () {	
+	    let row = kodfriTable.row( jq(this).parents('tr') ).data();	
+	    
+		opener.jq(caller).val(row.kfsoko);
+		opener.jq(caller).change();
+		opener.jq(caller).focus();
+		
+		window.close();
+		
+	});	
+	
+	
+	kodfriTable.on( 'draw.dt', function () {
+		unBlockUI();
+	});		
+	
+}//end initKodfriSearch
+
+
+function loadKodfri() {
+	let runningUrl;
+	runningUrl = getRunningKodfriUrl();
+	console.log("loadKodfri() runningUrl=" + runningUrl);
+
+	setBlockUI();
+	
+	kodfriTable.ajax.url(runningUrl);
+	kodfriTable.ajax.reload();
+	//	unBlockUI(); is done in draw.dt
+
+}
 
 function loadKodtge() {
 	let runningUrl;
@@ -469,9 +535,9 @@ function loadKostb() {
 		return;
 	}
 	
-	setKostbViewHeader();
+	setHeader();
 
-	console.log("setKostbViewHeader ready.");
+	console.log("setHeader ready.");
 
 	kostbTable = jq('#kostbTable').DataTable({
 		"dom" : '<"top">t<"bottom"flip><"clear">',
@@ -609,6 +675,121 @@ function loadKostb() {
 } //loadKostb
 
 
+function loadFriskk() {
+	console.log('loadFriskk');
+//	clearKostbLineValues();
+	
+	let runningUrl;
+	console.log('kabnr',kabnr);
+	runningUrl= getRunningFriskkUrl();
+	console.log("runningUrl=" + runningUrl);
+
+	console.log('friskkTable', friskkTable);
+	if (friskkTable != undefined) {
+		console.log('friskkTable already set.');
+		
+		friskkTable.ajax.url(runningUrl);
+		friskkTable.ajax.reload();		
+		
+		return;
+	}
+	
+	setHeader();
+
+	console.log("setHeader ready.");
+
+	friskkTable = jq('#friskkTable').DataTable({
+		"dom" : '<"top">t<"bottom"flip><"clear">',
+	    "ajax": {
+	        "url": runningUrl,
+	        "dataSrc": ""
+	    },	
+	    mark: true,
+		responsive : true,
+		"order" : [ [ 1, "desc" ] ],
+		"columnDefs" : [ 
+			{
+				"targets" : -1,
+				className: 'dt-body-center',
+			    "render": function ( data, type, row, meta ) {
+	           		return '<a>' +
+	       			'<img class="img-fluid float-center" title="Slett post" src="resources/images/delete.gif">' +
+	       			'</a>'    	
+			    }
+			}
+		],		
+		"columns" : [ 
+			{"data" : "fsbnr"}, 
+	    	{
+	            "orderable":      false,
+	            "data":           null,
+	            className: 'edit dt-body-center',
+	            "defaultContent": '<img class= "img-fluid float-center" src="resources/images/update.gif">'
+	    	},
+			{"data" : "fskode"},
+			{"data" : "fssok"},
+			{"data" : "fsdato"}, 
+	    	{
+	        	"class":          "delete dt-body-center",
+	        	"orderable":      false,
+	            "data":           null,
+	            "defaultContent": ''
+	    	}		        
+			],
+		"lengthMenu" : [ 25, 75, 100 ],
+		"language" : {
+			"url" : getLanguage('NO')
+		}
+
+	});
+
+	friskkTable.on( 'click', 'td.delete img', function () {
+	    let data = friskkTable.row( jq(this).parents('tr') ).data();
+	    bilagUrl_delete = bilagUrl_delete + "&kbbnr="+data['kbbnr'];
+	    
+	    //TODO
+	    jq('<div></div>').dialog({
+	    	title: "TODO ::::Slett innregnr. " + data['kbbnr'] + " - bilagsnr. " + data['kabnr2'],
+	    	resizable: false,
+	        height: "auto",
+	        width: 500,
+	        modal: true,
+	        buttons: {
+	        	Fortsett: function() {
+	            jq( this ).dialog( "close" );
+	    		setBlockUI();
+	    		console.log('bilagUrl_delete',bilagUrl_delete);
+	            //window.location = bilagUrl_delete;
+	          },
+	          	Avbryt: function() {
+	            jq( this ).dialog( "close" );
+	          }
+	        },
+	        open: function() {
+		  		  var markup = "Er du sikker på at du vil slette denne?";
+		          jq(this).html(markup);
+		          jq(this).siblings('.ui-dialog-buttonpane').find('button:eq(1)').focus();
+		     }            
+	      });        
+	
+	} );	
+	
+	friskkTable.on( 'click', 'td.edit img', function () {
+        let data = friskkTable.row( jq(this).parents('tr') ).data();
+        console.log("friskkTable.on click ,data",data);
+
+        jq("#fsbnr").val(data["fsbnr"]);
+        jq("#fskode").val(data["fskode"]);
+        jq("#fssok").val(data["fssok"]);
+        jq("#fsdato").val(data["fsdato"]);
+        
+        jq("#action").val(3);  //UPDATE
+
+	} );	
+	
+	
+} //loadFriskk
+
 
 function clearKostbLineValues() {
 	
@@ -650,7 +831,7 @@ function clearKostbLineValues() {
 
 
 
-function setKostbViewHeader() {
+function setHeader() {
 	jq.ajax({
 		  url: kostaGetUrl,
 	  	  data: { innregnr : kabnr }, 
@@ -798,6 +979,28 @@ function getRunningKodtgeUrl() {
 	return runningUrl;
 }
 
+function getRunningKodfriUrl() {
+	let runningUrl = kodfriUrl;
+
+	var selectedKffsotxt = jq('#selectKffsotxt').val();
+
+	if (selectedKffsotxt != "") {
+		runningUrl = runningUrl + "&kfsotx=" + selectedKffsotxt;
+	} 
+	
+	console.log("kodfri runningUrl", runningUrl);
+	
+	return runningUrl;
+}
+
+function getRunningFriskkUrl() {
+	let runningUrl = friskkUrl;
+	runningUrl = runningUrl + "&fsbnr=" + kabnr;
+	console.log("friskk runningUrl", runningUrl);
+	
+	return runningUrl;
+}
+
 
 jq(function() {
 
@@ -805,7 +1008,10 @@ jq(function() {
 		clearKostbLineValues();
 	});
 	
-	
+	jq("#selectFradato").datepicker({  //Fra bilagsdato
+		dateFormat: 'yymmdd'
+	});	
+
 	jq("#kabdt").datepicker({  //Bilagsdato
 		dateFormat: 'yymmdd'
 	});	
@@ -898,6 +1104,13 @@ jq(function() {
 		console.log("valutakode link");
     	window.open('childwindow_codes.do?caller=kaval', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
 	}); 	
+
+	jq('a#kodfri_Link').click(function() {
+		jq('#kodfri_Link').attr('target','_blank');
+		console.log("friskk_Link link");
+    	window.open('childwindow_codes.do?caller=selectFrisokKode', "codeWin", "top=300px,left=500px,height=600px,width=800px,scrollbars=no,status=no,location=no");
+	}); 		
+	
 	
 	jq('a#bilagsserie_Link').click(function() {
 		jq('#bilagsserie_Link').attr('target','_blank');

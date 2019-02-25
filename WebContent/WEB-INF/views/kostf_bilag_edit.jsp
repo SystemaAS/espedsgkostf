@@ -14,7 +14,7 @@
 	var levefUrlGet = "/syjserviceskostf/syjsLEVEF_GET?user=${user.user}"
 	
 	jq(document).ready(function() {
- 		jq('[data-toggle="tooltip"]').tooltip(); //TODO
+ 		jq('[data-toggle="tooltip"]').tooltip(); //TODO?
 
 		//default when NEW
  		jq('#kasg').append('<option selected="true">${user.signatur}</option>');
@@ -37,6 +37,9 @@
 			<a class="nav-item nav-link active disabled">Bilag[${record.kabnr}]</a>
 			<c:if test="${action == 3}"> <!-- UPDATE -->
 				<a class="nav-item nav-link" href="${bilagLinesUrl_read}">Fordel kostnader[${record.kabnr}]</a>
+			</c:if>	
+			<c:if test="${action == 3}"> <!-- UPDATE -->
+				<a class="nav-item nav-link" href="${bilagFrisokUrl_read}">Frie søkveier[${record.kabnr}]</a>
 			</c:if>	
 		</div>
 	</nav>
